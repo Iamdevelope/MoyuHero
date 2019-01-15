@@ -1,0 +1,52 @@
+#!/bin/sh
+cd `dirname $0`
+
+DATETIME=`date +%Y%m%d%H%M`
+OUTPUTDIR=auany_export		# 临时的安装输出文件夹
+DISTDIR=dist			# tar.gz的输出目录
+TARNAME=auany_${DATETIME}_$1.tar.gz
+
+if [ -n "$1" ];then
+	OUTPUTDIR=../$1
+	DISTDIR=0 # 不输出
+fi
+
+rm -rf gsxbin_export/		2>/dev/null
+rm -rf dist/$TARNAME		2>/dev/null
+mkdir -p $OUTPUTDIR	
+
+yes | cp auany.jar	$OUTPUTDIR
+yes | cp daemon		$OUTPUTDIR
+yes | cp -rf lib/	$OUTPUTDIR
+yes | cp libdb_amd64.so $OUTPUTDIR
+
+yes | cp kill.sh	$OUTPUTDIR
+yes | cp start.sh	$OUTPUTDIR
+yes | cp status.sh	$OUTPUTDIR
+yes | cp stop.sh	$OUTPUTDIR
+yes | cp auinstall	$OUTPUTDIR
+
+yes | cp auany.config.xml	$OUTPUTDIR
+yes | cp auany.xio.xml		$OUTPUTDIR
+yes | cp gsx.xdb.xml		$OUTPUTDIR
+yes | cp jmxremote.password	$OUTPUTDIR
+yes | cp auipenable.sh          $OUTPUTDIR
+yes | cp jsscacerts	        $OUTPUTDIR
+yes | cp transform.sh	        $OUTPUTDIR
+yes | cp xtransform.sh	        $OUTPUTDIR
+yes | cp change.properties	$OUTPUTDIR
+
+sed -i 's/trace=\"debug\"/trace=\"info\"/g' $OUTPUTDIR/gsx.xdb.xml
+
+if [ "$DISTDIR" = "0" ];then
+	
+	echo copy auany only, no tar.
+
+else
+	mkdir -p $DISTDIR
+	sh svnclear.sh 				$OUTPUTDIR	# 去掉文件夹中SVN相关的文件夹
+	tar zvcf $DISTDIR/$TARNAME 		$OUTPUTDIR/	> /dev/null
+	#rm -rf gsxbin_export/				# 将输出目录删除
+	echo outfile $TARNAME is already in the directory $DISTDIR !
+
+fi

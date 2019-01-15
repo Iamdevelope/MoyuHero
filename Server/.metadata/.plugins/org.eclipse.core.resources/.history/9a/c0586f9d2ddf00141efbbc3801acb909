@@ -1,0 +1,95 @@
+package chuhan.gsp.item;
+
+import chuhan.gsp.DataInit;
+import chuhan.gsp.attr.PropRole;
+import chuhan.gsp.attr.SLevelConfig;
+import chuhan.gsp.game.svipconfig;
+import chuhan.gsp.item.types.EquipItem;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.msg.Message;
+import chuhan.gsp.util.Conv;
+import chuhan.gsp.util.DateUtil;
+import chuhan.gsp.util.Misc;
+
+/**
+ * 强化
+ *
+ */
+public class PLevelUpEquip extends xdb.Procedure
+{
+	private final long roleId;
+	private final int equipkey;
+	private final boolean tomax;
+	public PLevelUpEquip(long roleId, int equipkey, boolean tomax) {
+		this.roleId = roleId;
+		this.equipkey = equipkey;
+		this.tomax = tomax;
+	}
+	
+	@Override
+	protected boolean process() throws Exception {
+		
+		OldItemColumn itemcol = Module.getItemColumn(roleId, BagTypes.EQUIP, false);
+		EquipItem equip = (EquipItem)itemcol.getItem(equipkey);
+		if(equip == null)
+			return false;
+		PropRole prole = PropRole.getPropRole(roleId, false);
+		if(prole == null)
+			return false;
+		int i = 0;
+		int levelsum = 0;
+		while(i < 1000)
+		{
+			if (equip.getLevel() >= prole.getLevel())
+				break;
+			if (equip.getLevel() >= DataInit.ROLE_LEVEL_MAX)
+			{
+				Message.psendMsgNotify(roleId, 126, Message.getMessage(11));
+				break;
+			}
+			SLevelConfig levelcfg = ConfigManager.getInstance().getConf(SLevelConfig.class).get(equip.getLevel());
+			int cost = 0;//(int) (levelcfg.strengthencost * equip.getEquipConfig().cost_times);
+			Bag bag = new Bag(roleId, false);
+			if (bag.getMoney() < cost)
+			{
+				Message.psendMsgNotify(roleId, 5);
+				break;
+			}
+			if (bag.addMoney(-cost, "refine_equip") == 0)
+			{
+				Message.psendMsgNotify(roleId, 5);
+				break;
+			}
+			int minlv = 1;
+			int weekday = DateUtil.getCurrentWeekDay();
+			if(weekday == 1 || weekday == 4)
+				minlv = 2;
+			svipconfig svipconfig = ConfigManager.getInstance().getConf(svipconfig.class).get(prole.getVipLevel());
+			int addlevel = Misc.getRandomBetween(minlv, svipconfig.baoji);
+			equip.setLevel(equip.getLevel() + addlevel);
+			levelsum += addlevel;
+			i++;
+			if(equip.getLevel() >= DataInit.ROLE_LEVEL_MAX)
+			{
+				equip.setLevel(Conv.toShort(DataInit.ROLE_LEVEL_MAX));
+				Message.psendMsgNotify(roleId, 126, Message.getMessage(11));
+				break;
+			}
+			if(!tomax)
+				break;
+		}
+		if(levelsum <= 0)
+			return false;//一级也没加
+		//发送协议
+		SRefreshItem snd = new SRefreshItem();
+		//by yanglk			snd.bagid = Conv.toByte(BagTypes.EQUIP);
+//		snd.data = equip.getProtocolItem();
+		psendWhileCommit(roleId, snd);
+		if(tomax)
+			levelsum = 1;//只发强化成功
+		psendWhileCommit(roleId, new SRefreshRefineEquip(Conv.toByte(levelsum)));
+		return true;
+	}
+	
+	
+}

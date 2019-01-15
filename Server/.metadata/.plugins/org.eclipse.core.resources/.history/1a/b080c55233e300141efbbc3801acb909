@@ -1,0 +1,53 @@
+package chuhan.gsp.award;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import chuhan.gsp.item.innerdrop16;
+import chuhan.gsp.item.normaldrop15;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.util.ParserString;
+
+/**
+ * ID管理类
+ * @author aa
+ *
+ */
+public class IDManager {	
+	public static IDManager instance = new IDManager();
+	
+	private static final int BEGIN_SKILL = 10;	//技能分类首几位
+	private static final int BEGIN_BUFF = 11;	//buff分类首几位
+	private static final int BEGIN_DROP = 12;	//掉落包分类首几位
+	private static final int BEGIN_BATTLE_MOSTER = 13;	//关卡与怪物分类首几位
+	private static final int BEGIN_FUWEN = 1401;	//符文分类首几位
+	private static final int BEGIN_ITEM = 1402;	//道具分类首几位
+	private static final int BEGIN_HERO = 1403;	//英雄分类首几位
+	private static final int BEGIN_SKIN = 1404;	//皮肤分类首几位
+	private static final int BEGIN_BAOXIANG = 1405;	//宝箱分类首几位
+	private static final int BEGIN_SHENQI = 1406;	//神器分类首几位
+	private static final int BEGIN_PUGONG = 1407;	//普攻分类首几位
+
+
+	public static IDManager getInstance() {
+
+		return instance;
+	}
+	
+	public static void reload() throws Exception
+	{
+
+	}
+	
+	public void init() throws ParseException
+	{
+		
+	}
+	
+	
+	
+}

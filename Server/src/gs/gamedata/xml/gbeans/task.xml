@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="task"> 
+		<bean name="chapterinfo23" from="23_chapterinfo.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="章节ID"/>	
+              <variable name="chapterName" type="string" fromCol="章节名称"/>	
+              <variable name="chapterDrop" type="string" fromCol="章节内全部关卡通过奖励掉落包"/>	
+              <variable name="stageID" type="string" fromCol="包含的关卡ID"/>	
+			  <variable name="starnum" type="string" fromCol="奖励所需星星"/>	
+		</bean>
+		
+		<bean name="stage11" from="11_stage.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="关卡id"/>	
+              <variable name="stagename" type="string" fromCol="关卡名称"/>	
+              <variable name="stageinfo" type="string" fromCol="关卡描述"/>	
+              <variable name="premissionid" type="int" fromCol="前置关卡id"/>	
+              <variable name="playerlevel" type="int" fromCol="玩家等级"/>	
+              <variable name="stagetype" type="int" fromCol="关卡类型"/>	
+              <variable name="stagemap" type="string" fromCol="地图编号"/>	
+              <variable name="stageevent" type="string" fromCol="地图事件编号"/>	
+              <variable name="extraloadresource" type="string" fromCol="额外加载资源"/>	
+              <variable name="playerexp" type="int" fromCol="玩家经验"/>	
+			  <variable name="goldreward" type="int" fromCol="金币奖励"/>	
+              <variable name="heroexp" type="int" fromCol="英雄经验"/>	
+			  <variable name="expcrystal" type="int" fromCol="经验结晶"/>	
+              <variable name="cost" type="int" fromCol="行动力消耗"/>	
+              <variable name="stageicon" type="string" fromCol="关卡图标"/>	
+              <variable name="monstergroup" type="string" fromCol="怪物组"/>	
+              <variable name="stagedrop" type="string" fromCol="关卡奖励(服务器)"/>	
+              <variable name="specialcondition" type="int" fromCol="特殊奖励条件参数"/>	
+              <variable name="specialstagedrop" type="string" fromCol="特殊关卡奖励(服务器)"/>	
+              <variable name="dropcheck" type="int" fromCol="掉落检查"/>	
+              <variable name="limittime" type="int" fromCol="限制次数"/>	
+              <variable name="displaydrop" type="string" fromCol="显示用掉落"/>	
+              <variable name="displayMonster" type="string" fromCol="显示怪物"/>	
+              <variable name="bossbox" type="int" fromCol="宝箱id"/>	
+              <variable name="winCondition" type="int" fromCol="胜利条件"/>	
+              <variable name="waveFury" type="string" fromCol="每波怒气"/>	
+              <variable name="aiCheck" type="int" fromCol="AI检查间隔"/>	
+              <variable name="mysteriousStage" type="int" fromCol="神秘关卡"/>	
+              <variable name="mysteriousShop" type="int" fromCol="神秘商店"/>	
+              <variable name="fightTime" type="int" fromCol="战斗时间"/>
+			  <variable name="isBoss" type="int" fromCol="是否Boss关卡"/>
+			  <variable name="resetCost" type="string" fromCol="重置消耗魔钻"/>				  
+		</bean>
+		
+		<bean name="monstergroup12" from="12_monstergroup.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="怪物组id"/>	
+			<variable name="grouptype" type="int" fromCol="怪物组类型"/>	
+			<variable name="monsterid" type="string" fromCol="怪物id"/>	
+			<variable name="monsterprobability" type="string" fromCol="怪物几率"/>	
+		</bean>
+		
+		<bean name="monster13" from="13_monster.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="怪物id"/>
+			<variable name="monstername" type="string" fromCol="怪物名称"/>
+			<variable name="artresources" type="int" fromCol="资源id"/>
+			<variable name="monstertype" type="int" fromCol="怪物类型"/>
+			<variable name="normalattack" type="int" fromCol="普通攻击"/>
+			<variable name="monsterskill" type="string" fromCol="技能"/>
+			<variable name="MaxHP" type="int" fromCol="初始生命点"/>
+			<variable name="PhysicalAttack" type="int" fromCol="初始物理攻击点"/>
+			<variable name="PhysicalDefence" type="int" fromCol="初始物理防御点"/>
+			<variable name="MagicAttack" type="int" fromCol="初始法术攻击点"/>
+			<variable name="MagicDefence" type="int" fromCol="初始法术防御点"/>
+			<variable name="Hit" type="int" fromCol="初始命中点"/>
+			<variable name="Dodge" type="int" fromCol="初始闪避点"/>
+			<variable name="Critical" type="int" fromCol="初始暴击点"/>
+			<variable name="Tenacity" type="int" fromCol="初始韧性点"/>
+			<variable name="Speed" type="int" fromCol="初始速度点"/>
+			<variable name="BaseHit" type="int" fromCol="命中几率千分比"/>
+			<variable name="BaseDodge" type="int" fromCol="闪避几率千分比"/>
+			<variable name="BaseCritical" type="int" fromCol="暴击几率千分比"/>
+			<variable name="BaseTenacity" type="int" fromCol="韧性几率千分比"/>
+			<variable name="BasePhyDamageIncrease" type="int" fromCol="物伤加成千分比"/>
+			<variable name="BasePhyDamageDecrease" type="int" fromCol="物伤减免千分比"/>
+			<variable name="BaseMagDamageIncrease" type="int" fromCol="法伤加成千分比"/>
+			<variable name="BaseMagDamageDecrease" type="int" fromCol="法伤减免千分比"/>
+			<variable name="BaseCriticalDamage" type="int" fromCol="暴击伤害加成千分比"/>
+			<variable name="DamageIncrease" type="int" fromCol="伤害附加点"/>
+			<variable name="lifeRestoringForce" type="int" fromCol="生命恢复点"/>
+			<variable name="DamageDecrease" type="int" fromCol="伤害减免点"/>
+			<variable name="clientSignType" type="string" fromCol="角色类型标记（客户端）"/>
+			<variable name="HPLengthMultiple" type="int" fromCol="血条长度放大倍数"/>
+			<variable name="HPWidthMultiple" type="int" fromCol="血条宽度放大倍数"/>
+			<variable name="damageTextShow" type="string" fromCol="伤害字冒出位置上下偏移量"/>
+			<variable name="levelBorderMultiple" type="int" fromCol="等级框和字放大倍数"/>
+			<variable name="HPTransformFury" type="int" fromCol="每损失1%生命奖励怒气值模板ID"/>
+			<variable name="camp" type="int" fromCol="所属阵营"/>
+			<variable name="fadeCondition" type="int" fromCol="伤害达到生命上限%受击后仰"/>
+			<variable name="deathSlowTime" type="string" fromCol="死亡慢动作时间（秒）"/>
+			<variable name="monsterlevel" type="int" fromCol="怪物等级"/>
+			<variable name="monsterstar" type="int" fromCol="怪物星级"/>
+			<variable name="monsterEnlarge" type="string" fromCol="怪物放大系数"/>
+			<variable name="monsterPercentMaxHp" type="int" fromCol="怪物百分比计算时生命值"/>
+			<variable name="deathSkillType" type="string" fromCol="死亡掉落SKILL类型"/>
+			<variable name="deathSkillProb" type="string" fromCol="死亡掉落SKILL权重"/>
+			<variable name="monstermaxstar" type="int" fromCol="怪物最大星级"/>
+		</bean>
+		
+		
+		
+		
+		
+		<bean name="cqiandaoconfig" from="签到升级奖励.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="item1" type="int" fromCol="item1" />
+			  <variable name="item2" type="int" fromCol="item2" />
+			  <variable name="item3" type="int" fromCol="item3" />
+			  <variable name="num1" type="int" fromCol="num1" />
+			  <variable name="num2" type="int" fromCol="num2" />
+			  <variable name="num3" type="int" fromCol="num3" />
+		</bean>
+		
+		<bean name="sqiandaoconfig" from="签到升级奖励.xlsx" genxml="server" >
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="reward" type="int" fromCol="reward" />
+		</bean>
+		
+		<bean name="STiantiConfig" from="天梯配置.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="srartrank" type="int" fromCol="起始排名" />
+			  <variable name="endrank" type="int" fromCol="终止排名" />
+			  <variable name="battleID" fromCol="战斗ID1,战斗ID2,战斗ID3"  type="vector"  value="int" />
+			  <variable name="jifena" type="int" fromCol="积分获得常数" />
+			  <variable name="jifenb" type="double" fromCol="积分获得系数" />
+			  <variable name="level" type="int" fromCol="NPC等级" />
+		</bean>
+		
+		<bean name="ctianticonfig" from="天梯配置.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="srartrank" type="int" fromCol="起始排名" />
+			  <variable name="endrank" type="int" fromCol="终止排名" />
+			  <variable name="battleID" fromCol="战斗ID1,战斗ID2,战斗ID3"  type="vector"  value="int" />
+			  <variable name="jifena" type="int" fromCol="积分获得常数" />
+			  <variable name="jifenb" type="double" fromCol="积分获得系数" />
+			  <variable name="level" type="int" fromCol="NPC等级" />
+		</bean>
+		
+		<bean name="cmeirenconfig" from="美人阁.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="heroid" type="int" fromCol="武将ID" />
+			  <variable name="heroid1" type="int" fromCol="神将ID" />
+			  <variable name="name1" type="string" fromCol="名称" />
+			  <variable name="pic1" type="string" fromCol="PIC1" />
+			  <variable name="pic2" type="string" fromCol="PIC2" />
+			  <variable name="yiban1" type="string" fromCol="一般1" />
+			  <variable name="music1" type="string" fromCol="配音1" />
+			  <variable name="yiban2" type="string" fromCol="一般2" />
+			  <variable name="music2" type="string" fromCol="配音2" />
+			  <variable name="keqiu" type="string" fromCol="渴求" />
+			  <variable name="music3" type="string" fromCol="配音3" />
+			  <variable name="chaping" type="string" fromCol="差评" />
+			  <variable name="music4" type="string" fromCol="配音4" />
+			  <variable name="haoping" type="string" fromCol="好评" />
+			  <variable name="music5" type="string" fromCol="配音5" />
+			  <variable name="linjin" type="string" fromCol="临近" />
+			  <variable name="music6" type="string" fromCol="配音6" />
+			  <variable name="date" type="int" fromCol="双倍日期" />
+			  <variable name="bonus" fromCol="add1,add2,add3,add4,add5,add6,add7,add8"  type="vector"  value="int" />
+			  <variable name="skin" type="vector" value="int" fromCol="皮肤ID1"/>
+		</bean>
+			  
+		
+		<bean name="smeirenconfig" from="美人阁.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="heroid" type="int" fromCol="武将ID" />
+			  <variable name="heroid1" type="int" fromCol="神将ID" />
+			  <variable name="date" type="int" fromCol="双倍日期" />
+			  <variable name="bonus" fromCol="add1,add2,add3,add4,add5,add6,add7,add8"  type="vector"  value="int" />
+			  <variable name="skin" type="vector" value="int" fromCol="皮肤ID1"/>
+		</bean>
+		
+		<bean name="carroweffect" from="新手引导.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="id" type="int"/>
+			<variable name="step" fromCol="下一步" type="int"/>
+			<variable name="startlevel" fromCol="触发等级" type="int"/>
+			<variable name="level" fromCol="等级上限" type="int"/>
+			<variable name="screen" fromCol="是否锁屏" type="int"/>
+			<variable name="button" fromCol="按钮名称" type="string"/>
+			<variable name="usebutton" fromCol="响应按钮" type="string"/>
+			<variable name="item" fromCol="道具id" type="int"/>
+			<variable name="skill" fromCol="技能id" type="int"/>
+			<variable name="text" fromCol="箭头内容" type="string"/>
+			<variable name="textposition" fromCol="文字位置" type="int"/>
+			<variable name="imagename" fromCol="图片名称" type="string"/>
+			<variable name="cleareffect" fromCol="解锁特效" type="int"/>
+		</bean>
+		
+		<bean name="sarroweffect" from="新手引导.xlsx" genxml="server">
+			<variable name="id" fromCol="id" type="int"/>
+			<variable name="step" fromCol="下一步" type="int"/>
+			<variable name="startlevel" fromCol="触发等级" type="int"/>
+			<variable name="level" fromCol="等级上限" type="int"/>
+			<variable name="screen" fromCol="是否锁屏" type="int"/>
+			<variable name="button" fromCol="按钮名称" type="string"/>
+			<variable name="usebutton" fromCol="响应按钮" type="string"/>
+			<variable name="item" fromCol="道具id" type="int"/>
+			<variable name="skill" fromCol="技能id" type="int"/>
+			<variable name="text" fromCol="箭头内容" type="string"/>
+			<variable name="textposition" fromCol="文字位置" type="int"/>
+			<variable name="imagename" fromCol="图片名称" type="string"/>
+			<variable name="cleareffect" fromCol="解锁特效" type="int"/>
+		</bean>
+
+		<bean name="ceventconfig" from="活动表.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="type" fromCol="类型" type="int"/>
+			<variable name="icon" fromCol="icon" type="int"/>
+			<variable name="color" fromCol="颜色" type="int"/>
+			<variable name="sort" fromCol="排序ID" type="int"/>
+			<variable name="start" fromCol="开始时间" type="string"/>
+			<variable name="end" fromCol="结束时间" type="string"/>
+		</bean>
+		
+		<bean name="SActivityConfig" from="活动表.xlsx" genxml="server">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="type" fromCol="类型" type="int"/>
+			<variable name="start" fromCol="开始时间" type="string"/>
+			<variable name="end" fromCol="结束时间" type="string"/>
+			<variable name="levelmin" fromCol="等级下限" type="int"/>
+			<variable name="levelmax" fromCol="等级上限" type="int"/>
+			<variable name="createmin" fromCol="建号时间下限（小时）" type="int"/>
+			<variable name="createmax" fromCol="建号时间上限（小时）" type="int"/>
+		</bean>
+		
+		<bean name="chuifuconfig" from="回复体力活力.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="price" fromCol="1次,2次,3次,4次,5次,6次,7次"  type="vector"  value="int" />
+		</bean>
+		
+		<bean name="shuifuconfig" from="回复体力活力.xlsx" genxml="server">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="price" fromCol="1次,2次,3次,4次,5次,6次,7次"  type="vector"  value="int" />
+		</bean>
+		
+		<bean name="ctimetaskconfig" from="武将任务.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="vip" fromCol="VIP解锁" type="int"/>
+			<variable name="name" fromCol="名称" type="string"/>
+			<variable name="time" fromCol="时间" type="int"/>
+			<variable name="grow" fromCol="成长" type="int"/>
+			<variable name="pricetype" fromCol="消耗类型" type="int"/>
+			<variable name="price" fromCol="消耗数量" type="int"/>
+		</bean>
+		
+		<bean name="stimetaskconfig" from="武将任务.xlsx" genxml="server">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="vip" fromCol="VIP解锁" type="int"/>
+			<variable name="time" fromCol="时间" type="int"/>
+			<variable name="grow" fromCol="成长" type="int"/>
+			<variable name="pricetype" fromCol="消耗类型" type="int"/>
+			<variable name="price" fromCol="消耗数量" type="int"/>
+		</bean>
+		
+		<bean name="cxuezhanxunhuan" from="血战循环奖励.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="item" fromCol="item" type="int"/>
+			<variable name="price" fromCol="price" type="int"/>
+		</bean>
+		
+		<bean name="sxuezhanxunhuan" from="血战循环奖励.xlsx" genxml="server">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="item" fromCol="item" type="int"/>
+			<variable name="price" fromCol="price" type="int"/>
+		</bean>
+		
+		<bean name="cxuezhanguding" from="血战固定奖励.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="item" fromCol="item" type="int"/>
+			<variable name="price" fromCol="price" type="int"/>
+		</bean>
+		
+		<bean name="sxuezhanguding" from="血战固定奖励.xlsx" genxml="server">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="item" fromCol="item" type="int"/>
+			<variable name="price" fromCol="price" type="int"/>
+		</bean>
+		
+		<bean name="sxuezhanpaiming" from="血战排名奖励.xlsx" genxml="server">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="reward" fromCol="奖励ID" type="int"/>
+			<variable name="describe" fromCol="奖励说明" type="string"/>
+		</bean>
+		
+		<bean name="cxuezhanpaiming" from="血战排名奖励.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="ID" type="int"/>
+			<variable name="describe" fromCol="奖励说明" type="string"/>
+		</bean>
+
+		<bean name="schargeconfig" from="累计充值.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="ID"/>
+			<variable name="yuanbao" type="vector" value="int" fromCol="充值金额1,充值金额2,充值金额3,充值金额4,充值金额5,充值金额6,充值金额7,充值金额8,充值金额9,充值金额10"/>
+			<variable name="items" type="vector" value="int" fromCol="道具ID1,道具ID2,道具ID3,道具ID4,道具ID5,道具ID6,道具ID7,道具ID8,道具ID9,道具ID10"/>
+		</bean>
+		
+		<bean name="cchargeconfig" from="累计充值.xlsx" genxml="client" priority="1">
+			<variable name="id" type="int" fromCol="ID"/>
+			<variable name="yuanbao" type="vector" value="int" fromCol="充值金额1,充值金额2,充值金额3,充值金额4,充值金额5,充值金额6,充值金额7,充值金额8,充值金额9,充值金额10"/>
+			<variable name="items" type="vector" value="int" fromCol="道具ID1,道具ID2,道具ID3,道具ID4,道具ID5,道具ID6,道具ID7,道具ID8,道具ID9,道具ID10"/>
+			<variable name="text" type="string" fromCol="活动简述"/>
+		</bean>
+		
+		<bean name="syaoqingren" from="邀请人奖励.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="ID"/>
+			<variable name="items" type="int" fromCol="奖励ID"/>
+		</bean>
+		
+		<bean name="cyaoqingren" from="邀请人奖励.xlsx" genxml="client" priority="1">
+			<variable name="id" type="int" fromCol="ID"/>
+			<variable name="items" type="int" fromCol="奖励ID"/>
+		</bean>
+		
+		<bean name="scosplay" from="真人皮肤表.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="number" type="int" fromCol="数量" />
+			  <variable name="name" type="string" fromCol="名称" />
+			  <variable name="pic3id" type="int" fromCol="PIC3ID" />
+		</bean>
+		
+		<bean name="ccosplay" from="真人皮肤表.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="number" type="int" fromCol="数量" />
+			  <variable name="name" type="string" fromCol="名称" />
+			  <variable name="firstpic" type="string" fromCol="MMPIC1" />
+			  <variable name="secondpic" type="string" fromCol="MMPIC2" />
+			  <variable name="thirdpic" type="string" fromCol="MMPIC3" />
+			  <variable name="pic3id" type="int" fromCol="PIC3ID" />
+			  <variable name="fourthpic" type="string" fromCol="PIC4ID" />
+		</bean>
+		
+		<bean name="spiclink" from="图片ID关联表.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="picid" type="string" fromCol="PIC" />
+		</bean>
+		
+		<bean name="cpiclink" from="图片ID关联表.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="picid" type="string" fromCol="PIC" />
+		</bean>
+		
+		<bean name="cweiboconfig" from="微博基础配置表.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="msgid" type="int" fromCol="文本ID" />
+			  <variable name="msgtype" type="int" fromCol="类别" />
+			  <variable name="forwardid" type="string" fromCol="转发ID" />
+		</bean>
+	</namespace>

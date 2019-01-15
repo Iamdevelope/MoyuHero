@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="gs" default="dist">
+
+	<property name="src" value="src/" />
+	<property name="build" value="build/" />
+	<property name="build2" value="build2/" />
+	<property name="dist" value="dist/" />
+	<property name="lib" value="lib/" />
+	<property name="gsdir" value="../../gs" />
+
+	<target name="init" depends="clean">
+		<mkdir dir="${build}" />
+		<mkdir dir="${build2}" />
+		<mkdir dir="${dist}" />
+	</target>
+
+	<target name="genxdb">
+		<java fork="true" classname="xgen.Main">
+			<arg line="-outputEncoding utf-8 gsx.xdb.xml" />
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="xdb.jar" />
+					<include name="jio.jar" />
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+
+
+  <target name="genbean" depends="init">
+    <delete dir="confsrc" />
+    <mkdir dir="confsrc" />
+    <java fork="true" classname="mytools.Main">
+      <arg line="gamedata/xml/gbeans/main.xml confsrc gamedata/xml/codetemplates 1"/>
+      <classpath>
+		<fileset dir="${lib}">
+			<include name="freemarker.jar"/>	
+			<include name="convxml.jar"/>	
+			<include name="log4j-1.2.15.jar"/>	
+		</fileset>    
+      </classpath>
+    </java>
+  </target>
+  
+	<target name="run" depends="compile">
+		<java fork="true" classname="scm.Main">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="lib2">
+					<include name="**/*.jar" />
+				</fileset>
+				<pathelement location="${build}" />
+			</classpath>
+		</java>
+	</target>
+
+
+	<target name="compile" depends="init,genxdb">
+		<path id="classpath">
+			<fileset dir="${lib}">
+				<include name="**/*.jar" />
+			</fileset>
+			<!--<fileset dir="lib2">
+				<include name="**/*.jar" />
+			</fileset>-->
+		</path>
+		<javac encoding="UTF-8"  destdir="${build}" classpathref="classpath" debug="true" debuglevel="lines,source" includeAntRuntime="false">
+			<src path="beans" />
+			<src path="${src}" />
+			<src path="confsrc" />
+		</javac>
+		<jar jarfile="${dist}/gsdebug.jar" basedir="${build}" manifest="${src}/MANIFEST.MF" />
+	</target>
+	
+	
+	<target name="compiledist" depends="init,genxdb">
+		<path id="classpath">
+			<fileset dir="${lib}">
+				<include name="**/*.jar" />
+			</fileset>
+			<!--<fileset dir="lib2">
+				<include name="**/*.jar" />
+			</fileset>-->
+		</path>
+		<javac encoding="UTF-8"  destdir="${build2}" classpathref="classpath" debug="true" debuglevel="lines,source,vars" includeAntRuntime="false">
+			<src path="beans" />
+			<src path="${src}" />
+			<src path="confsrc" />
+		</javac>
+		<jar jarfile="${dist}/gsxdb.jar" basedir="${build2}" manifest="${src}/MANIFEST.MF" />
+	</target>
+	
+
+	<target name="dist" depends="compiledist"><!--不再生成编译版本gsdebug.jar-->
+	</target>
+
+
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${build2}" />
+		<delete dir="${dist}" />
+	</target>
+
+
+<target name="updateManifest" >
+  <manifest file="src/MANIFEST.MF">
+    <attribute name="Built-By" value="${user.name}"/>
+    <attribute name="Main-Class" value="p2.gsp.main.Gs"/>
+    <attribute name="Specification-Title" value="gsp"/>
+    <attribute name="Specification-Version" value="${version}"/>
+    <attribute name="Specification-Vendor" value="wanmei.inc."/>
+    <attribute name="Implementation-Title" value="gsp"/>
+    <attribute name="Implementation-Version" value="${version}"/> 
+    <attribute name="Implementation-Vendor" value="wanmei.inc."/>    
+  </manifest>
+</target>
+
+
+</project>

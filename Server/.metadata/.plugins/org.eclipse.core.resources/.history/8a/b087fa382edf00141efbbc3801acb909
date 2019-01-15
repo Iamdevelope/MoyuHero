@@ -1,0 +1,587 @@
+package chuhan.gsp.stage;
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import xbean.StageBattleInfo;
+import xbean.StageInfo;
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.PAddExpProc;
+import chuhan.gsp.attr.PropRole;
+import chuhan.gsp.battle.Battle;
+import chuhan.gsp.battle.BattleManager;
+import chuhan.gsp.battle.BattleType;
+import chuhan.gsp.battle.PBeginBattle;
+import chuhan.gsp.battle.PNewBattle;
+import chuhan.gsp.hero.PAddExpHero;
+import chuhan.gsp.log.Logger;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.main.GameTime;
+import chuhan.gsp.msg.Message;
+import chuhan.gsp.play.raidboss.RaidBossRole;
+import chuhan.gsp.task.Ploy;
+import chuhan.gsp.task.chapterinfo23;
+import chuhan.gsp.task.stage11;
+import chuhan.gsp.util.Conv;
+import chuhan.gsp.util.DateUtil;
+
+public class StageRole {
+	
+	public static Logger logger = Logger.getLogger("StageRole");
+	
+	public static StageRole getStageRole(long roleId)
+	{
+		return getStageRole(roleId,false);
+	}
+	
+	public static StageRole getStageRole(long roleId, boolean readonly)
+	{
+		xbean.StageRole xrole;
+		if(readonly)
+		{
+			if(xtable.Properties.select(roleId) == null)
+				return null;
+			xrole = xtable.Stageroles.select(roleId);
+		}
+		else
+		{
+			if(xtable.Properties.get(roleId) == null)
+				return null;
+			xrole = xtable.Stageroles.get(roleId);
+		}
+		if(xrole == null)
+		{
+			if(readonly)
+				xrole = xbean.Pod.newStageRoleData();
+			else
+			{
+				xrole = xbean.Pod.newStageRole();
+				xtable.Stageroles.insert(roleId, xrole);
+			}
+		}
+		
+		return new StageRole(roleId, xrole, readonly);
+	}
+	
+	
+	final private long roleId;
+	final private xbean.StageRole xrole;
+	final private boolean readonly;
+	
+	private StageRole(long roleId, xbean.StageRole xrole, boolean readonly)
+	{
+		this.roleId = roleId;
+		this.xrole = xrole;
+		this.readonly = readonly;
+		init();
+	}
+	
+	public boolean isReadonly() {
+		return readonly;
+	}
+	
+	private void init()
+	{
+		if(xrole.getStages().isEmpty())
+			activeStage(1);
+	}
+	
+	public xbean.StageRole getStageRoleXbean()
+	{
+		return xrole;
+	}
+	
+	public boolean EndfightStageBattle(long roleId, int pass){
+		Battle battleInfo = BattleManager.getInstance().GetBInfoByRId(roleId);
+		if(battleInfo == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_IN_BATTLE));
+			return false;
+		}
+		if(pass == 0)
+			return true;
+		
+		xbean.StageInfo xstage = xrole.getStages().get(1);		//临时
+		if(xstage == null)
+			return false;
+		xbean.StageBattleInfo xbattle = xstage.getStagebattles().get(battleInfo.getiBattleInfo().getId());
+		if(xbattle == null)
+			return false;
+		
+		refreshStageAndBattle(xstage,xbattle,pass);
+		
+//		PropRole prole = PropRole.getPropRole(roleId, false);
+		
+		//prole.addGold(battleInfo.getiBattleInfo().getGold()*gold_percent/PASS_EXP_PERCENT, GoldAddType.ADD_BATTLE);
+		
+		PAddExpHero hero = new PAddExpHero(roleId,battleInfo.getUseHeroList(),
+				battleInfo.getiBattleInfo().getHeroexp(),
+				PAddExpHero.BATTLE,"");
+		hero.call();
+		
+		PAddExpProc proc = new PAddExpProc(roleId, 
+				battleInfo.getiBattleInfo().getPlayerexp(), 
+				PAddExpProc.BATTLE, "");
+		proc.call();
+
+		BattleManager.getInstance().DeleteBattleInfo(roleId);
+		
+		
+		return true;
+
+	}
+	
+	public boolean fightStageBattle(int stagebattleId,short troopid, boolean useyuanbao)
+	{
+		
+		PropRole prole = PropRole.getPropRole(roleId, false);
+		stage11 guankacfg = ConfigManager.getInstance().getConf(stage11.class).get(stagebattleId);
+		if(guankacfg == null)
+			return false;
+		int stageId = 1;		//临时
+		xbean.StageInfo xstage = xrole.getStages().get(stageId);
+		if(xstage == null)
+			return false;
+		xbean.StageBattleInfo xbattle = xstage.getStagebattles().get(stagebattleId);
+		if(xbattle == null)
+			return false;
+		long now = chuhan.gsp.main.GameTime.currentTimeMillis();
+		processStageBattleInfo(xbattle, now);
+		if(!useyuanbao)
+		{
+			if (xbattle.getFightnum() >= guankacfg.getLimittime() && guankacfg.getLimittime() != -1) {
+				// 达到战斗上限
+				Message.psendMsgNotify(roleId, 123);
+				return false;
+			}
+		}
+		else
+		{
+			return false;//TODO
+		}
+		
+		if( !prole.useTili(guankacfg.cost))
+			return false;
+		
+		PBeginBattle beginbattle = new PBeginBattle(roleId, stagebattleId,troopid);
+		if(!beginbattle.call()){	
+			return false;
+		}
+		
+		updateStateBattleInfo(xbattle, now);
+//		boolean firstwin = (xbattle.getLastfighttime() == 0);
+		
+//		int directend = 0;
+//		if(firstwin)//没打过
+		{
+//			directend = (guankacfg.type == 3)? -1 : 7;
+		}
+		//处理战斗
+//		int awardId = 0;
+		//触发了斩魔BOSS不发奖
+//		boolean isRaidBoss = RaidBossRole.getRaidBossRole(roleId, false).activateBoss();
+//		if(!isRaidBoss) {
+//			awardId = firstwin ? guankacfg.rewardIDfirst : guankacfg.rewardID;
+//		}
+//		PNewBattle pbattle = new PNewBattle(roleId, guankacfg.getId(), awardId, false,directend);
+//		pbattle.call();
+//		if(!pbattle.isSuccess())
+//		{
+//			logger.error("关卡进战斗失败：roleId="+roleId+",guankaId="+guankacfg.id);
+//			return false;
+//		}
+/*		
+		boolean iswin =( pbattle.getSSendBattleScript().result.winround > 0 );
+		int first3star = (pbattle.getSSendBattleScript().result.winround == 1 && xbattle.getMaxstar() < 3)? 2 : 1;
+		
+		int addexp = guankacfg.shengwangreward * first3star;
+		//给人经验
+		if(addexp == guankacfg.shengwangreward)
+		  addexp = specialActivity(addexp);
+		if(addexp == guankacfg.shengwangreward)
+			addexp *= Ploy.getDoubleExp();
+		
+		PAddExpProc proc = new PAddExpProc(roleId, addexp, 1, "");//给人物经验
+		if(proc.call())
+			pbattle.getSSendBattleScript().result.addexp = addexp;
+		
+		//给银两
+		int addmoney = guankacfg.moneyreward * first3star;
+		if(addmoney == guankacfg.moneyreward && DateUtil.getCurrentWeekDay() == 1)
+			addmoney = addmoney * 2;
+		chuhan.gsp.item.Bag bag = new chuhan.gsp.item.Bag(roleId, false);
+		long realAdd = bag.addMoney(addmoney, "fubem money award", 1,1);
+		pbattle.getSSendBattleScript().result.addmoney = Conv.toInt(realAdd);
+		if(isRaidBoss) {//触发了斩魔BOSS
+			pbattle.getSSendBattleScript().battletype = BattleType.TRIGGER_BOSS_PVE;
+		}
+		pbattle.sendSSendBattleScript();
+		//触发
+		if(iswin)
+		{
+			xbattle.setFightnum(xbattle.getFightnum() + 1);
+			xbattle.setLastfighttime(now);
+			refreshStageAndBattle(xstage, xbattle, 4-pbattle.getSSendBattleScript().result.winround);
+		}
+		else
+		{
+			sendSRefreshStageBattle(xbattle);
+		}
+		*/
+		return true;
+	}
+	
+	private int specialActivity(int exp)
+	{
+		long now = GameTime.currentTimeMillis();
+		/*int nowday = DateUtil.getCurrentDay(now);
+		int firststartday = DateUtil.getCurrentDay(ConfigManager.FIRST_START_TIME);
+		if(nowday - firststartday == 1 || nowday - firststartday == 2)
+			return 2*exp;*/
+		if(DateUtil.getCurrentWeekDay(now) == 4)
+			return 2*exp;
+		return exp;
+	}
+	
+	public void refreshStageAndBattle(xbean.StageInfo xstage, xbean.StageBattleInfo xbattle,int newstar )
+	{
+		int oldstar = xbattle.getMaxstar();
+		if(newstar > oldstar)//刷星
+		{
+			xbattle.setMaxstar(newstar);
+			sendSRefreshStage(xstage);
+		}
+		sendSRefreshStageBattle(xbattle,xstage.getId());
+		if(oldstar == 0 && newstar > 0)//过关
+		{
+			//激活新关卡
+			onStageBattlePassed(xstage, xbattle);
+		}
+	}
+	
+	public void onStageBattlePassed(xbean.StageInfo xstage, xbean.StageBattleInfo xbattle)
+	{
+		List<Integer> openList = getOpenBattleId(xbattle.getId());
+		for(Integer nextbattleId : openList){
+			stage11 nextbattlecfg = ConfigManager.getInstance().getConf(stage11.class).get(nextbattleId);
+			if(nextbattlecfg != null)
+			{
+				Integer nextbattlestageid = getStageNumByBattleId(nextbattleId);
+				if(nextbattlestageid == null)
+					return;
+				if(xstage.getId() == nextbattlestageid){
+					//激活下一个关卡
+					xbean.StageBattleInfo xnextbattle = xbean.Pod.newStageBattleInfo();
+					xnextbattle.setId(nextbattleId);
+					xstage.getStagebattles().put(xnextbattle.getId(), xnextbattle);
+					sendSRefreshStageBattle(xnextbattle,xstage.getId());
+				}else{
+					activeStage(nextbattlestageid);
+					StageInfo nextxstage = xrole.getStages().get(nextbattleId);
+					if(nextxstage != null){
+						xbean.StageBattleInfo xnextbattle = xbean.Pod.newStageBattleInfo();
+						xnextbattle.setId(nextbattleId);
+						nextxstage.getStagebattles().put(xnextbattle.getId(), xnextbattle);
+						sendSRefreshStageBattle(xnextbattle,nextxstage.getId());
+					}
+				}
+				
+			}
+		}
+		
+		
+		/*
+		int nextbattleId = xbattle.getId()+1;
+		SGuankaConfig nextbattlecfg = ConfigManager.getInstance().getConf(SGuankaConfig.class).get(nextbattleId);
+		if(nextbattlecfg != null)
+		{//激活下一个关卡
+			xbean.StageBattleInfo xnextbattle = xbean.Pod.newStageBattleInfo();
+			xnextbattle.setId(nextbattleId);
+			xstage.getStagebattles().put(xnextbattle.getId(), xnextbattle);
+			sendSRefreshStageBattle(xnextbattle);
+		}
+		else
+		{//副本完成了，激活下一个副本
+			onStageCompleted(xstage);
+		}
+		*/
+	}
+	
+	/**
+	 * 根据小关卡获取章节ID
+	 * @param stageBattleId
+	 * @return
+	 */
+	public Integer getStageNumByBattleId(int stageBattleId){
+		java.util.TreeMap<Integer,chapterinfo23> fubenMap = (java.util.TreeMap<Integer, chapterinfo23>) ConfigManager.getInstance().getConf(SFubenConfig.class);
+		for(Map.Entry<Integer, chapterinfo23> entry : fubenMap.entrySet() ){
+			if(entry.getValue().stageID.contains(Integer.toString(stageBattleId))){
+				return entry.getValue().getId();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据关卡返回对应开启关卡
+	 * @param stageBattleId
+	 * @return
+	 */
+	public List<Integer> getOpenBattleId(int stageBattleId){
+		List<Integer> openList = new ArrayList<Integer>();
+		java.util.TreeMap<Integer,SGuankaConfig> guankaMap = (java.util.TreeMap<Integer, SGuankaConfig>) ConfigManager.getInstance().getConf(SGuankaConfig.class);
+		for(Map.Entry<Integer, SGuankaConfig> entry : guankaMap.entrySet()){
+			if(entry.getValue().getPremissionid() == stageBattleId){
+				openList.add(entry.getValue().getId());
+			}
+		}
+		return openList;
+	}
+	
+	public void onStageCompleted(xbean.StageInfo xstage)
+	{
+		//TODO 一些处理
+		activeStage(xstage.getId()+1);//激活下一个副本
+	}
+	
+	public xbean.StageInfo getCurStage()
+	{
+		return xrole.getStages().get(getCurStageId());
+	}
+	
+	public int getCurStageId()
+	{
+		int maxkey = 0 ;
+		for(int key : xrole.getStages().keySet())
+		{
+			if(key > maxkey)
+				maxkey = key;
+		}
+		return maxkey;
+	}
+	
+	public xbean.StageBattleInfo getCurBattle()
+	{
+		xbean.StageInfo xstageinfo = getCurStage();
+		int maxkey = 0 ;
+		for(int key : xstageinfo.getStagebattles().keySet())
+		{
+			if(key > maxkey)
+				maxkey = key;
+		}
+
+		return xstageinfo.getStagebattles().get(maxkey);
+	}
+	
+	protected void activeStage(int stageId)
+	{
+		SFubenConfig stagecfg = ConfigManager.getInstance().getConf(SFubenConfig.class).get(stageId);
+		if(stagecfg == null)
+			return;//没有下一个副本了
+		if(xrole.getStages().containsKey(stageId))
+			return;//已经开了，不要再重置
+		xbean.StageInfo xnextstage = xbean.Pod.newStageInfo();
+		xnextstage.setId(stageId);
+		xrole.getStages().put(stageId, xnextstage);
+		sendSRefreshStage(xnextstage);
+		
+		if(stageId == 1){
+		xbean.StageBattleInfo xfirstbattle = xbean.Pod.newStageBattleInfo();
+		xfirstbattle.setId(100101);		//初始副本ID
+		xnextstage.getStagebattles().put(xfirstbattle.getId(), xfirstbattle);
+		sendSRefreshStageBattle(xfirstbattle,xnextstage.getId());
+		}
+	}
+	
+	public void sendStageInfo(int stageId)
+	{
+		sendStageInfo(xrole.getStages().get(stageId));
+	}
+	
+	public void sendStageInfo(xbean.StageInfo xstage)
+	{
+		if(xstage == null)
+			return;
+		chuhan.gsp.stage.StageInfo stageinfo = getStageInfo(xstage, true);
+		SEnterStage snd = new SEnterStage();
+		snd.stageid = Conv.toByte(stageinfo.id);
+		snd.stagebattles.addAll(stageinfo.stagebattles);
+		if(xdb.Transaction.current() != null)
+			xdb.Procedure.psendWhileCommit(roleId, snd);
+		else
+			gnet.link.Onlines.getInstance().send(roleId, snd);
+	}
+	
+	private chuhan.gsp.stage.StageInfo getStageInfo(xbean.StageInfo xstage, boolean includebatle)
+	{
+		int starsum = getStageStarSum(xstage);
+		chuhan.gsp.stage.StageInfo stageinfo = new chuhan.gsp.stage.StageInfo();
+		stageinfo.id = Conv.toByte(xstage.getId());
+		stageinfo.starsum = Conv.toByte(starsum);
+		stageinfo.rewardgot = (byte)(xstage.getRewardgot() ? 1 : 0);
+		long now = chuhan.gsp.main.GameTime.currentTimeMillis();
+		List<xbean.StageBattleInfo> battlelist = new LinkedList<xbean.StageBattleInfo>();
+		battlelist.addAll(xstage.getStagebattles().values());
+		Collections.sort(battlelist,new Comparator<xbean.StageBattleInfo>() {
+			@Override
+			public int compare(StageBattleInfo arg0, StageBattleInfo arg1) {
+				if(arg0.getId() > arg1.getId())
+					return -1;
+				else
+					return 1;
+			}
+		});
+		if(!includebatle)
+			return stageinfo;
+		for(xbean.StageBattleInfo xbattle : battlelist)
+		{
+			processStageBattleInfo(xbattle, now);
+			stageinfo.stagebattles.add(new StageBattle(xbattle.getId(),Conv.toByte(xbattle.getMaxstar()),Conv.toShort(xbattle.getFightnum())));
+		}
+		return stageinfo;
+	}
+	
+	public boolean getStageCompleteReward(int stageId)
+	{
+		xbean.StageInfo xstage = xrole.getStages().get(stageId);
+		if(xstage == null)
+			return false;
+		if(xstage.getRewardgot())
+			return false;
+		if(!isPerfectComplete(xstage))
+		{
+			Message.psendMsgNotify(roleId, 159);
+			return false;
+		}
+		PropRole prole = PropRole.getPropRole(roleId, false);
+		prole.addTili(10);
+		xstage.setRewardgot(true);
+		sendSRefreshStage(xstage);
+		Message.psendMsgNotifyWhileCommit(roleId,92,10);
+		return true;	
+	}
+	
+	public boolean isPerfectComplete(xbean.StageInfo xstage)
+	{
+		int lastbattle = 0;
+		for(Map.Entry<Integer, xbean.StageBattleInfo> entry : xstage.getStagebattles().entrySet())
+		{
+			if(entry.getKey() > lastbattle)
+				lastbattle = entry.getKey();
+			if(entry.getValue().getMaxstar() < 3)
+				return false;
+		}
+		SGuankaConfig nextbattlecfg = ConfigManager.getInstance().getConf(SGuankaConfig.class).get(lastbattle+1);
+		if(nextbattlecfg == null)
+			return true;
+		else
+			return false;
+	}
+	
+	public void examStageCompleted(List<xbean.StageInfo> xstages)
+	{
+		if(xstages.isEmpty())
+			return;
+		xbean.StageInfo xstage = xstages.get(0);
+		if(!isComplete(xstage))
+			return;
+		onStageCompleted(xstage);
+	}
+	
+	public boolean isComplete(xbean.StageInfo xstage)
+	{
+		int lastbattle = 0;
+		for(int battleID : xstage.getStagebattles().keySet())
+		{
+			if(battleID > lastbattle)
+				lastbattle = battleID;
+		}
+		xbean.StageBattleInfo stagebattle =  xstage.getStagebattles().get(lastbattle);
+		if(stagebattle == null || stagebattle.getMaxstar() <= 0)
+			return false;
+		SGuankaConfig nextbattlecfg = ConfigManager.getInstance().getConf(SGuankaConfig.class).get(lastbattle+1);
+		if(nextbattlecfg == null)
+			return true;
+		else
+			return false;
+	}
+	
+	private void processStageBattleInfo(xbean.StageBattleInfo xbattle, long now)
+	{
+		if(xbattle.getFightnum() == 0)
+			return;
+		if(DateUtil.inTheSameDay(xbattle.getLastfighttime(),now))
+			return;
+		xbattle.setFightnum(0);
+	}
+	
+	private void updateStateBattleInfo(xbean.StageBattleInfo xbattle, long now){
+		xbattle.setFightnum(xbattle.getFightnum() + 1);
+		xbattle.setLastfighttime(now);
+	}
+	
+	public void sendAllStages()
+	{
+		SSendStages snd = new SSendStages();
+		List<xbean.StageInfo> xstages = new LinkedList<xbean.StageInfo>();
+		xstages.addAll(xrole.getStages().values());
+		Collections.sort(xstages, new Comparator<xbean.StageInfo>() {
+			@Override
+			public int compare(StageInfo arg0, StageInfo arg1) {
+				return -(arg0.getId() - arg1.getId());
+			}
+		});
+		int i = 1;
+		for(xbean.StageInfo xstage : xstages)
+		{
+			snd.stages.add(getStageInfo(xstage, i<=3));
+			i++;
+		}
+		if(snd.stages.isEmpty())
+			return;
+		if(xdb.Transaction.current() != null)
+			xdb.Procedure.psendWhileCommit(roleId, snd);
+		else
+			gnet.link.Onlines.getInstance().send(roleId, snd);
+//		examStageCompleted(xstages);
+	}
+	
+	public int getStageStarSum(xbean.StageInfo xstage)
+	{
+		int sum = 0;
+		for(xbean.StageBattleInfo xbattle : xstage.getStagebattles().values())
+		{
+			sum += xbattle.getMaxstar();
+		}
+		return sum;
+	}
+	
+	public void sendSRefreshStage(xbean.StageInfo xstage)
+	{
+		SRefreshStage snd = new SRefreshStage(Conv.toByte(xstage.getId()), Conv.toByte(getStageStarSum(xstage)), Conv.toByte(xstage.getRewardgot()?1:0));
+		if(xdb.Transaction.current() != null)
+			xdb.Procedure.psendWhileCommit(roleId, snd);
+		else
+			gnet.link.Onlines.getInstance().send(roleId, snd);
+	}
+	
+	public void sendSRefreshStageBattle(xbean.StageBattleInfo xbattle,int stageId)
+	{
+		SRefreshStageBattle snd = new SRefreshStageBattle();
+		snd.stageid = Conv.toByte(stageId);
+		snd.stagebattle.id = xbattle.getId();
+		snd.stagebattle.maxstar = Conv.toByte(xbattle.getMaxstar());
+		snd.stagebattle.fightnum = Conv.toShort(xbattle.getFightnum());
+		if(xdb.Transaction.current() != null)
+			xdb.Procedure.psendWhileCommit(roleId, snd);
+		else
+			gnet.link.Onlines.getInstance().send(roleId, snd);
+	}
+	
+}

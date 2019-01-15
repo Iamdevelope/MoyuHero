@@ -1,0 +1,54 @@
+package chuhan.gsp.util;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+
+public class ParserString
+{
+	
+	public static final Logger logger = Logger.getLogger(ParserString.class);
+	
+	private static final String FIRST_SPLIT = "#";
+	
+//	/*
+	
+	public static List<String> parseString(String strin){
+		return parseString(strin,FIRST_SPLIT);
+	}
+	
+	
+	public static List<String> parseString(String strin,String strsplit)
+	{
+		try
+		{	
+			if(strin == null || strin.equals(""))
+				return null;
+			List<String> result = new ArrayList<String>();
+			if (strin.contains(strsplit)) {
+				String[] strArray = strin.split(strsplit);
+				for(String str : strArray) {
+					result.add(str);
+				}
+			}else{
+				result.add(strin);
+			}
+			return result;
+		}
+		catch(Exception e)
+		{
+			logger.error("ParserString parseString error. String = " + strin , e);
+			e.printStackTrace();
+		}
+		return null;
+		 
+	}
+//	*/
+	
+	
+	
+	
+}

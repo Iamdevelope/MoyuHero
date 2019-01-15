@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application name="chuhan" shareHome="../share" pvids="12" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+
+	<import file="gnet.xml"/>
+	<xi:include href="protocols/gsp.xml" />
+	
+	<protocol name="StatInfoVital" maxsize="1024" prior="1" type="59">
+		<variable name="priority" type="int"/>
+		<variable name="msg" type="string" default="" attr="ref"/>
+		<variable name="hostname" type="string" default="" attr="ref"/>
+		<variable name="servicename" type="string" default="" attr="ref"/>
+	</protocol>
+
+	<protocol name="StatInfo" maxsize="1024" prior="2" type="60">
+		<variable name="priority" type="int"/>
+		<variable name="msg" type="octets" default="" attr="ref"/>
+		<variable name="hostname" type="octets" default="" attr="ref"/>
+		<variable name="servicename" type="octets" default="" attr="ref"/>
+	</protocol>
+
+	<protocol name="RemoteLogVital" maxsize="4096" prior="1" type="61">
+		<variable name="priority" type="int"/>
+		<variable name="msg" type="string" default="" attr="ref"/>
+		<variable name="hostname" type="string" default="" attr="ref"/>
+		<variable name="servicename" type="string" default="" attr="ref"/>
+	</protocol>
+
+	<protocol name="RemoteLog" maxsize="4096" prior="2" type="62">
+		<variable name="priority" type="int"/>
+		<variable name="msg" type="octets" default="" attr="ref"/>
+		<variable name="hostname" type="octets" default="" attr="ref"/>
+		<variable name="servicename" type="octets" default="" attr="ref"/>
+	</protocol>
+
+	<state name="LogNull" timeout="3600" attr="null">
+	</state>
+
+	<state name="LogNormal" timeout="3600">
+		<protocol ref="StatInfoVital"/>
+		<protocol ref="StatInfo"/>
+		<protocol ref="RemoteLogVital"/>
+		<protocol ref="RemoteLog"/>
+	</state>
+	
+	<state name="GsProvider">
+		<provider ref="gnet.link"/>
+		<provider ref="gsp"/>
+		<protocol ref="gnet.UserInfoRep"/>
+		<protocol ref="gnet.UserInfoReq"/>
+		<protocol ref="gnet.QueryOrderRequest"/>
+		<protocol ref="gnet.QueryOrderResponse"/>
+		<protocol ref="gnet.ServerIDResponse"/>
+	</state>
+	
+	<service name="gs">
+		<manager name="Provider" type="provider" bind="gsp" initstate="GsProvider" port="10001">			
+			<state ref="GsProvider"/>
+		</manager>
+		<manager name="LogClientTcpManager" type="client" initstate="LogNormal" reconnect="1"  port="11101">
+			<state ref="LogNull"/>
+			<state ref="LogNormal"/>
+		</manager>
+	</service>
+
+</application>	

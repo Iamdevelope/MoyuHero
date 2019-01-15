@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+ 
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>	
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{MMM dd HH:mm:ss,SSS} %5p %c{1}:%L %t- %m%n" />
+		</layout>
+	</appender>	
+	
+	 <appender name="rollfile" class="org.apache.log4j.RollingFileAppender">
+  	<param name="file" value="gbeans.log"/>
+  	<layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %C %L %p: %m\n"/>
+    </layout>
+  </appender>
+	<root>
+		<priority value ="debug" />			
+		<appender-ref ref="CONSOLE" />
+	</root>
+</log4j:configuration>
+

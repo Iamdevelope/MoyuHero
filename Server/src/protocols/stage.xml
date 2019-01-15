@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="stage">
+	<protocol  name="BeanImport" type="1501" maxsize="32" prior="1">
+	</protocol>
+	
+	<bean name="StageInfo">
+		<variable name="id" type="int" validator="value=[1,)"/>
+		<variable name="starsum" type="byte"/> 暂时是总数，无用
+		<variable name="stagebattles" type="list" value="StageBattle"/>
+		<variable name="rewardgot" type="int"/> 个位表示第一个宝箱，十位为第二个宝箱，以此类推，1已领取，0未领取
+	</bean>
+	
+	<protocol  name="SSendStages" type="1502" maxsize="65535" prior="1"> 所有已经激活的副本
+		<variable name="stages" type="list" value="StageInfo" />
+	</protocol>
+
+	<protocol  name="SRefreshStage" type="1503" maxsize="32" prior="1"> 刷新一个副本的完成星数，如果没有则为新激活的
+		<variable name="id" type="int"/>
+		<variable name="starsum" type="byte"/>
+		<variable name="rewardgot" type="byte"/>111，个位表示难度1，十位为难度2，百位为难度3，1已领取，0未领取
+	</protocol>
+	
+	<protocol  name="CEnterStage" type="1504" maxsize="32" prior="1" waiting="1505"> 进入一个副本，当没有副本内数据时发送
+		<variable name="stageid" type="byte"/>
+	</protocol>
+	
+	<bean name="StageBattle">
+		<variable name="id" type="int" validator="value=[1,)"/>
+		<variable name="maxstar" type="byte"/> 0-3
+		<variable name="fightnum" type="short"/> 已战次数
+		<variable name="buybattlenum" type="int"/> 已购买次数
+		<variable name="resetnum" type="int"/> 已重置次数
+		<variable name="sweepnum" type="int"/> 已扫荡次数
+	</bean>
+	
+	<protocol  name="SEnterStage" type="1505" maxsize="65535" prior="1"> 副本的关卡信息
+		<variable name="stageid" type="byte"/>
+		<variable name="stagebattles" type="list" value="StageBattle"/> 关卡
+	</protocol>
+
+	<protocol  name="CFightStageBattle" type="1506" maxsize="1024" prior="1" waiting="0"> 闯关
+		<variable name="battleid" type="int"/> 关卡ID
+		<variable name="troopid" type="short"/> 战队ID
+	</protocol>
+		
+	<protocol  name="SRefreshStageBattle" type="1507" maxsize="65535" prior="1"> 刷新一个关卡的信息
+		<variable name="stageid" type="int"/> 章节id
+		<variable name="stagebattle" type="StageBattle"/>	
+	</protocol>
+	
+	<protocol  name="CGetStageReward" type="1508" maxsize="32" prior="1" waiting="0"> 领奖励
+		<variable name="stageid" type="byte"/>		章节id
+		<variable name="boxnum" type="byte"/> 第几个宝箱，从0开始
+	</protocol>
+	
+	<bean name="BattleInfo">
+		<variable name="battleid" type="int"/>关卡id
+		<variable name="useherokeyList" type="map" key="int" value="int"/> 使用英雄id和位置（key为位置，value为herokey）
+		<variable name="monstergroup" type="list" value="int"/>	怪物组
+		<variable name="heroexp" type="int" />				英雄经验
+		<variable name="teamexp" type="int" />				玩家经验
+		<variable name="tili" type="int" />						消耗体力
+		<variable name="trooptype" type="int" />				战队类型
+		<variable name="indropList" type="list" value="int"/>	掉落小包组	
+
+	</bean>
+	
+	<protocol  name="SFightStageBattle" type="1509" maxsize="65535" prior="1"> 
+		<variable name="battleinfo" type="BattleInfo"/> 
+	</protocol>
+	
+	<!-- 通关返回C by yanglk -->
+	<protocol  name="CEndFightStageBattle" type="1510" maxsize="64" prior="1"> 
+		<variable name="pass" type="int"/> 0未通过，1通过1，2通过2，3全通
+	</protocol>
+	
+	<bean name="mohe">
+		<variable name="id" type="int"/>		id
+		<variable name="isopen" type="int"/>	是否开启（1开启，0未开启）
+		<variable name="place" type="int"/>		排序（0为随机排序，123为正常排序）
+	</bean>
+	
+	<!-- 神秘商店信息 by yanglk -->
+	<bean name="smshopdata">
+		<variable name="id" type="int"/>		id
+		<variable name="isopen" type="int"/>	是否购买（1购买，0未购买）
+		<variable name="price" type="int"/>		价格
+	</bean>
+	
+	<!-- 通关返回S by yanglk -->
+	<protocol  name="SEndFightStageBattle" type="1511" maxsize="65535" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		
+		<variable name="endtype" type="int"/>
+		<variable name="smid" type="int"/>		神秘关卡或神秘商店ID
+		<variable name="time" type="int"/>		倒计时时间（秒）
+		<variable name="zhangjie" type="int"/>		所属章节
+		<variable name="moheshop" type="map" key="int" value="mohe"/> 魔盒列表
+		<variable name="smshop" type="map" key="int" value="smshopdata"/> 神秘商店随机出的物品（key为随机商店物品id，value为smshopdata）
+	</protocol>
+	
+	<!-- 扫荡开始 by yanglk -->
+	<protocol  name="CSweepBattle" type="1512" maxsize="64" prior="1"> 
+		<variable name="battleid" type="int"/> 关卡ID
+		<variable name="troopid" type="int"/> 战队ID
+		<variable name="num" type="byte"/> 扫荡次数，1为1次，其他为10次
+	</protocol>
+	<!-- 扫荡返回S by yanglk -->
+	<protocol  name="SSweepBattle" type="1513" maxsize="65535" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		
+		<variable name="endtype" type="int"/>
+		
+		<variable name="smid" type="int"/>		神秘关卡或神秘商店ID
+		<variable name="time" type="int"/>		倒计时时间（秒）
+		<variable name="zhangjie" type="int"/>		所属章节
+		<variable name="moheshop" type="map" key="int" value="mohe"/> 魔盒列表
+		<variable name="smshop" type="map" key="int" value="smshopdata"/> 神秘商店随机出的物品（key为随机商店物品id，value为smshopdata）
+		<variable name="battleinfolist" type="list" value="BattleInfo"/> 扫荡结果列表
+	</protocol>
+	
+	<!-- 开魔盒 by yanglk -->
+	<protocol  name="COpenMohe" type="1514" maxsize="64" prior="1"> 
+		<variable name="place" type="int"/> 魔盒位置1~3
+	</protocol>
+	<!-- 开魔盒返回 by yanglk -->
+	<protocol  name="SOpenMohe" type="1515" maxsize="65535" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 	
+		<variable name="endtype" type="int"/>
+		<variable name="moheid" type="int"/> 成功开启的魔盒ID
+		<variable name="moheshop" type="map" key="int" value="mohe"/> 魔盒列表
+	</protocol>
+	
+	<!-- 购买关卡或扫荡 by yanglk -->
+	<protocol  name="CBuyStateBattleNum" type="1516" maxsize="128" prior="1"> 
+		<variable name="buytype" type="int"/>  购买类型：1为扫荡，2为关卡（需要关卡id）
+		<variable name="battleid" type="int"/> 关卡ID
+	</protocol>
+	<!-- 购买关卡或扫荡返回 by yanglk -->
+	<protocol  name="SBuyStateBattleNum" type="1517" maxsize="128" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 	
+		<variable name="endtype" type="int"/>
+		<variable name="buytype" type="int"/>  购买类型：1为扫荡，2为关卡（需要关卡id）
+	</protocol>
+	
+	<!-- 购买神秘商店物品 by yanglk -->
+	<protocol  name="CBuySmShop" type="1518" maxsize="64" prior="1"> 
+		<variable name="smshopid" type="int"/> 神秘商店id
+	</protocol>
+	<!-- 购买神秘商店物品返回 by yanglk -->
+	<protocol  name="SBuySmShop" type="1519" maxsize="65535" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 	
+		<variable name="endtype" type="int"/>
+		<variable name="smshopid" type="int"/> 成功购买的神秘商店ID
+		<variable name="smshop" type="map" key="int" value="smshopdata"/> 神秘商店随机出的物品（key为随机商店物品id，value为smshopdata）
+	</protocol>
+	
+	<protocol  name="SGetStageReward" type="1520" maxsize="65535" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 	
+		<variable name="endtype" type="int"/>
+		<variable name="buytype" type="list" value="int"/>  掉落小包组
+		<variable name="boxnum" type="byte"/> 第几个宝箱，从0开始
+	</protocol>
+	
+	<protocol  name="CResetStage" type="1521" maxsize="1024" prior="1" waiting="0"> 重置关卡次数
+		<variable name="battleid" type="int"/> 关卡ID
+	</protocol>
+	<protocol  name="SResetStage" type="1522" maxsize="1026" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 	
+		<variable name="endtype" type="int"/>
+	</protocol>
+	
+	
+</namespace>

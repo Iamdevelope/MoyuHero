@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="hero">
+	<protocol  name="BeanImport" type="1301" maxsize="32" prior="1"> 
+	</protocol>
+	
+	<!--刷新整个阵容-->
+	<protocol  name="SRefreshTroops" type="1302" maxsize="65536" prior="1"> 
+		<variable name="troops" type="list" value="chuhan.gsp.Troop"/>
+	</protocol>
+	
+	<!--刷新英雄属性，新加英雄也走这条协议-->
+	<protocol  name="SRefreshHero" type="1303" maxsize="65536" prior="1"> 
+		<variable name="heroinfo" type="chuhan.gsp.Hero"/>
+	</protocol>
+	
+	<!--删除英雄-->
+	<protocol  name="SRemoveHero" type="1304" maxsize="65536" prior="1"> 
+		<variable name="herokey" type="list" value="int"/>
+	</protocol>
+	
+	<!--英雄出阵-->
+	<protocol  name="CAddTroop" type="1305" maxsize="65536" prior="1"> 
+		<variable name="trooptype" type="int"/> 阵型类型
+		<variable name="herokey" type="int"/>	
+		<variable name="troopid" type="int"/>
+		<variable name="locationid" type="int"/>
+	</protocol>
+	
+	<!--更换英雄-->
+	<protocol  name="CSwitchHero" type="1306" maxsize="65536" prior="1"> 
+		<variable name="trooppos" type="byte"/> 从1开始
+		<variable name="herokey" type="int"/> 英雄栏里的key，不能是已出阵的英雄
+	</protocol>
+	
+	<!--清空战队-->
+	<protocol  name="CSetTroopList" type="1307" maxsize="65536" prior="1"> 
+		<variable name="troopid" type="int"/> 
+	</protocol>
+	
+	<!--换装备-->
+	<protocol name="CSwitchEquip" type="1308" maxsize="65536" prior="1"> 
+		<variable name="trooppos" type="byte"/> 从1开始
+		<variable name="itemkey" type="int"/> 在包裹中的key
+	</protocol>
+	
+	<!--换技能-->
+	<protocol name="CSwitchSkill" type="1309" maxsize="65536" prior="1"> 
+		<variable name="trooppos" type="byte"/> 从1开始
+        <variable name="skillpos" type="byte"/> 从1开始
+		<variable name="itemkey" type="int"/> 在包裹中的key
+	</protocol>
+	
+	<!--祭天-->
+	<protocol name="CConsumeHero" type="1310" maxsize="65536" prior="1">
+		<variable name="heroorsoul" type="byte"/> 1:hero,0:soul
+		<variable name="herokeys" type="list" value="int"/> 在包裹中的key
+	</protocol>
+	
+	<!--祭天结果-->
+	<protocol name="SConsumeHero" type="1311" maxsize="65536" prior="1"> 
+		<variable name="addsoul" type="int"/>
+	</protocol>
+
+		<!--传功-->
+	<protocol name="CPassHero" type="1312" maxsize="536" prior="1"> 
+		<variable name="herokey" type="int"/> 在包裹中的key
+		<variable name="costherokey" type="int"/> 消耗的武将
+	</protocol>
+	
+	<!--传功完成-->
+	<protocol name="SPassHero" type="1313" maxsize="536" prior="1"> 
+	</protocol>
+	
+	<!--进化-->
+	<protocol name="CStarUpHero" type="1314" maxsize="536" prior="1" waiting="0"> 
+		<variable name="herokey" type="int"/> 在包裹中的key
+	</protocol>
+	
+	<!--进化成功-->
+	<protocol name="SStarUpHero" type="1315" maxsize="536" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+	</protocol>
+	
+	<!--请求修炼-->
+	<protocol name="CRequestXiulian" type="1316" maxsize="536" prior="1" waiting="0"> 
+		<variable name="herokey" type="int"/> 在包裹中的key
+		<variable name="costtype" type="byte"/> 1：普通，2：元宝
+	</protocol>
+	
+	<!--返回修炼结果-->
+	<protocol name="SReplyXiulianResult" type="1317" maxsize="536" prior="1"> 
+		<variable name="hp" type="byte"/>
+		<variable name="attack" type="byte"/>
+		<variable name="defend" type="byte"/>
+		<variable name="wisdom" type="byte"/>
+	</protocol>
+	
+	<!--保存修炼结果-->
+	<protocol name="CSaveXiulian" type="1318" maxsize="32" prior="1"> 
+	</protocol>
+	
+	<!--点将-->
+	<protocol name="CSelectHero" type="1319" maxsize="32" prior="1" waiting="0">
+		<variable name="selecttype" type="byte" /> 1-3
+	</protocol>
+	
+	<!--点将结果-->
+	<protocol name="SSelectHero" type="1320" maxsize="32" prior="1">
+		<variable name="herokey" type="int" /> 选到的武将
+		<variable name="nextFreeTime" type="long" /> 下次免费时间
+		<variable name="todaytimes" type="byte" />  为-1表示刷新金牌的时间，为-2刷新银牌时间，为[0,5]则刷新铜牌时间和已免费领取次数
+	</protocol>
+	
+	<!--上线发送免费点将时间-->
+	<protocol name="SSendFreeSelectTime" type="1321" maxsize="64" prior="1">
+		<variable name="goldSelectTime" type="long" />
+		<variable name="silverSelectTime" type="long" />
+		<variable name="bronzeSelectTime" type="long" />
+		<variable name="todaytimes" type="byte" /> 铜牌今天已免费领取次数
+	</protocol>
+	
+	<!--招募-->
+	<protocol name="CSummonHero" type="1322" maxsize="64" prior="1">
+		<variable name="soulItemKey" type="int" />
+	</protocol>
+	
+	<!--招募结果-->
+	<protocol name="SSummonHero" type="1323" maxsize="64" prior="1">
+		<variable name="herokey" type="int" />
+	</protocol>
+	
+	<!--缠绵状态-->
+	<protocol name="SSendBeautyStatus" type="1324" maxsize="64" prior="1">
+		<variable name="lastsleeptime" type="long" /> 上次睡觉时间
+		<variable name="sleeptimes" type="byte" /> 今天缠绵次数，注意过零点时清零
+	</protocol>
+	<!--进入美人阁 客户端请求-->
+	<protocol name="CEnterBeautyHouse" type="1325" maxsize="64" prior="1" waiting="1326">
+	</protocol>
+	<!--美人状态-->
+	<bean name="BeautyState">
+		<variable name="beautyid" type="byte" />
+		<variable name="alreadytimes" type="byte" />
+		<variable name="maxtimes" type="byte" />
+	</bean>
+	<!--进入美人阁 服务器发送-->
+	<protocol name="SEnterBeautyHouse" type="1326" maxsize="64" prior="1">
+		<variable name="beauties" type="vector" value="BeautyState" />
+	</protocol>
+	
+	<!--请求缠绵-->
+	<protocol name="CSleepWithBeauty" type="1327" maxsize="64" prior="1" wating="0">
+		<variable name="beautyid" type="byte"/>
+	</protocol>
+	
+	<!--缠绵结果-->
+	<protocol name="SSleepWithBeauty" type="1328" maxsize="1024" prior="1">
+		<variable name="beautyid" type="byte"/>
+		<variable name="beautyprocess" type="map" key="byte" value="byte"/>
+		<variable name="item" type="chuhan.gsp.item.ShowItemData" />
+	</protocol>	
+
+	<!--获取获得过的武将(图鉴)-->
+	<protocol name="CTuJianHeros" type="1329" maxsize="64" prior="1" waiting="1330">
+	</protocol>
+
+	<!--获得过的英雄（图鉴） by yanglk-->
+	<protocol name="STuJianHeros" type="1330" maxsize="65535" prior="1">
+		<enum name="IS_NEW" value="1"/>  新增		     
+		<enum name="NOT_NEW" value="0"/>    主动获取 
+		<variable name="heroTujian" type="list" value="chuhan.gsp.HeroTuJian"/>
+		<variable name="isNew" type="int" /> 是否新增，0为否（上线、主动获取），1为有新增
+		<variable name="tujianbox" type="list" value="int"/>
+		<variable name="tjheromaxlevel" type="list" value="int"/> 满级图鉴列表
+	</protocol>
+	<!--图鉴宝箱-->
+	<protocol name="CTuJianBox" type="1331" maxsize="64" prior="1" waiting="1330">
+		<variable name="boxId" type="int" /> 宝箱ID
+	</protocol>
+	<!--图鉴宝箱返回-->
+	<protocol name="STuJianBox" type="1332" maxsize="128" prior="1" waiting="1330">
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+		<variable name="boxId" type="int" /> 宝箱ID
+	</protocol>
+
+	<bean name="BeautySkinInfo">
+		<variable name="beautyId" type="byte"/>
+		<variable name="currentSkinId" type="int"/>
+		<variable name="haveSkins" type="list" value="int"/>
+	</bean>
+
+	<protocol name="SSkinInfo" type="1333" maxsize="1024" prior="1">
+		<variable name="info" type="BeautySkinInfo"/>
+	</protocol>
+
+	<protocol name="SSkinInfos" type="1334" maxsize="1024" prior="1">
+		<variable name="infos" type="map" key="int" value="BeautySkinInfo"/>
+	</protocol>
+
+	<!-- 分享 -->
+	<protocol name="CShareSkin" type="1335" maxsize="64" prior="1">
+		<variable name="skinId" type="int"/>
+	</protocol>
+	
+	<!-- 英雄退出所有战队 -->
+	<protocol name="CHeroOutAllTroop" type="1336" maxsize="64" prior="1">
+		<variable name="herokey" type="int"/>
+	</protocol>
+	
+	<!-- 换肤 -->
+	<protocol  name="CChangeSkin" type="1337" maxsize="64" prior="1"> 
+		<variable name="herokey" type="int"/>
+		<variable name="skinId" type="int"/>
+	</protocol>
+	
+	<!-- 换肤结果返回 -->
+	<protocol  name="SChangeSkin" type="1338" maxsize="64" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+	</protocol>
+	
+	<!-- 新增皮肤 -->
+	<protocol  name="SAddSkin" type="1339" maxsize="64" prior="1"> 
+		<variable name="skinId" type="int"/>
+	</protocol>
+	
+	<!-- 神器注入英雄 -->
+	<protocol  name="CArtifactAddHero" type="1340" maxsize="64" prior="1"> 
+		<variable name="artifacttype" type="int"/>		神器类型（key）
+		<variable name="herokeyList" type="list" value="int"/>
+	</protocol>
+	
+	<!-- 神器注入英雄结果返回 -->
+	<protocol  name="SArtifactAddHero" type="1341" maxsize="64" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+	</protocol>
+	
+	<!--刷新神器属性-->
+	<protocol  name="SRefreshArtifact" type="1342" maxsize="65536" prior="1"> 
+		<variable name="artifactinfo" type="chuhan.gsp.Artifact"/>
+	</protocol>
+	
+	<!-- 分解英雄 -->
+	<protocol  name="CSplitHero" type="1343" maxsize="64" prior="1"> 
+		<variable name="herokeyList" type="list" value="int"/>
+	</protocol>
+	
+	<!-- 分解英雄结果返回 -->
+	<protocol  name="SSplitHero" type="1344" maxsize="64" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+	</protocol>
+	
+	<!-- 出售英雄 -->
+	<protocol  name="CSellHero" type="1345" maxsize="64" prior="1"> 
+		<variable name="key" type="int"/>
+	</protocol>
+	
+	<!-- 出售英雄结果返回 -->
+	<protocol  name="SSellHero" type="1346" maxsize="64" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+    <variable name="result" type="int"/>
+	</protocol>
+	
+	<!-- 培养英雄 -->
+	<protocol  name="CPeiyangHero" type="1347" maxsize="128" prior="1"> 培养英雄
+		<variable name="herokey" type="int"/>	英雄key
+		<variable name="slotnum" type="byte"/>	培养位置
+		<variable name="isreset" type="byte"/>	是否重置（0为非重置，1为重置）
+	</protocol>
+	
+	<!-- 培养英雄返回 -->
+	<protocol  name="SPeiyangHero" type="1348" maxsize="64" prior="1"> 培养英雄返回
+		<enum name="END_OK" value="1"/>  成功		  
+		<enum name="END_NOT_OK" value="2"/>  失败
+		<variable name="result" type="int"/>		结果
+		<variable name="slotnum" type="byte"/>	培养位置
+		<variable name="isreset" type="byte"/>	是否重置（0为非重置，1为重置）
+	</protocol>
+	
+	<!-- 技能升级 -->
+	<protocol  name="CHeroSkillup" type="1349" maxsize="128" prior="1"> 技能升级
+		<variable name="herokey" type="int"/>	英雄key
+		<variable name="skillnum" type="byte"/>	技能位置
+	</protocol>
+	
+	<!-- 技能升级返回 -->
+	<protocol  name="SHeroSkillup" type="1350" maxsize="64" prior="1"> 技能升级返回
+		<enum name="END_OK" value="1"/>  成功		  
+		<enum name="END_NOT_OK" value="2"/>  失败
+		<variable name="result" type="int"/>		结果
+		<variable name="skillnum" type="byte"/>	技能位置
+	</protocol>
+	
+	<!-- 英雄快速升级 -->
+	<protocol  name="CHeroLevelUpSpeed" type="1351" maxsize="128" prior="1"> 英雄快速升级
+		<variable name="herokey" type="int"/>	英雄key
+		<variable name="levelnum" type="byte"/>	升级数（根据策划案为1级和5级）填写0即为使用物品
+		<variable name="itemid" type="int"/>	物品配表ID
+		<variable name="itemnum" type="int"/>	物品使用数量
+	</protocol>
+	
+	<!-- 英雄快速升级返回 -->
+	<protocol  name="SHeroLevelUpSpeed" type="1352" maxsize="64" prior="1"> 英雄快速升级返回
+		<enum name="END_OK" value="1"/>  成功		  
+		<enum name="END_NOT_OK" value="2"/>  失败
+		<variable name="result" type="int"/>		结果
+	</protocol>	
+	
+	<!--神器升级通知-->
+	<protocol  name="SArtifactLevelUp" type="1353" maxsize="128" prior="1"> 
+		<variable name="artifactType" type="int"/>  神器类型（key）
+		<variable name="artifactId" type="int"/>  神器ID
+	</protocol>
+	
+	<!--英雄进阶-->
+	<protocol  name="CHeroJinjie" type="1354" maxsize="128" prior="1"> 
+		<variable name="herokey" type="int"/>  英雄key
+	</protocol>
+	
+	<!--英雄进阶-->
+	<protocol  name="SHeroJinjie" type="1355" maxsize="128" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		  
+		<enum name="END_NOT_OK" value="2"/>  失败
+		<variable name="result" type="int"/>		结果
+	</protocol>
+	
+	<!--英雄秘术增加经验-->
+	<protocol  name="CHeroMSExp" type="1356" maxsize="128" prior="1"> 
+		<variable name="herokey" type="int"/>  英雄key
+		<variable name="mslocation" type="int"/>  秘术位置 从1开始
+		<variable name="itemidList" type="list" value="int"/>  物品配表ID
+		<variable name="itemnumList" type="list" value="int"/>  物品数量
+	</protocol>
+	
+	<!--英雄秘术增加经验-->
+	<protocol  name="SHeroMSExp" type="1357" maxsize="128" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		  
+		<enum name="END_NOT_OK" value="2"/>  失败
+		<variable name="result" type="int"/>		结果
+	</protocol>
+	
+	<!--英雄装备强化和升级-->
+	<protocol  name="CHeroEquipUp" type="1358" maxsize="128" prior="1"> 
+		<variable name="herokey" type="int"/>  英雄key
+		<variable name="equiplocation" type="int"/>  装备位置 从1开始
+		<variable name="islevelup" type="int"/>  是否是升级，0为否（强化），1为升级
+		<variable name="isstrength" type="int"/>  是否一键强化，0为否，1为是
+	</protocol>
+	
+	<!--英雄装备强化和升级-->
+	<protocol  name="SHeroEquipUp" type="1359" maxsize="128" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		  
+		<enum name="END_NOT_OK" value="2"/>  失败
+		<variable name="result" type="int"/>		结果
+		<variable name="islevelup" type="int"/>  是否是升级，0为否（强化），1为升级
+		<variable name="isstrength" type="int"/>  是否一键强化，0为否，1为是
+	</protocol>
+	
+	<!--英雄合成-->
+	<protocol  name="CHeroCompose" type="1360" maxsize="128" prior="1"> 
+		<variable name="heroid" type="int"/>  英雄配表ID
+	</protocol>
+	
+	<!--英雄合成-->
+	<protocol  name="SHeroCompose" type="1361" maxsize="128" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		  
+		<enum name="END_NOT_OK" value="2"/>  失败
+		<variable name="result" type="int"/>		结果
+	</protocol>
+	
+	
+
+	
+</namespace>

@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C1C8B32C-5979-5D84-D87B-8CF140D7D273}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace></RootNamespace>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_6_2;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_4_6_2;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="LogManager">
+      <HintPath>Assets\Plugins\LogManager.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Program\Scripts\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Program\Scripts\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Program\Scripts\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Art\Characters\Common\Effects\Scripts\DesEff.cs" />
+    <Compile Include="Assets\Art\Characters\Common\Effects\Scripts\FrameAnimation.cs" />
+    <Compile Include="Assets\Art\Characters\Common\Effects\Scripts\HermiteTrail.cs" />
+    <Compile Include="Assets\Art\Characters\Common\Effects\Scripts\OrbitCamera.cs" />
+    <Compile Include="Assets\Art\Characters\Common\Effects\Scripts\SinScale.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\CSVHelper.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\DataTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\IBean.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\IExcelBean.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\TableReader.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\AnimEventTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\ArtresourceTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\BuffGroupTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\BuffTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\ChsTextTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\GameConfig.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\HeroExpTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\HeroFuryTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\HeroTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\LevelamendmentTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\MonsterGroupTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\MonsterTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\PlayerExpTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\RandomnumberTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\SkillTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\SkillaiTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\SkillupcostTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\DataTemplate\Template\StageTemplate.cs" />
+    <Compile Include="Assets\Program\Scripts\Enumerations\Enumerations.cs" />
+    <Compile Include="Assets\Program\Scripts\EventSystem\EventPackage.cs" />
+    <Compile Include="Assets\Program\Scripts\EventSystem\GameEvent.cs" />
+    <Compile Include="Assets\Program\Scripts\EventSystem\GameEventDispatcher.cs" />
+    <Compile Include="Assets\Program\Scripts\EventSystem\GameEventID.cs" />
+    <Compile Include="Assets\Program\Scripts\EventSystem\IDispatcher.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Common\Artifact.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Common\ArtifactDB.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Common\BattleAnger.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\AnimationControl.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\AnimationEventControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\AssetLoader.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\AudioControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\BaseControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\CamAnimContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\CameraContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\FightControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\FightEditorContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\GameTimeControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\HeroPathtContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\HomeControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\IOControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\LoadingControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\LoginControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\MainGameControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Controlers\NetWorkControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Manager\AppManager.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Manager\AssetManager.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Manager\ConfigsManager.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Manager\EffectManager.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Manager\SceneManager.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Manager\SceneObjectManager.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Manager\UserInfoManager.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\AILogicHero.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\AILogicMonster.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\HeroContainer.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\ObjectCharacter.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\ObjectCreature.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\ObjectHero.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\ObjectMonster.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\Object\ObjectSelf.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SNS\Relation\Relation.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SNS\Team\Team.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\ActionDelegator.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\ActionLogic.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\ChargeActionLogic.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\EffectLink.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\EffectProperty.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\EffectSpell.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\EffectStatic.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\Impact.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\ImpactLogic.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\MultiSectionActionLogic.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\Spell.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\SpellAILogic.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\SpellEventQueue.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\SpellInfo.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\SkillCore\SpellLogic.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\Core\BaseUI.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\Core\BaseUIControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\Core\UI_FightControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\Core\UI_HomeControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\Core\UI_LodingControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\Core\UI_LoginControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UIResourceMgr.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_AutoPanel.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_BattleendPanel.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_Blood.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_BloodPanel.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_BuffAllControl.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_BuffIcon.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_BuffMgr.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_FightNumber.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_MenuPanel.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_PausePanel.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_SPControl.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_ShowPanel.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_SkillIcon.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_SkillPanel.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Fight_bak\UI_TouchControler.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Bag.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Chat.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Email.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Form.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Friend.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_HeroInfo.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_MainHome.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_SelectFightArea.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Set.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Shop.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Task.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_Uni.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Home\UI_ZouMaDeng.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Login\UI_Connection.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Login\UI_LoginWin.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Login\UI_RegistUser.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Login\UI_SelectLoginServer.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Login\UI_ServerList.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_Login\UI_ServerListItem.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_MsgBox\UI_MsgBox0.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_MsgBox\UI_MsgBox1.cs" />
+    <Compile Include="Assets\Program\Scripts\GameCore\UI\UI_loading\UI_Loading.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\CThreadHandler.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\Connection.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\ConnectionMgr.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\NetSession.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\SelectPoll.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\xio\Marshal.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\xio\MarshalException.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\xio\Octets.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\xio\OctetsStream.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\xio\Protocol.cs" />
+    <Compile Include="Assets\Program\Scripts\IO\xio\Stream.cs" />
+    <Compile Include="Assets\Program\Scripts\Item\Item.cs" />
+    <Compile Include="Assets\Program\Scripts\Item\ItemContainer.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\Dispatch.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\KeepAlive.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\ProtocolList.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\Send.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\auany\Challenge.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\auany\ErrorInfo.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\auany\SendAuany.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\battle\CBeginBattle.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\battle\CEndBattle.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\battle\SBeginBattle.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\battle\SEndBattle.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\beans\Equip.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\beans\Hero.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\beans\RoleDetail.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\beans\RoleInfo.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\beans\Troop.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\beans\battle\BattelInfo.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\beans\hero\HeroTuJian.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\CCreateRole.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\CEnterWorld.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\CRoleList.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\SCreateRole.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\SEnterWorld.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\SErrorType.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\SRefreshStage.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\SRefreshStageBattle.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\SRoleList.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\gsp\SSendMsgNotify.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\hero\SRefreshTroops.cs" />
+    <Compile Include="Assets\Program\Scripts\Msg\hero\STuJianHeros.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Base\ExcutePacketList.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Base\InputStream.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Base\OutputStream.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Base\ServerErrorCode.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Base\SocketConnecter.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Base\SocketStream.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\CampaignMonsterGroupData.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\DropBoxData.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\FightData.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\HeroData.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\ItemData.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\RelationData.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\SpellData.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Common\X_GUID.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\NetThread.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMArtifactRequestPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMAskHeroListPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMAskItemListPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMAskSceneListPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMCombatCheckPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMEnterCampaignPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMEnterGamePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMEquipItemPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMHeartBeatPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMLoginPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMOpenContainerCellPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMPartnerRequestPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMRandNamePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMRelationRequestPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMRuneRequestPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMSelectRolePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMTeamRequestPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\CMTestPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCArtifactInfoPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCCampaignAwardPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCDetailCampaignPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCEquipPosChangePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCGameResultPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCHeroDeletePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCHeroDetailAttributePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCHumanDetailAttributePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCItemDeletePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCItemInfoPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCLoginRetPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCNewHeroListPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCNewItemListPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCNotifySelectRolePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCOpenContainerCellRetPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCRandNamePacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCRetAddApplyPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCRetAddFriendPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCRetDelApplyPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCRetDelFriendPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCRetRelationPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCScenesListRetPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCSetTeamObjectRetPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCTeamInfoPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\MCTestPacket.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\Packet.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\PacketDefine.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\PacketFactory.cs" />
+    <Compile Include="Assets\Program\Scripts\Network\Packet\PacketFactoryManager.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\Flag.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\InfiniteScroll\Common\UIItem.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\InfiniteScroll\IInfiniteScrollSetup.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\InfiniteScroll\Infinite\ItemControllerInfinite.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\InfiniteScroll\InfiniteScroll.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\InfiniteScroll\Limited\ItemControllerLimited.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\InfiniteScroll\Loop\ItemControllerLoop.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPath.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathAnimator.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathControlPoint.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathDelay.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathDelayList.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathEvent.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathEventList.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathFOV.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathFOVList.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathOrientation.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathOrientationList.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathPoint.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathPointList.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathSpeed.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathSpeedList.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathTilt.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\CameraPathTiltList.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\Enum\CameraPathColours.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\Util\CPMath.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Scripts\Util\XMLVariableConverter.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\AnimationEditorContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\CamTriggerEvent.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\CameraData.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\DisThis.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\EditorEnum.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\EditorTemp\FightTempContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\EditorTemp\HeroGroupContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\EditorTemp\MonsterGroupContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\EditorTemp\StoryAnimTempContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\ForllowPoint.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\Formation.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\FormationData.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\HeroPathData.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\MonsterGroup.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\MonsterGroupDataManager.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\MonsterPoint.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\PathEvent.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\ScriptableObject\AnimationDataObj.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\ScriptableObject\CameraDataObj.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\ScriptableObject\HeroPathDataObj.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\ScriptableObject\MonsterGroupDataObj.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\ScriptableObject\StoryAnimDataObj.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\StoryAnim.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\StoryAnimDate.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\FightSenceBJQ\StoryAnimEditorContrler.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\XMLHelper.cs" />
+    <None Include="Assets\Art\Characters\Common\Effects\Materials\Add_Layer.shader" />
+    <None Include="Assets\Art\Characters\Common\Effects\Materials\Equake01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Effects\Materials\Add_Layer.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Effects\Materials\Equake01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\Add_Layer.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\Characters.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\Equake01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\Toon.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\ToonBuff.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Add_Layer.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Characters.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Equake01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Toon.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\ToonBuff.shader" />
+    <None Include="Assets\Art\Characters\Fenrisulfr\Effects\Materials\MagicSpace01.shader" />
+    <None Include="Assets\Art\Characters\Fenrisulfr\Effects\Materials\PurpleFireAfter01.shader" />
+    <None Include="Assets\Art\Environments\Battle02\Models\Materials\Battle02_Lava01.shader" />
+    <None Include="Assets\Art\Environments\Battle03\Models\Materials\Reflectivealpha.shader" />
+    <None Include="Assets\Art\UI\UI_Fight\Materials\SP.shader" />
+    <None Include="Assets\Art\UI\UI_Fight\Materials\SP_Flare.shader" />
+    <None Include="Assets\Program\Editor\AssetBundle\CreateBundle---ReadMe.txt" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween.XML" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween43.xml" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween46.xml" />
+    <None Include="Assets\Program\Scripts\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Program\Scripts\DOTween\readme.txt" />
+    <None Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\3.1x Upgrade readme.txt" />
+    <None Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\HerosPath.xml" />
+    <None Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\readme.txt" />
+    <None Include="Assets\StreamingAssets\AssetBundle\Android\VersionMD5.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\IOS\VersionMD5.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\IOS\VersionMD5-old.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\PC\VersionMD5.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\PC\VersionMD5-old.xml" />
+    <None Include="Assets\StreamingAssets\CSV\01_hero.txt" />
+    <None Include="Assets\StreamingAssets\CSV\02_heroexp.txt" />
+    <None Include="Assets\StreamingAssets\CSV\03_player.txt" />
+    <None Include="Assets\StreamingAssets\CSV\05_chstext.txt" />
+    <None Include="Assets\StreamingAssets\CSV\06_skill.txt" />
+    <None Include="Assets\StreamingAssets\CSV\07_buff.txt" />
+    <None Include="Assets\StreamingAssets\CSV\08_buffgroup.txt" />
+    <None Include="Assets\StreamingAssets\CSV\09_randomnumber.txt" />
+    <None Include="Assets\StreamingAssets\CSV\10_config.txt" />
+    <None Include="Assets\StreamingAssets\CSV\11_stage.txt" />
+    <None Include="Assets\StreamingAssets\CSV\12_monstergroup.txt" />
+    <None Include="Assets\StreamingAssets\CSV\13_monster.txt" />
+    <None Include="Assets\StreamingAssets\CSV\15_normaldrop.txt" />
+    <None Include="Assets\StreamingAssets\CSV\16_innerdrop.txt" />
+    <None Include="Assets\StreamingAssets\CSV\17_skillupcost.txt" />
+    <None Include="Assets\StreamingAssets\CSV\18_skillai.txt" />
+    <None Include="Assets\StreamingAssets\CSV\19_herofury.txt" />
+    <None Include="Assets\StreamingAssets\CSV\20_interfacemodel.txt" />
+    <None Include="Assets\StreamingAssets\CSV\21_levelamendment.txt" />
+    <None Include="Assets\StreamingAssets\CSV\22_actionplayspeed.txt" />
+    <None Include="Assets\StreamingAssets\CSV\23_chapterinfo.txt" />
+    <None Include="Assets\StreamingAssets\CSV\25_bossbox.txt" />
+    <None Include="Assets\StreamingAssets\CSV\31_artresource.txt" />
+    <None Include="Assets\StreamingAssets\CSV\33_artifact.txt" />
+    <None Include="Assets\StreamingAssets\CSV\34_animationevent.txt" />
+    <None Include="Assets\StreamingAssets\Data\Config.xml" />
+    <None Include="Assets\StreamingAssets\Data\ServerList.xml" />
+    <None Include="Assets\StreamingAssets\ScenceEditor\PC\Battle01_00\Path\Battle01_00Path.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanel.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelBattleButton.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelBattleMenu.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelBattleSkill.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelBossBlood.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelConnect.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelConnectNet.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelControlButton.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelEnter.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelHeroAdvance.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelHeroBlood.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelHeroInfo.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelHeroModel.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelHeroRune.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelHerosList.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelHeroTop.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelLoading.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelLogin.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelMainBottom.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelMainSide.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelMessageAlert.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelMessageScroll.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelMonsterBlood.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelMonsterDamage.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelMoreInfo.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelNetWork.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelPlayerInfo.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelPlayerWealth.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelQuickGame.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelRegist.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelServerList.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelSetting.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelSlider.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelSuggest.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelTargetArrow.xml" />
+    <None Include="Assets\StreamingAssets\XmlLayout\UIPanelVersion.xml" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween.dll" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween43.dll" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween46.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
+</Project>

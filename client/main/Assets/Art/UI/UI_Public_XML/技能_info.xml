@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="gb2312"?>
+<UIScene xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Resolution type="skip" width="2208" height="1242" />
+	<Layer type="skip"/>
+	<Layer code="Increaseskills" type="rect" parent="Increaseskills"  index="1" visible="true" opacity="255" width="0" height="0" posx="-1104" posy="621" bounds1="0" bounds2="0" bounds3="0" bounds4="0" >
+		<Layer code="Btn_ Plussign" type="btn" res="img_YXQH_0020"  index="0" visible="true" opacity="255" width="96" height="96" posx="787" posy="-481" bounds1="1843" bounds2="1054" bounds3="1939" bounds4="1150" />
+		<Layer code="Text_Skillpoints" fonttext="30"  index="1" type="text" content="技能点：0（4:00后恢复1点）" colorr="255" colorg="255" colorb="255" font="FZY3JW--GB1-0" fontsize="2.3704400062561" visible="true" opacity="191" width="389" height="30" posx="479.5" posy="-478" bounds1="1389" bounds2="1084" bounds3="1778" bounds4="1114" />
+	</Layer>
+	<Layer type="skip"/>
+	<Layer code="Skillbutton" type="rect" parent="Skillbutton"  index="3" visible="true" opacity="255" width="0" height="0" posx="-1104" posy="621" bounds1="0" bounds2="0" bounds3="0" bounds4="0" >
+		<Layer type="skip"/>
+		<Layer code="SkillIcon" type="rect" parent="SkillIcon"  index="1" visible="true" opacity="255" width="0" height="0" posx="-1104" posy="621" bounds1="0" bounds2="0" bounds3="0" bounds4="0" >
+			<Layer code="image_StealthIcon" type="image" res="img_TY_0021"  index="0" visible="true" opacity="255" width="140" height="140" posx="355" posy="246" bounds1="1389" bounds2="305" bounds3="1529" bounds4="445" />
+			<Layer code="image_Passive" type="image" res="img_TY_0040"  index="1" visible="true" opacity="255" width="102" height="39" posx="372" posy="195.5" bounds1="1425" bounds2="406" bounds3="1527" bounds4="445" />
+			<Layer code="Image_Passive" type="image" res="img_YXQH_0011"  index="2" visible="true" opacity="255" width="61" height="33" posx="385.5" posy="195.5" bounds1="1459" bounds2="409" bounds3="1520" bounds4="442" />
+		</Layer>
+		<Layer type="skip"/>
+		<Layer code="Upgrade" type="rect" parent="Upgrade"  index="3" visible="true" opacity="255" width="0" height="0" posx="-1104" posy="621" bounds1="0" bounds2="0" bounds3="0" bounds4="0" >
+			<Layer type="skip"/>
+			<Layer code="Btn_Upgradebutton" type="btn" res="img_YXQH_0039" parent="Btn_Upgradebutton"  index="1" visible="false" opacity="255" width="137" height="71" posx="786.5" posy="242.5" bounds1="1822" bounds2="343" bounds3="1959" bounds4="414" >
+				<Layer code="Text_Upgrade" fonttext="26"  index="0" type="text" content="升  级" colorr="255" colorg="255" colorb="255" font="FZY4JW--GB1-0" fontsize="1.17272996902466" visible="true" opacity="255" width="72" height="25" posx="787" posy="257.5" bounds1="1855" bounds2="351" bounds3="1927" bounds4="376" />
+				<Layer code="Image_Gold" type="image" res="img_TY_0048"  index="1" visible="true" opacity="255" width="24" height="25" posx="750" posy="228.5" bounds1="1842" bounds2="380" bounds3="1866" bounds4="405" />
+				<Layer code="Text_Amountofmoney" fonttext="25"  index="2" type="text" content=" 10000" colorr="255" colorg="255" colorb="255" font="FZY3JW--GB1-0" fontsize="10.9215698242188" visible="true" opacity="255" width="72" height="20" posx="804" posy="229" bounds1="1872" bounds2="382" bounds3="1944" bounds4="402" />
+			</Layer>
+			<Layer code="Text_Numerical" fonttext="27"  index="2" type="text" content="Lv.10/60" colorr="255" colorg="255" colorb="255" font="FZY3JW--GB1-0" fontsize="2.29987001419067" visible="true" opacity="255" width="100" height="19" posx="491" posy="186.5" bounds1="1545" bounds2="425" bounds3="1645" bounds4="444" />
+		</Layer>
+		<Layer type="skip"/>
+		<Layer code="Unlock" type="rect" parent="Unlock"  index="5" visible="true" opacity="255" width="0" height="0" posx="-1104" posy="621" bounds1="0" bounds2="0" bounds3="0" bounds4="0" >
+			<Layer code="Text_Herounlock" fonttext="27"  index="0" type="text" content="英雄橙色品质后解锁" colorr="255" colorg="0" colorb="0" font="FZY3JW--GB1-0" fontsize="2.29987001419067" visible="true" opacity="255" width="251" height="27" posx="566.5" posy="186.5" bounds1="1545" bounds2="421" bounds3="1796" bounds4="448" />
+			<Layer code="Image_Unlock" type="image" res="img_YXQH_0017"  index="1" visible="true" opacity="255" width="72" height="82" posx="790" posy="218" bounds1="1858" bounds2="362" bounds3="1930" bounds4="444" />
+		</Layer>
+		<Layer type="skip"/>
+		<Layer code="Skillsupgrading" type="rect" parent="Skillsupgrading"  index="7" visible="true" opacity="255" width="0" height="0" posx="-1104" posy="621" bounds1="0" bounds2="0" bounds3="0" bounds4="0" >
+			<Layer code="Rect_Isolychn " type="rect" res="img_TY_0014"  index="0" visible="true" opacity="140" width="605" height="9" posx="577.5" posy="159.5" bounds1="1379" bounds2="457" bounds3="1984" bounds4="466" />
+			<Layer code="Text_Stealthskills" fonttext="36"  index="1" type="text" content="贱隐术" colorr="255" colorg="143.998501896858" colorb="0" font="FZY3JW--GB1-0" fontsize="2.33397006988525" visible="true" opacity="255" width="112" height="35" posx="497" posy="298.5" bounds1="1545" bounds2="305" bounds3="1657" bounds4="340" />
+		</Layer>
+	</Layer>
+</UIScene>
+

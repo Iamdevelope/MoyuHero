@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="exchange">
+	<protocol  name="BeanImport" type="1701" maxsize="32" prior="1">
+		<variable name="GoodType" type="GoodType" /> 
+	</protocol>
+	
+	<bean name="GoodType">
+  	<enum name="NORAML" value="0" />
+  	<enum name="FIRST" value="1" />
+  </bean> 
+	
+  <bean name="GoodInfo">
+  	<variable name="goodid" type="short" />
+  	<variable name="price" type="float" />
+  	<variable name="yuanbao" type="short" />
+  	<variable name="present" type="short" />
+  </bean> 
+	<protocol name="CRequestGoods" type="1702" maxsize="65535" prior="1"  waiting="0">
+	</protocol>
+  
+  <protocol name="SReplyGoods" type="1703" maxsize="65535" prior="1">
+  	<variable name="goodtype" type="byte"/> GoodType
+		<variable name="goods" type="list" value="GoodInfo"/>
+	</protocol>
+    
+	<protocol  name="CRequestExchangeBill" type="1710" maxsize="65535" prior="1" waiting="1711">
+		<variable name="goodid" type="int"/>
+		<variable name="goodnum" type="int"/>
+	</protocol>
+	<protocol  name="SReplyExchangeBill" type="1711" maxsize="65535" prior="1">
+		<variable name="billid" type="string"/>
+		<variable name="goodid" type="int"/>
+		<variable name="goodname" type="string"/>
+		<variable name="goodnum" type="int"/>
+		<variable name="price" type="string"/>
+		<variable name="serverid" type="int"/>
+	</protocol>
+		
+	<protocol  name="CCancelExchangeBill" type="1712" maxsize="65535" prior="1">
+		<variable name="billid" type="string"/>
+	</protocol>
+	
+	<protocol  name="CResponseExchangeBill" type="1713" maxsize="65535" prior="1">发结果
+		<variable name="billid" type="string"/>
+		<variable name="status" type="byte"/>
+	</protocol>
+	
+	<protocol  name="CSendAppStoreRceipt" type="1714" maxsize="655350" prior="1">客户端向服务器发送单据
+		<variable name="transactionid" type="string"/>
+		<variable name="receipt" type="string"/>
+	</protocol>
+	
+	<protocol  name="SReplyAppStoreRceipt" type="1715" maxsize="655350" prior="1">服务器收到单据后通知客户端删除
+		<variable name="transactionid" type="string"/>
+	</protocol>
+
+	<protocol  name="CSendGooglePlayRceipt" type="1716" maxsize="655350" prior="1">客户端向服务器发送单据
+		<variable name="billId" type="string"/>
+		<variable name="packageName" type="string"/>
+		<variable name="productId" type="string"/>
+		<variable name="token" type="string"/>
+	</protocol>
+	
+	<protocol  name="SReplyGooglePlayRceipt" type="1717" maxsize="655350" prior="1">服务器收到单据后通知客户端删除
+		<variable name="billId" type="string"/>
+	</protocol>
+	
+</namespace>

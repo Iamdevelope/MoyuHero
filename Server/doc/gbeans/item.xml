@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="item"> 
+				
+		<bean name="hero01" from="01_hero.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="英雄ID"/>
+            <variable name="comment" type="string" fromCol="注释列"/>
+            <variable name="NameID" type="string" fromCol="名称ID"/>
+            <variable name="DescriptionID" type="string" fromCol="描述ID"/>
+            <variable name="Quality" type="int" fromCol="品质"/>
+            <variable name="herotype" type="int" fromCol="英雄类型"/>
+            <variable name="InitMaxHP" type="int" fromCol="初始生命点"/>
+            <variable name="InitPhysicalAttack" type="int" fromCol="初始物理攻击点"/>
+            <variable name="InitPhysicalDefence" type="int" fromCol="初始物理防御点"/>
+            <variable name="InitMagicAttack" type="int" fromCol="初始法术攻击点"/>
+            <variable name="InitMagicDefence" type="int" fromCol="初始法术防御点"/>
+            <variable name="InitHit" type="int" fromCol="初始命中点"/>
+            <variable name="InitDodge" type="int" fromCol="初始闪避点"/>
+            <variable name="InitCritical" type="int" fromCol="初始暴击点"/>
+            <variable name="InitTenacity" type="int" fromCol="初始韧性点"/>
+            <variable name="InitSpeed" type="int" fromCol="初始速度点"/>
+            <variable name="HPGrowth" type="string" fromCol="生命点成长"/>
+            <variable name="HPGrowthMultiple" type="int" fromCol="生命点等级修正模板ID"/>
+            <variable name="PhysicalAttackGrowth" type="string" fromCol="物理攻击点成长"/>
+            <variable name="PhysicalAttackGrowthMultiple" type="int" fromCol="物理攻击点等级修正模板ID"/>
+            <variable name="PhysicalDefenceGrowth" type="string" fromCol="物理防御点成长"/>
+            <variable name="PhysicalDefenceGrowthMultiple" type="int" fromCol="物理防御点等级修正模板ID"/>
+            <variable name="MagicAttackGrowth" type="string" fromCol="法术攻击点成长"/>
+            <variable name="MagicAttackGrowthMultiple" type="int" fromCol="法术攻击点等级修正模板ID"/>
+            <variable name="MagicDefenceGrowth" type="string" fromCol="法术防御点成长"/>
+            <variable name="MagicDefenceGrowthMultiple" type="int" fromCol="法术防御点等级修正模板ID"/>
+            <variable name="HitGrowth" type="string" fromCol="命中点成长"/>
+            <variable name="HitGrowthMultiple" type="int" fromCol="命中点等级修正模板ID"/>
+            <variable name="DodgeGrowth" type="string" fromCol="闪避点成长"/>
+            <variable name="DodgeGrowthMultiple" type="int" fromCol="闪避点等级修正模板ID"/>
+            <variable name="CriticalGrowth" type="string" fromCol="暴击点成长"/>
+            <variable name="CriticalGrowthMultiple" type="int" fromCol="暴击点等级修正模板ID"/>
+            <variable name="TenacityGrowth" type="string" fromCol="韧性点成长"/>
+            <variable name="TenacityGrowthMultiple" type="int" fromCol="韧性点等级修正模板ID"/>
+            <variable name="SpeedGrowth" type="string" fromCol="速度点成长"/>
+            <variable name="SpeedGrowthMultiple" type="int" fromCol="速度点等级修正模板ID"/>
+            <variable name="BaseHit" type="int" fromCol="命中几率千分比"/>
+            <variable name="BaseDodge" type="int" fromCol="闪避几率千分比"/>
+            <variable name="BaseCritical" type="int" fromCol="暴击几率千分比"/>
+            <variable name="BaseTenacity" type="int" fromCol="韧性几率千分比"/>
+            <variable name="BasePhyDamageIncrease" type="int" fromCol="物伤加成千分比"/>
+            <variable name="BasePhyDamageDecrease" type="int" fromCol="物伤减免千分比"/>
+            <variable name="BaseMagDamageIncrease" type="int" fromCol="法伤加成千分比"/>
+            <variable name="BaseMagDamageDecrease" type="int" fromCol="法伤减免千分比"/>
+            <variable name="BaseCriticalDamage" type="int" fromCol="暴击伤害加成千分比"/>
+            <variable name="DamageIncrease" type="int" fromCol="伤害附加点"/>
+            <variable name="lifeRestoringForce" type="int" fromCol="生命恢复点"/>
+            <variable name="DamageDecrease" type="int" fromCol="伤害减免点"/>
+            <variable name="MaxLevel" type="int" fromCol="等级上限"/>
+            <variable name="ExpNum" type="int" fromCol="经验值列"/>
+            <variable name="normalskill" type="int" fromCol="普攻技能ID"/>
+            <variable name="skill1ID" type="int" fromCol="技能1ID"/>
+            <variable name="skill2ID" type="int" fromCol="技能2ID"/>
+            <variable name="skill3ID" type="int" fromCol="技能3ID"/>
+            <variable name="artresources" type="int" fromCol="默认资源id"/>
+            <variable name="movespeed" type="string" fromCol="移动速度"/>
+            <variable name="HPTransformFury" type="int" fromCol="每损失1%生命奖励怒气值模板ID"/>
+            <variable name="entranceFury" type="int" fromCol="入场奖励怒气值模板ID"/>
+            <variable name="waveFury" type="int" fromCol="每波奖励怒气模板ID"/>
+            <variable name="clientSignType" type="string" fromCol="角色类型标记（客户端）"/>
+            <variable name="camp" type="int" fromCol="所属阵营"/>
+            <variable name="fadeCondition" type="int" fromCol="伤害达到生命上限%受击后仰"/>
+            <variable name="titleID" type="string" fromCol="称号ID"/>
+            <variable name="skillPair" type="string" fromCol="英雄搭配"/>
+            <variable name="runePair1" type="int" fromCol="符文搭配1"/>
+            <variable name="runePair2" type="int" fromCol="符文搭配2"/>
+            <variable name="runePair3" type="int" fromCol="符文搭配3"/>
+            <variable name="runePair4" type="int" fromCol="符文搭配4"/>
+            <variable name="runePassive" type="int" fromCol="符文组合效果"/>
+            <variable name="stageUpCostType1" type="int" fromCol="升阶消耗资源ID1"/>
+            <variable name="stageUpCost1" type="int" fromCol="升阶消耗资源数量1"/>
+            <variable name="stageUpCostType2" type="int" fromCol="升阶消耗资源ID2"/>
+            <variable name="stageUpCost2" type="int" fromCol="升阶消耗资源数量2"/>
+            <variable name="useableArtresource" type="string" fromCol="配套资源id们"/>
+            <variable name="trainSlot1" type="int" fromCol="培养使用库1"/>
+            <variable name="trainMaximum1" type="int" fromCol="培养最大次数1"/>
+            <variable name="trainSlot2" type="int" fromCol="培养使用库2"/>
+            <variable name="trainMaximum2" type="int" fromCol="培养最大次数2"/>
+            <variable name="trainSlot3" type="int" fromCol="培养使用库3"/>
+            <variable name="trainMaximum3" type="int" fromCol="培养最大次数3"/>
+            <variable name="trainSlot4" type="int" fromCol="培养使用库4"/>
+            <variable name="trainMaximum4" type="int" fromCol="培养最大次数4"/>
+            <variable name="stageUpTargetID" type="int" fromCol="进阶后的ID"/>
+            <variable name="maxQuality" type="int" fromCol="最高星级"/>
+            <variable name="returnBack" type="int" fromCol="熔灵返还"/>
+            <variable name="heroDes" type="string" fromCol="英雄搭配描述"/>
+            <variable name="skillMaxLevel" type="int" fromCol="技能最高等级"/>
+            <variable name="accessMethod" type="string" fromCol="获得途径"/>
+            <variable name="systemBroadcasts" type="int" fromCol="系统广播"/>
+            <variable name="Born" type="int" fromCol="资质"/>
+            <variable name="Qosition" type="int" fromCol="定位"/>
+            <variable name="BlockHit" type="int" fromCol="格挡几率千分比"/>
+            <variable name="SabotageHit" type="int" fromCol="破甲几率千分比"/>
+            <variable name="DamageBonusHit" type="int" fromCol="伤害加成千分比"/>
+            <variable name="DamageReductionHit" type="int" fromCol="伤害减免千分比"/>
+            <variable name="FuryId" type="int" fromCol="怒气序列"/>
+            <variable name="Gold" type="int" fromCol="升品游戏币消耗"/>
+            <variable name="Stuff" type="int" fromCol="升品材料id"/>
+            <variable name="Numbers" type="int" fromCol="材料数量"/>
+            <variable name="Paxid" type="int" fromCol="合成排序id"/>
+            <variable name="SyntheticItemid" type="int" fromCol="合成道具所需id"/>
+            <variable name="SyntheticCount" type="int" fromCol="合成所需数量"/>
+            <variable name="VampireRate" type="int" fromCol="吸血几率千分比"/>
+            <variable name="msid" type="string" fromCol="秘术id"/>
+            <variable name="equipmentid" type="string" fromCol="装备id"/>
+			<variable name="totalskill" type="string" fromCol="所有技能"/>
+		</bean>
+		
+		<bean name="skill06" from="06_skill.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="技能ID"/>	
+            <variable name="skillName" type="string" fromCol="技能名称"/>	
+            <variable name="skillNameRes" type="string" fromCol="技能名称资源"/>	
+            <variable name="skillIcon" type="string" fromCol="技能图标"/>	
+            <variable name="skillDes" type="string" fromCol="技能描述"/>	
+            <variable name="skillLevel" type="int" fromCol="技能等级"/>	
+            <variable name="skillType" type="int" fromCol="技能类型"/>	
+            <variable name="skillNo" type="INT" fromCol="技能编号"/>	
+            <variable name="skillCostType1" type="int" fromCol="释放消耗资源类型1"/>	
+            <variable name="skillCostId1" type="int" fromCol="释放消耗资源ID1"/>	
+            <variable name="skillCostNum1" type="int" fromCol="释放消耗数量1"/>	
+            <variable name="skillCostType2" type="int" fromCol="释放消耗资源类型2"/>	
+            <variable name="skillCostId2" type="int" fromCol="释放消耗资源ID2"/>	
+            <variable name="skillCostNum2" type="int" fromCol="释放消耗数量2"/>	
+            <variable name="skillCostType3" type="int" fromCol="释放消耗资源类型3"/>	
+            <variable name="skillCostId3" type="int" fromCol="释放消耗资源ID3"/>	
+            <variable name="skillCostNum3" type="int" fromCol="释放消耗数量3"/>	
+            <variable name="hpConditionType" type="int" fromCol="血量判断类型"/>	
+            <variable name="hpConditionNum" type="int" fromCol="血量判断值"/>	
+            <variable name="rpConditionType" type="int" fromCol="怒气判断类型"/>	
+            <variable name="rpConditionNum" type="int" fromCol="怒气判断值"/>	
+            <variable name="normalTemplate" type="string" fromCol="标准模式模板"/>	
+            <variable name="normalpriority" type="string" fromCol="标准模板优先级"/>	
+            <variable name="attFirstTemplate" type="string" fromCol="优先攻击模板"/>	
+            <variable name="attFirstpriority" type="string" fromCol="优先攻击模板优先"/>	
+            <variable name="defFirstTemplate" type="string" fromCol="优先回复模板"/>	
+            <variable name="defFirstpriority" type="string" fromCol="优先回复模板优先级"/>	
+            <variable name="cooldown" type="int" fromCol="冷却时间"/>	
+            <variable name="cooldownAlike" type="int" fromCol="相同技能是否进入CD"/>	
+            <variable name="damageInterrupt" type="int" fromCol="被伤害打断类型"/>	
+            <variable name="damageInterruptType" type="int" fromCol="伤害打断数值"/>	
+            <variable name="interruptSkill" type="int" fromCol="是否可打断技能"/>	
+            <variable name="target" type="int" fromCol="技能释放对象"/>	
+            <variable name="attDistance" type="string" fromCol="攻击距离（米）"/>	
+            <variable name="coverage" type="string" fromCol="有效范围"/>	
+            <variable name="targetNum" type="int" fromCol="技能目标个数"/>	
+            <variable name="temporarySelfBuff" type="string" fromCol="临时buff-自己"/>	
+            <variable name="temporaryTargetBuff" type="string" fromCol="临时buff-目标"/>	
+            <variable name="buffList" type="string" fromCol="buff效果组"/>	
+            <variable name="attackSound" type="string" fromCol="攻击音效"/>	
+            <variable name="underAttackEffID" type="string" fromCol="受击特效ID"/>	
+            <variable name="underAttackEffLink" type="int" fromCol="受击特效连接"/>	
+            <variable name="underAttackSound" type="string" fromCol="受击音效"/>	
+            <variable name="ballIsticEffID" type="string" fromCol="弹道特效ID"/>	
+            <variable name="bullEffectPoint" type="string" fromCol="子弹发射绑点"/>	
+            <variable name="effectHitPoint" type="string" fromCol="受击命中绑点"/>	
+            <variable name="bulletsFiredSound" type="string" fromCol="子弹发射音效"/>	
+            <variable name="ballIsticSpeed" type="int" fromCol="弹道速度"/>	
+            <variable name="ballIsticSound" type="string" fromCol="弹道音效"/>	
+            <variable name="action" type="string" fromCol="动作组"/>	
+            <variable name="InitHitFury" type="int" fromCol="命中奖励怒气"/>	
+            <variable name="skillAttackFury" type="int" fromCol="释放技能奖励怒气"/>	
+            <variable name="WeakenTargetFuryReward" type="int" fromCol="削弱目标奖励百分比"/>	
+            <variable name="killFury" type="int" fromCol="击杀目标奖励怒气"/>	
+            <variable name="VibrationScreen" type="int" fromCol="震屏条件"/>	
+            <variable name="skillReleaseType" type="int" fromCol="技能释放类型"/>	
+            <variable name="hitFrame" type="int" fromCol="打击点帧数时间"/>	
+            <variable name="skillLogicID" type="int" fromCol="技能逻辑ID"/>	
+            <variable name="Param" type="string" fromCol="逻辑参数"/>	
+		</bean>
+		
+		<bean name="normaldrop15" from="15_normaldrop.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="掉落包id"/>	
+			<variable name="normaldroptype" type="int" fromCol="掉落包类型"/>	
+			<variable name="normaldroptime" type="int" fromCol="掉落次数"/>	
+			<variable name="innerdrop" type="string" fromCol="掉落小包"/>	
+			<variable name="innerdropprob" type="string" fromCol="掉落小包几率"/>
+		</bean>
+		
+		<bean name="innerdrop16" from="16_innerdrop.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="掉落标识"/>	
+			<variable name="innerdropid" type="int" fromCol="小包id"/>	
+			<variable name="innerdroptype" type="int" fromCol="小包类型"/>	
+			<variable name="innerdroptime" type="int" fromCol="掉落次数"/>	
+			<variable name="dropwight" type="int" fromCol="掉落权重"/>	
+			<variable name="objectid" type="int" fromCol="掉落物id"/>	
+			<variable name="dropnum" type="int" fromCol="掉落数量"/>	
+			<variable name="dropparameter1" type="int" fromCol="掉落参数1"/>	
+			<variable name="dropparameter2" type="int" fromCol="掉落参数2"/>	
+		</bean>
+		
+		
+		<bean name="skillupcost17" from="17_skillupcost.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="技能ID"/>
+			<variable name="skillLevel" type="int" fromCol="当前等级"/>
+			<variable name="upgradeCostId" type="string" fromCol="升级消耗资源"/>
+			<variable name="upgradeCostNum" type="string" fromCol="消耗数量"/>
+			<variable name="upgradeSkillID" type="int" fromCol="升级后技能ID"/>
+			<variable name="upgradeStarCondition" type="int" fromCol="升级需求星级"/>
+			<variable name="upgradeDes" type="string" fromCol="升级描述"/>
+			<variable name="upgradeCostId2" type="string" fromCol="升级消耗资源2"/>
+			<variable name="upgradeCostNum2" type="string" fromCol="消耗数量2"/>
+			<variable name="upgradeCostId3" type="string" fromCol="升级消耗资源3"/>
+			<variable name="upgradeCostNum3" type="string" fromCol="消耗数量3"/>
+		</bean>
+		
+		<bean name="item26" from="26_item.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="id"/>	
+			<variable name="name" type="string" fromCol="名称"/>	
+			<variable name="des" type="string" fromCol="描述"/>	
+			<variable name="Icon" type="string" fromCol="图标"/>	
+			<variable name="bag" type="int" fromCol="包裹ID"/>	
+			<variable name="classname" type="string" fromCol="物品类名"/>	
+			<variable name="type" type="int" fromCol="道具类型"/>	
+			<variable name="quality" type="int" fromCol="道具品质"/>	
+			<variable name="ifSell" type="int" fromCol="可否出售"/>	
+			<variable name="sellPrice" type="int" fromCol="出售价格"/>		
+			<variable name="stackNum" type="int" fromCol="最大叠加数"/>	
+			<variable name="Usenumber" type="int" fromCol="当日使用次数"/>	
+			<variable name="dropPackId" type="int" fromCol="使用后掉落包id"/>		
+			<variable name="systemBroadcasts" type="int" fromCol="系统广播"/>	
+			<variable name="rune_type" type="int" fromCol="符文类型"/>	
+			<variable name="rune_specialHeroId" type="string" fromCol="专属类id"/>	
+			<variable name="rune_quality" type="int" fromCol="符文星级"/>	
+			<variable name="rune_baseAttri1" type="int" fromCol="属性基础库1"/>	
+			<variable name="rune_baseAttri2" type="int" fromCol="属性基础库2"/>	
+			<variable name="rune_baseAttri3" type="int" fromCol="属性基础库3"/>	
+			<variable name="rune_addAttri1" type="int" fromCol="附加属性库1"/>	
+			<variable name="rune_addAttri2" type="int" fromCol="附加属性库2"/>	
+			<variable name="rune_addAttri3" type="int" fromCol="附加属性库3"/>	
+			<variable name="rune_addAttri4" type="int" fromCol="附加属性库4"/>	
+			<variable name="rune_strengthenId" type="int" fromCol="强化消耗与返还库"/>	
+			<variable name="rune_smelt" type="int" fromCol="熔炼点基础量"/>	
+			<variable name="rune_exposeCostType1" type="int" fromCol="鉴定消耗资源1"/>	
+			<variable name="rune_exposeCostValue1" type="int" fromCol="鉴定消耗值1"/>	
+			<variable name="rune_exposeCostType2" type="int" fromCol="鉴定消耗资源2"/>	
+			<variable name="rune_exposeCostValue2" type="int" fromCol="鉴定消耗值2"/>	
+			<variable name="rune_exposeCostType3" type="int" fromCol="鉴定消耗资源3"/>	
+			<variable name="rune_exposeCostValue3" type="int" fromCol="鉴定消耗值3"/>	
+			<variable name="rune_exposeCostType4" type="int" fromCol="鉴定消耗资源4"/>	
+			<variable name="rune_exposeCostValue4" type="int" fromCol="鉴定消耗值4"/>	
+			<variable name="specialHeroDes" type="string" fromCol="专属类描述"/>		
+			<variable name="improvexperience" type="int" fromCol="提升经验值"/>		
+			<variable name="HeroExp" type="int" fromCol="英雄经验"/>			
+		</bean>
+
+		<bean name="baseruneattribute28" from="28_baseruneattribute.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="唯一标识"/>	
+			<variable name="bagId" type="int" fromCol="属性库标记"/>	
+			<variable name="level" type="int" fromCol="等级"/>	
+			<variable name="attriType" type="int" fromCol="属性类型"/>	
+			<variable name="attriValue" type="int" fromCol="属性值"/>	
+			<variable name="attriDes" type="string" fromCol="属性描述"/>		
+		</bean>
+		
+		<bean name="addruneattribute29" from="29_addruneattribute.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="唯一标识"/>	
+			<variable name="bagId" type="int" fromCol="属性库标记"/>	
+			<variable name="attriType" type="int" fromCol="属性类型"/>	
+			<variable name="attriValue" type="int" fromCol="属性值"/>	
+			<variable name="weight" type="int" fromCol="随机权重值"/>	
+			<variable name="attriDes" type="string" fromCol="属性描述1"/>	
+		</bean>
+
+		<bean name="runecost30" from="30_runecost.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="唯一标识"/>	
+			<variable name="bagId" type="int" fromCol="属性库标记"/>	
+			<variable name="level" type="int" fromCol="等级"/>	
+			<variable name="attriType1" type="int" fromCol="资源ID1"/>	
+			<variable name="attriValue1" type="int" fromCol="资源值1"/>	
+			<variable name="attriType2" type="int" fromCol="资源ID2"/>	
+			<variable name="attriValue2" type="int" fromCol="资源值2"/>	
+			<variable name="returnType1" type="int" fromCol="返还ID1"/>	
+			<variable name="returnValue1" type="int" fromCol="返还值1"/>	
+			<variable name="returnType2" type="int" fromCol="返还ID2"/>	
+			<variable name="returnValue2" type="int" fromCol="返还值2"/>	
+		</bean>
+		
+		<bean name="artresource31" from="31_artresource.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="id"/>
+			<variable name="NameID" type="string" fromCol="名称ID"/>
+			<variable name="DescriptionID" type="string" fromCol="描述ID"/>
+			<variable name="attriType" type="string" fromCol="属性类型"/>
+			<variable name="attriDes" type="string" fromCol="属性描述"/>
+			<variable name="ispercentage" type="string" fromCol="是否百分比"/>
+			<variable name="symbol" type="string" fromCol="属性显示符号"/>
+			<variable name="attriValue" type="string" fromCol="属性值"/>
+			<variable name="bonusPassiveSkill" type="int" fromCol="额外被动技能"/>
+			<variable name="bonusPassiveSkilldes" type="string" fromCol="被动技能描述"/>
+			<variable name="artresources" type="string" fromCol="角色默认美术资源"/>
+			<variable name="actionresource" type="string" fromCol="角色动作资源"/>
+			<variable name="headiconresource" type="string" fromCol="头像图标资源"/>
+			<variable name="headartresource" type="string" fromCol="头像大图资源"/>
+			<variable name="FireSignSize" type="string" fromCol="集火特效大小"/>
+			<variable name="readysound" type="string" fromCol="待机语音"/>
+			<variable name="diesound" type="string" fromCol="死亡语音"/>
+			<variable name="fashionresource" type="string" fromCol="时装资源"/>
+		</bean>
+		
+		<bean name="artifact33" from="33_artifact.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="神器id"/>	
+			<variable name="name" type="string" fromCol="神器名称"/>	
+			<variable name="level" type="int" fromCol="神器等级"/>	
+			<variable name="resourceName" type="string" fromCol="美术资源名称"/>	
+			<variable name="type" type="int" fromCol="神器类型"/>	
+			<variable name="playerLevel" type="int" fromCol="开启等级"/>	
+			<variable name="attriType" type="string" fromCol="属性类型"/>	
+			<variable name="attriValue" type="string" fromCol="属性值"/>	
+			<variable name="heroID" type="string" fromCol="英雄id"/>	
+			<variable name="heroNum" type="string" fromCol="所需数量"/>	
+			<variable name="weight" type="string" fromCol="属性权重"/>	
+		</bean>
+		
+		<bean name="heroaddstage67" from="67_heroaddstage.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="序号"/>
+            <variable name="Born" type="int" fromCol="资质"/>
+            <variable name="Qosition" type="int" fromCol="定位"/>
+            <variable name="Quality" type="int" fromCol="星级"/>
+            <variable name="HalosPn" type="int" fromCol="当前阶数"/>
+            <variable name="Level" type="int" fromCol="需求等级"/>
+            <variable name="Gold" type="int" fromCol="金币消耗"/>
+            <variable name="Stuff" type="string" fromCol="需要材料id"/>
+            <variable name="Numbers" type="string" fromCol="材料数量"/>
+            <variable name="Attribute" type="string" fromCol="枚举属性"/>
+            <variable name="Value" type="string" fromCol="数值"/>
+		</bean>
+		
+		<bean name="heroupgradexp68" from="68_heroupgradexp.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="序号"/>
+			<variable name="Born" type="int" fromCol="资质"/>
+			<variable name="Level" type="int" fromCol="等级"/>
+			<variable name="Exp" type="int" fromCol="经验"/>
+		</bean>
+		
+		<bean name="heroculture70" from="70_heroculture.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="序列号"/>
+            <variable name="Born" type="int" fromCol="资质"/>
+            <variable name="Qosition" type="int" fromCol="定位"/>
+            <variable name="Element" type="int" fromCol="元素类型"/>
+            <variable name="ElementLeve" type="int" fromCol="元素等级"/>
+            <variable name="Consumption" type="int" fromCol="元素消耗道具"/>
+            <variable name="Number" type="int" fromCol="消耗数量"/>
+            <variable name="Attribute" type="string" fromCol="枚举属性"/>
+            <variable name="Value" type="string" fromCol="数值"/>
+		</bean>
+		
+		<bean name="equipmentquality71" from="71_equipmentquality.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="装备id"/>
+            <variable name="Name" type="string" fromCol="装备名称"/>
+            <variable name="Icon" type="string" fromCol="装备图标"/>
+            <variable name="Qosition" type="int" fromCol="定位"/>
+            <variable name="Parts" type="int" fromCol="装备部位"/>
+            <variable name="QialityColor" type="int" fromCol="品质颜色"/>
+            <variable name="QualityLevel" type="int" fromCol="品质等级"/>
+            <variable name="reqlevel" type="int" fromCol="升品英雄等级需求"/>
+            <variable name="PropId" type="string" fromCol="升品需求道具id"/>
+            <variable name="numbers" type="string" fromCol="需求数量"/>
+            <variable name="NextId" type="int" fromCol="下一装备等级id"/>
+            <variable name="QualityAttribute" type="string" fromCol="品质属性类型"/>
+            <variable name="Numerical" type="string" fromCol="数值"/>
+		</bean>
+		
+		<bean name="equipmentstrength72" from="72_equipmentstrength.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="序列"/>
+			<variable name="Qosition" type="int" fromCol="定位"/>
+			<variable name="Parts" type="int" fromCol="装备部位"/>
+			<variable name="Level" type="int" fromCol="需求等级"/>
+			<variable name="sthequipmentlevel" type="int" fromCol="强化等级"/>
+			<variable name="propid" type="string" fromCol="消耗道具"/>
+			<variable name="numbers" type="string" fromCol="道具数量"/>
+			<variable name="propid2" type="string" fromCol="特殊装备消耗道具"/>
+			<variable name="numbers2" type="string" fromCol="特殊装备消耗道具数量"/>
+			<variable name="attribute" type="string" fromCol="属性枚举"/>
+			<variable name="value" type="string" fromCol="数值"/>
+		</bean>
+		
+		<bean name="ms73" from="73_ms.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="序号"/>
+            <variable name="mstype" type="int" fromCol="秘术类型"/>
+            <variable name="msname" type="string" fromCol="秘术名称"/>
+            <variable name="ddes" type="string" fromCol="秘术描述"/>
+            <variable name="icon" type="string" fromCol="秘术图标"/>
+            <variable name="stardemand" type="int" fromCol="秘术开启星级需求"/>
+            <variable name="stagedemand" type="int" fromCol="秘术开启阶数需求"/>
+            <variable name="level" type="string" fromCol="秘术等级"/>
+            <variable name="value" type="string" fromCol="对应秘术加成value"/>
+            <variable name="consumexpevalue" type="string" fromCol="升级验值"/>
+            <variable name="consumzyid" type="string" fromCol="升级消耗资源id"/>
+            <variable name="consumnb" type="string" fromCol="消耗资源数量"/>
+		</bean>
+		
+		
+		
+	</namespace>

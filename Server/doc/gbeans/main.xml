@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="chuhan" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <namespace name="gsp"> 
+	<namespace name="main">
+		<bean name="ModuleInfo" from="zServerModuleInfo.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="id"/>
+			<variable name="name" fromCol="name" type="string"/>
+			<variable name="classname" fromCol="类名" type="string"/>
+			<variable name="dep" fromCol="依赖1,依赖2,依赖3,依赖4" type="vector" value="string"/>
+		</bean>
+	</namespace>
+	
+	<bean name="HotfixConfig" from="zHotfixConfig.xlsx" genxml="server">			 
+		  <variable name="id" type="int" fromCol="id" /> id
+		  <variable name="type" fromCol="类型"  type="int"     />
+		  <variable name="name" fromCol="名称"  type="string"     />
+	</bean>
+	
+	<!-- 每个模块一个子文件 -->
+	<xi:include href="item.xml" />
+	<xi:include href="attr.xml" />
+	<xi:include href="game.xml" />
+	<xi:include href="task.xml" />
+	<xi:include href="log.xml" />
+	
+  </namespace>
+</namespace>  

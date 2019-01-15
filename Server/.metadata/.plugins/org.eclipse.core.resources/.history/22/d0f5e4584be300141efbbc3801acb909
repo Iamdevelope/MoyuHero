@@ -1,0 +1,73 @@
+package chuhan.gsp.award;
+
+import chuhan.gsp.Dictionary;
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.MsgType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.PropRole;
+import chuhan.gsp.mail.PAddMail;
+import chuhan.gsp.msg.Message;
+
+
+
+
+public class PAddHero extends xdb.Procedure{
+	private final long roleid;
+	private final int heroId;
+	private final int herolevel;
+	
+	public int herokey;
+	public String SYS_DEFAULT;
+	
+	public PAddHero(long roleid, int heroId, int herolevel) {
+		this.roleid = roleid;
+		this.heroId = heroId;
+		this.herolevel = herolevel;
+		SYS_DEFAULT = Dictionary.SYS_DEFAULT;
+	}
+	
+	public PAddHero(long roleid, int heroId, int herolevel,String strsys) {
+		this.roleid = roleid;
+		this.heroId = heroId;
+		this.herolevel = herolevel;
+		this.SYS_DEFAULT = strsys;
+	}
+	
+	@Override
+	protected boolean process() throws Exception {
+		
+		xbean.Properties xprop = xtable.Properties.get(roleid);
+		if(xprop == null)
+		{
+//			ErrorManager.getInstance().SendError(roleid, ErrorType.ERR_NOT_ONLINE);
+			return false;
+		}
+		
+		HeroColumn herocol = HeroColumn.getHeroColumn(roleid, false);
+		
+		//判断是否走邮件
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleid, false);
+		if(proprole.getMaxHeroSize() <= herocol.getxcolumn().getHeroes().size())
+		{
+			java.util.LinkedList<Integer> herolist = new java.util.LinkedList<Integer>();
+			herolist.addFirst(heroId);
+			PAddMail paddmail = new PAddMail(roleid,Dictionary.SYS_TITLE,SYS_DEFAULT,
+					0,0,herolist,null,0,0);
+			paddmail.call();
+			return true;
+		}
+		xbean.Hero xhero = Hero.createHero(heroId, herolevel);
+		if(xhero == null)
+		{
+			xdb.Procedure.psend(roleid, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		
+		Hero hero = herocol.addHero(xhero);
+		herokey = hero.getxHeroInfo().getKey();
+		psendWhileCommit(roleid, new SRefreshHero(hero.getProtocolHero()));
+				
+		return true;
+	}
+	
+}

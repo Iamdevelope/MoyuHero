@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: effect_pym_tengman01_
+  m_Shader: {fileID: 4800000, guid: 76339c90507c14d4cb1c70bc0bef8790, type: 3}
+  m_ShaderKeywords:
+  - _FLARE_ON
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 176f39b9d50ddc94daf149cf71ae3ce5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maintex
+        second:
+          m_Texture: {fileID: 2800000, guid: 176f39b9d50ddc94daf149cf71ae3ce5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Hue
+        second: 0
+      data:
+        first:
+          name: _Saturation
+        second: 0
+      data:
+        first:
+          name: _Value
+        second: 0
+      data:
+        first:
+          name: _flare
+        second: 1
+      data:
+        first:
+          name: _mainstrength
+        second: 1
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _flarecolor
+        second: {r: .279411793, g: .166572422, b: .0349264741, a: 1}

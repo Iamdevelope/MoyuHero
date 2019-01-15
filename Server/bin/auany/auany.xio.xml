@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><XioConf name="auany">
+	<Manager class="com.auany.XioManager" name="AuthServer">
+		<Acceptor backlog="32" inputBufferSize="16384" localIp="0.0.0.0" localPort="29200" outputBufferSize="16384" receiveBufferSize="16384" sendBufferSize="16384" tcpNoDelay="false"/>
+		<Coder comment="DO NOT EDIT CODER!">
+			<Protocol class="gnet.AuGameKeepAlive" maxSize="32"/>
+			<Rpc class="openau.AuAnyLogin" maxSize="4096"/>
+			<Protocol class="openau.DataBetweenAuAnyAndClient" maxSize="1048576"/>
+			<Protocol class="openau.DataBetweenAuAnyAndGS" maxSize="1048576"/>
+			<Protocol class="openau.QueryOrderRequest" maxSize="1048576"/>
+			<Protocol class="openau.QueryOrderResponse" maxSize="1048576"/>
+			<Protocol class="openau.RegistGameServerRequest" maxSize="512"/>
+			<Protocol class="openau.RegistGameServerResponse" maxSize="512"/>
+		</Coder>
+	</Manager>
+</XioConf>

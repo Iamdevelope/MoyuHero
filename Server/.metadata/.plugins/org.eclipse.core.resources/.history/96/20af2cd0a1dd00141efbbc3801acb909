@@ -1,0 +1,226 @@
+package chuhan.gsp.battle;
+
+import chuhan.gsp.Dictionary;
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.GoldAddType;
+import chuhan.gsp.attr.PAddExpProc;
+import chuhan.gsp.attr.PropRole;
+import chuhan.gsp.hero.PAddExpHero;
+import chuhan.gsp.hero.PAddHero;
+import chuhan.gsp.item.PAddEquip;
+import chuhan.gsp.log.Logger;
+
+
+
+
+public class BattleManager{
+
+	public static Logger logger = Logger.getLogger(BattleManager.class);
+	static private BattleManager instance = null;
+	
+	public static final int PASS_LEVEL0 = 0;
+	public static final int PASS_LEVEL1 = 1;
+	public static final int PASS_LEVEL2 = 2;
+	public static final int PASS_LEVELALL = 3;
+	
+	public static final int PASS_EXP_PERCENT = 100;
+	public static final int PASS_LEVEL0_EXP_PERCENT = 0;
+	public static final int PASS_LEVEL1_EXP_PERCENT = 20;
+	public static final int PASS_LEVEL2_EXP_PERCENT = 40;
+	public static final int PASS_LEVELALL_EXP_PERCENT = 100;
+	
+	public static final int PASS_GOLD_PERCENT = 100;
+	public static final int PASS_LEVEL0_GOLD_PERCENT = 0;
+	public static final int PASS_LEVEL1_GOLD_PERCENT = 30;
+	public static final int PASS_LEVEL2_GOLD_PERCENT = 60;
+	public static final int PASS_LEVELALL_GOLD_PERCENT = 100;
+	
+	private BattleManager(){}
+	public static BattleManager getInstance() {
+		if(instance == null)
+		{
+			instance = new BattleManager();
+		}
+		return instance;
+	}
+	
+	private java.util.Hashtable<Long,Battle> mBattleMap = new java.util.Hashtable<Long,Battle>();
+	
+	//创建一个关卡
+	public Battle CreateBattleInfo(long roleId, int battleId, int troopid)
+	{
+		Battle battleInfo = new Battle(roleId,battleId);
+		if(!battleInfo.CreateBattleInfo(troopid))
+			return null;
+		
+		this.mBattleMap.put(roleId, battleInfo);
+		SaveGameLevel(battleInfo);
+		return battleInfo;
+	}
+	
+	public void SaveGameLevel(Battle battleInfo)
+	{
+		xbean.GameLevel gamelevel = xtable.Gamelevels.select(battleInfo.getRoleId());
+		if(gamelevel == null)
+		{
+			gamelevel = xbean.Pod.newGameLevel();
+			xtable.Gamelevels.insert(battleInfo.getRoleId(),gamelevel);
+		}
+		gamelevel.getUseherokeylist().clear();
+		gamelevel.getEquipidlist().clear();
+		gamelevel.getHeroidlist().clear();
+		
+		gamelevel.setBattleid(battleInfo.getiBattleInfo().id);
+		gamelevel.getUseherokeylist().putAll(battleInfo.getUseherokeyList());
+		gamelevel.setDropgold(battleInfo.getDropGold());
+		gamelevel.setDropcrystal(battleInfo.getDropCrystal());
+		gamelevel.getEquipidlist().addAll(battleInfo.getEquipIdList());
+		gamelevel.getHeroidlist().addAll(battleInfo.getHeroIdList());	
+	}
+	
+	public void DelGameLevel(long roleId)
+	{
+		if(xtable.Gamelevels.select(roleId) != null)
+		{
+			xtable.Gamelevels.delete(roleId);
+		}
+	}
+	
+	public void DeleteBattleInfo(long roleId)
+	{
+		mBattleMap.remove(roleId);
+		DelGameLevel(roleId);
+	}
+	
+	public Battle GetBInfoByRId(long roleId)
+	{
+		Battle returnBIn = this.mBattleMap.get(roleId);
+		if(returnBIn == null)
+		{
+			xbean.GameLevel gamelevel = xtable.Gamelevels.select(roleId);
+			if(gamelevel != null)
+			{
+				returnBIn = new Battle(roleId,gamelevel);
+				if(returnBIn.getiBattleInfo() == null)
+				{
+					returnBIn = null;
+				}
+			}
+		}
+		return returnBIn;
+	}
+	
+	public int GetPassExpPercent(int pass)
+	{
+		switch((Integer)pass)
+		{
+		case PASS_LEVEL0:
+			return PASS_LEVEL0_EXP_PERCENT;
+		case PASS_LEVEL1:
+			return PASS_LEVEL1_EXP_PERCENT;
+		case PASS_LEVEL2:
+			return PASS_LEVEL2_EXP_PERCENT;
+		case PASS_LEVELALL:
+			return PASS_LEVELALL_EXP_PERCENT;
+		default:
+			return 0;
+		}
+	}
+	
+	public int GetPassGoldPercent(int pass)
+	{
+		switch((Integer)pass)
+		{
+		case PASS_LEVEL0:
+			return PASS_LEVEL0_GOLD_PERCENT;
+		case PASS_LEVEL1:
+			return PASS_LEVEL1_GOLD_PERCENT;
+		case PASS_LEVEL2:
+			return PASS_LEVEL2_GOLD_PERCENT;
+		case PASS_LEVELALL:
+			return PASS_LEVELALL_GOLD_PERCENT;
+		default:
+			return 0;
+		}
+	}
+	
+	//完成一个关卡，处理奖励相关内容
+	public boolean EndBattle(long roleId, int pass)
+	{
+		Battle battleInfo = GetBInfoByRId(roleId);
+		if(battleInfo == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_IN_BATTLE));
+			return false;
+		}
+		if(pass == PASS_LEVEL0)
+			return true;
+		
+		PropRole prole = PropRole.getPropRole(roleId, false);
+		
+		int gold_percent = GetPassGoldPercent(pass);
+		int exp_percent = GetPassExpPercent(pass);
+		
+		//prole.addGold(battleInfo.getiBattleInfo().getGold()*gold_percent/PASS_EXP_PERCENT, GoldAddType.ADD_BATTLE);
+		
+		PAddExpHero hero = new PAddExpHero(roleId,battleInfo.getUseHeroList(),
+				battleInfo.getiBattleInfo().getHeroexp()*exp_percent/PASS_EXP_PERCENT,
+				PAddExpHero.BATTLE,"");
+		hero.call();
+		
+		if (pass == PASS_LEVELALL) 
+		{
+			PAddExpProc proc = new PAddExpProc(roleId, 
+					battleInfo.getiBattleInfo().getPlayerexp()* exp_percent/ PASS_EXP_PERCENT, 
+					PAddExpProc.BATTLE, "");
+			proc.call();
+			
+			if(battleInfo.getHeroIdList().size() > 0)
+			{
+				RewardHero(roleId, battleInfo.getHeroIdList());
+			}
+			if(battleInfo.getEquipIdList().size() > 0)
+			{
+				RewardEquip(roleId, battleInfo.getEquipIdList());
+			}
+			
+			prole.setBattleNum(battleInfo.getiBattleInfo().getId());
+		}
+		
+		DeleteBattleInfo(roleId);
+		return true;
+	}
+
+	//获取英雄卡片奖励
+	public boolean RewardHero(long roleId, java.util.LinkedList<Integer> heroIdList)
+	{
+		for(Integer heroId : heroIdList)
+		{
+			PAddHero pAddHero = new PAddHero(roleId, heroId, 1,Dictionary.SYS_GET_HERO);
+			pAddHero.call();
+		}
+		
+		return true;
+	}
+	
+	//获取装备奖励
+	public boolean RewardEquip(long roleId, java.util.LinkedList<Integer> equipIdList)
+	{
+		for(Integer equipId : equipIdList)
+		{
+			PAddEquip pAddEquip = new PAddEquip(roleId, equipId, 0, 0, 0,Dictionary.SYS_GET_EQUIP);
+			pAddEquip.call();
+		}	
+		
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="attr">
+	<protocol  name="BeanImport" type="1001" maxsize="32" prior="1"> 
+		<variable name="attr" type="chuhan.gsp.attr.AttrType"/>
+		<variable name="calcattr" type="chuhan.gsp.attr.CalcAttrType"/>
+		<variable name="effect" type="chuhan.gsp.attr.EffectType"/>
+	</protocol>
+	
+	<!-- 与客户端通信用到的属性ID -->
+	<!--不要擅自在此加名称与ID，如果要加一个新的属性和ID，先与策划商量，以免冲突-->
+	<bean name="AttrType">  
+		<enum name="ARMY" value="10"/>	兵力
+		<enum name="ATTACK" value="20"/>	攻击
+		<enum name="DEFEND" value="30"/>	防御
+		<enum name="SKILL" value="40"/>	计略
+		<enum name="POWER" value="50"/> 计策强度
+		<enum name="CRUEL_RATE" value="60"/> 物理暴击几率
+		<enum name="POWER_CRUEL_RATE" value="70"/> 计策暴击几率
+		<enum name="SPEED" value="80"/> 速度
+		<enum name="NO_HURT" value="90"/> 免伤
+		<enum name="NO_DEF" value="100"/> 破防
+		<enum name="TI" value="110"/> 体力
+		<enum name="REDUCE" value="130"/> 距离衰减
+		<enum name="HIT" value="140"/> 命中
+		<enum name="DODGE" value="150"/> 躲闪
+		<enum name="ANTI_CRUEL_RATE" value="160"/> 暴击抗性几率
+		<enum name="ANTI_SINGLE_SKILL" value="170"/> 单法抗
+		<enum name="ANTI_MULTI_SKILL" value="180"/> 群法抗
+		
+		
+ 		<!--不要擅自在此加名称与ID，如果要加一个新的属性和ID，先与策划商量，以免冲突-->
+ 	</bean>
+ 	
+ 		
+	<bean name="CalcAttrType">
+		<!-- 战斗一级二级三级属性 ID，只有这里有的属性ID，AttrRole才会去计算并保存 -->
+		<enum name="ARMY" value="10"/>	兵力
+		<enum name="ATTACK" value="20"/>	攻击
+		<enum name="DEFEND" value="30"/>	防御
+		<enum name="SKILL" value="40"/>	计略
+		<enum name="CRUEL_RATE" value="60"/> 物理暴击几率
+		<enum name="POWER_CRUEL_RATE" value="70"/> 计策暴击几率
+		<enum name="SPEED" value="80"/> 速度
+		<enum name="NO_HURT" value="90"/> 免伤
+		<enum name="NO_DEF" value="100"/> 破防
+		<enum name="HIT" value="140"/> 命中
+		<enum name="DODGE" value="150"/> 躲闪
+		<enum name="ANTI_CRUEL_RATE" value="160"/> 暴击抗性几率
+	</bean>
+		
+	<bean name="EffectType">
+		<enum name="ATTACK_ABL" value="21"/>	攻击
+
+	</bean>
+	
+	<bean name="Buff">
+		<variable name="time" type="long" /> 剩余的时间
+		<variable name="count" type="int" /> 剩余的回合数/次数
+		<variable name="tipArgs" type="list" value="octets" /> 显示Buff Tip的参数
+	</bean>
+ 	
+	<protocol  name="SRefreshRoleData" type="1002" maxsize="65536" prior="1">
+		<variable name="datas" type="map" key="int" value="float" validator="key=(0,)"/>
+	</protocol>
+		
+	<!-- buff改变结果更新协议 -->
+	<protocol maxsize="65535" name="SBuffChangeResult" prior="1" type="1003">
+		<variable name="agentType" type="int" />
+		<variable name="id" type="long" />
+		<variable name="petid" type="int" />
+		<variable name="addedbuffs" type="map" key="int" value="Buff" /> 添加的buff, key=buff type id,更新buff时也用此部分
+		<variable name="deletedBuffs" type="list" value="int"/> 删除的buff id
+	</protocol>
+	
+	<protocol  name="SRefreshYuanBao" type="1004" maxsize="64" prior="1">
+		<variable name="yuanbao" type="int"/>
+	</protocol>
+
+	<protocol  name="SRefreshLevel" type="1005" maxsize="64" prior="1">
+		<variable name="level" type="short"/>
+	</protocol>	
+
+	<protocol  name="SRefreshVipLevel" type="1006" maxsize="64" prior="1">
+		<variable name="viplv" type="byte"/>
+		<variable name="vipexp" type="int"/>
+	</protocol>
+	
+	<protocol  name="SRefreshRoleExp" type="1007" maxsize="64" prior="1">
+		<variable name="exp" type="int"/>
+	</protocol>
+
+	<protocol  name="SRefreshHuoli" type="1008" maxsize="64" prior="1">
+		<variable name="huoli" type="byte"/>
+	</protocol>
+	
+	<protocol  name="SRefreshTili" type="1009" maxsize="256" prior="1">
+		<variable name="tili" type="int"/>		体力值
+		<variable name="titime" type="int"/>	体力更新剩余时间
+		<variable name="xingdongti" type="int"/>		行动力值
+		<variable name="xingdongtitime" type="int"/>	行动力更新剩余时间
+		<variable name="jineng" type="int"/>		技能点值
+		<variable name="jinengtime" type="int"/>	技能点更新剩余时间
+	</protocol>
+	
+	<protocol  name="SRefreshSoul" type="1010" maxsize="64" prior="1">
+		<variable name="soul" type="int"/>
+	</protocol>
+    
+  <protocol  name="SRefreshBiwu" type="1011" maxsize="64" prior="1">
+		<variable name="biwu" type="int"/>
+	</protocol>
+    
+  <protocol  name="SYuanbaoNotEnough" type="1012" maxsize="64" prior="1">
+	</protocol>
+	
+	<protocol  name="SRefreshChargeSum" type="1013" maxsize="64" prior="1">
+		<variable name="chargesum" type="int"/>
+	</protocol>
+	
+	<protocol  name="SRefreshHeroExtExp" type="1014" maxsize="64" prior="1">
+		<variable name="herokey" type="int"/>
+		<variable name="extexp" type="int"/>
+	</protocol>
+	
+	<protocol  name="SRefreshGold" type="10015" maxsize="64" prior="1">
+		<variable name="gold" type="int"/>
+	</protocol>
+	
+	<protocol  name="SRefreshBattleNum" type="10016" maxsize="64" prior="1">
+		<variable name="data" type="int"/>
+	</protocol>
+	
+	<protocol  name="SRefreshZiYuan" type="10017" maxsize="640" prior="1">
+		<variable name="shenglingzq" type="int"/>			圣灵之泉
+		<variable name="ronglian" type="int"/>			熔炼点
+		<variable name="huangjinxz" type="int"/>			黄金勋章
+		<variable name="baijinxz" type="int"/>			白金勋章
+		<variable name="qingtongxz" type="int"/>			青铜勋章
+		<variable name="chitiexz" type="int"/>			赤铁勋章
+		<variable name="jyjiejing" type="int"/>			经验结晶
+	</protocol>
+	
+	<protocol  name="SRefreshBagExp" type="10018" maxsize="32" prior="1"> 
+		<variable name="data" type="short"/>
+		<variable name="bagType" type="byte"/>
+	</protocol>
+	
+	
+</namespace>

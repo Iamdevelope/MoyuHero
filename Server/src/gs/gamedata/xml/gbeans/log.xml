@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="log">
+		<bean name="SLogFormatConfig" from="log日志.xlsx" genxml="server">
+			<variable name="id" fromCol="ID" type="int"/> 日志的id
+			<variable name="format" fromCol="内容" type="string"/> 日志的格式
+			<variable name="type" fromCol="类型" type="int"/> 日志的类型
+		</bean>
+	</namespace>

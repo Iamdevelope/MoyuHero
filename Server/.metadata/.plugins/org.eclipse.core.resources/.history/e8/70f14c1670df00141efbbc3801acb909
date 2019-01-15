@@ -1,0 +1,38 @@
+package chuhan.gsp.hero;
+
+
+
+
+public class PAddTroop extends xdb.Procedure{
+
+	public final long roleId;
+	public final int herokey;
+	public final int troopid;
+	public final int locationid;
+	public PAddTroop(long roleId, int herokey,int troopid,int locationid) {
+		this.roleId = roleId;
+		this.herokey = herokey;
+		this.troopid = troopid;
+		this.locationid = locationid;
+	}
+	
+	@Override
+	protected boolean process() throws Exception {
+		xbean.Properties xprop = xtable.Properties.get(roleId);
+		if(xprop == null)
+		{
+//			ErrorManager.getInstance().SendError(roleId, ErrorType.ERR_NOT_ONLINE);
+			return false;
+		}
+		
+		TroopColumn troopcol = TroopColumn.getTroopColumn(roleId, false);
+		xbean.Troop troop = troopcol.addTroop(herokey,troopid,locationid);
+		troopcol.refreshTroops();
+		if(troop == null)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+}

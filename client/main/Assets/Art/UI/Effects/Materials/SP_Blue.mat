@@ -1,0 +1,412 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: SP_Blue
+  m_Shader: {fileID: 4800000, guid: 397b470d364e6b34a81c6662f81f402a, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: b66bceaf0cc0ace4e9bdc92f14bba709, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Detail
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maintex
+        second:
+          m_Texture: {fileID: 8400000, guid: 0a34fd1b20d81ad47b909a49e4e783b4, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _alpha
+        second:
+          m_Texture: {fileID: 2800000, guid: dfde6702cbf31f442a8ce32ee2f579b4, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maincolor
+        second:
+          m_Texture: {fileID: 2800000, guid: 15350431d98cea54d92be8196656a3e5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: 1f9a5f0e7b95c7e42ac705e656a09220, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _offsettex01
+        second:
+          m_Texture: {fileID: 2800000, guid: 83b19dd6062716b46b708cdc4add7896, type: 3}
+          m_Scale: {x: 1.5, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _tex
+        second:
+          m_Texture: {fileID: 8400000, guid: 0a34fd1b20d81ad47b909a49e4e783b4, type: 2}
+          m_Scale: {x: .800000012, y: 1}
+          m_Offset: {x: .150000006, y: 0}
+      data:
+        first:
+          name: _maincolor01
+        second:
+          m_Texture: {fileID: 2800000, guid: fec740ebc7775874bbae402d36ed9a02, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _offsettex02
+        second:
+          m_Texture: {fileID: 2800000, guid: 27cadc6f0a2e068499972c5ef83c266f, type: 3}
+          m_Scale: {x: 2, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _mask1
+        second:
+          m_Texture: {fileID: 2800000, guid: dfc58afd1be465249a058202a65d22cb, type: 3}
+          m_Scale: {x: .300000012, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _mask2
+        second:
+          m_Texture: {fileID: 2800000, guid: dfc58afd1be465249a058202a65d22cb, type: 3}
+          m_Scale: {x: .300000012, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_2
+        second:
+          m_Texture: {fileID: 15200000, guid: 30a8614682446304982cac381fc0dab2, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maintexhigh
+        second:
+          m_Texture: {fileID: 8400000, guid: 0a34fd1b20d81ad47b909a49e4e783b4, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _mask
+        second:
+          m_Texture: {fileID: 2800000, guid: 68ced5e8e865dac4bb0613bb2eb37dd6, type: 3}
+          m_Scale: {x: .300000012, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _alpha01
+        second:
+          m_Texture: {fileID: 2800000, guid: 4a4454f06e354dd4786a804eb5f1e010, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _alpha02
+        second:
+          m_Texture: {fileID: 2800000, guid: 68ced5e8e865dac4bb0613bb2eb37dd6, type: 3}
+          m_Scale: {x: .300000012, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _add3
+        second:
+          m_Texture: {fileID: 2800000, guid: 2c179e39c54ed2649a9e8c5dca95aac9, type: 3}
+          m_Scale: {x: 1.5, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_344
+        second:
+          m_Texture: {fileID: 2800000, guid: 1f9a5f0e7b95c7e42ac705e656a09220, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_58
+        second:
+          m_Texture: {fileID: 2800000, guid: 878df296ca6b89740a5a14381746b18e, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_145
+        second:
+          m_Texture: {fileID: 15200000, guid: 6915cd84f7e5ef94b853ff9353ef40fb, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_238
+        second:
+          m_Texture: {fileID: 2800000, guid: 4a4454f06e354dd4786a804eb5f1e010, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_347
+        second:
+          m_Texture: {fileID: 2800000, guid: 2c179e39c54ed2649a9e8c5dca95aac9, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_351
+        second:
+          m_Texture: {fileID: 2800000, guid: 1f9a5f0e7b95c7e42ac705e656a09220, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_359
+        second:
+          m_Texture: {fileID: 2800000, guid: 1f9a5f0e7b95c7e42ac705e656a09220, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_374
+        second:
+          m_Texture: {fileID: 2800000, guid: 2c179e39c54ed2649a9e8c5dca95aac9, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_382
+        second:
+          m_Texture: {fileID: 2800000, guid: 1f9a5f0e7b95c7e42ac705e656a09220, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_400
+        second:
+          m_Texture: {fileID: 2800000, guid: 28c7aad1372ff114b90d330f8a2dd938, type: 3}
+          m_Scale: {x: 1, y: 2}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_407
+        second:
+          m_Texture: {fileID: 2800000, guid: 68ced5e8e865dac4bb0613bb2eb37dd6, type: 3}
+          m_Scale: {x: .300000012, y: .300000012}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maintexnormal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maintexlow
+        second:
+          m_Texture: {fileID: 2800000, guid: f94f754b3ec9714409a509d19f395e30, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maincolor1
+        second:
+          m_Texture: {fileID: 2800000, guid: 15350431d98cea54d92be8196656a3e5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maincolor2
+        second:
+          m_Texture: {fileID: 2800000, guid: 9d0200b6f9d04a74f919821b4a1db68d, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_2673
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _offectramp
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_2686
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _alpharamp
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
+      data:
+        first:
+          name: _add
+        second: -.100000001
+      data:
+        first:
+          name: _strength
+        second: 2
+      data:
+        first:
+          name: _speed
+        second: 10
+      data:
+        first:
+          name: _exp
+        second: 2.06999993
+      data:
+        first:
+          name: _strength01
+        second: 2
+      data:
+        first:
+          name: _offset
+        second: 1
+      data:
+        first:
+          name: _valuereal
+        second: 1
+      data:
+        first:
+          name: _valueunreal
+        second: 1
+      data:
+        first:
+          name: _value
+        second: 1
+      data:
+        first:
+          name: _node_926
+        second: 1
+      data:
+        first:
+          name: _offsetspeed
+        second: -10
+      data:
+        first:
+          name: _strength02
+        second: -.100000001
+      data:
+        first:
+          name: _strength03
+        second: -.0500000007
+      data:
+        first:
+          name: _strength04
+        second: .100000001
+      data:
+        first:
+          name: _quality
+        second: 3
+      data:
+        first:
+          name: _node_202
+        second: 15.5
+      data:
+        first:
+          name: _node_89
+        second: 1.15999997
+      data:
+        first:
+          name: _x
+        second: 1.38999999
+      data:
+        first:
+          name: _add_copy
+        second: .699999988
+      data:
+        first:
+          name: _node_398
+        second: 0
+      data:
+        first:
+          name: _node_399
+        second: 0
+      data:
+        first:
+          name: _add02
+        second: -.0500000007
+      data:
+        first:
+          name: _node_add03
+        second: .25
+      data:
+        first:
+          name: _node_909
+        second: 0
+      data:
+        first:
+          name: _node_910
+        second: 0
+      data:
+        first:
+          name: _value1
+        second: 1
+      data:
+        first:
+          name: _value2
+        second: 0
+      data:
+        first:
+          name: _value_real
+        second: 1
+      data:
+        first:
+          name: _value_unreal
+        second: 1
+      data:
+        first:
+          name: _veluefusion
+        second: 0
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: .720588207, b: .720588207, a: 0}
+      data:
+        first:
+          name: _maincolor
+        second: {r: 0, g: 1, b: .710344791, a: 1}
+      data:
+        first:
+          name: _maincolor02
+        second: {r: .0674948096, g: 0, b: .889705896, a: 1}

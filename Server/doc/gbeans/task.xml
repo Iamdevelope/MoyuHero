@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="task"> 
+		<bean name="chapterinfo23" from="23_chapterinfo.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="章节ID"/>	
+              <variable name="chapterName" type="string" fromCol="章节名称"/>	
+              <variable name="chapterDrop" type="string" fromCol="章节内全部关卡通过奖励掉落包"/>	
+              <variable name="stageID" type="string" fromCol="包含的关卡ID"/>	
+			  <variable name="starnum" type="string" fromCol="奖励所需星星"/>	
+		</bean>
+		
+		<bean name="stage11" from="11_stage.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="关卡id"/>	
+              <variable name="stagename" type="string" fromCol="关卡名称"/>	
+              <variable name="stageinfo" type="string" fromCol="关卡描述"/>	
+              <variable name="premissionid" type="int" fromCol="前置关卡id"/>	
+              <variable name="playerlevel" type="int" fromCol="玩家等级"/>	
+              <variable name="stagetype" type="int" fromCol="关卡类型"/>	
+              <variable name="stagemap" type="string" fromCol="地图编号"/>	
+              <variable name="stageevent" type="string" fromCol="地图事件编号"/>	
+              <variable name="extraloadresource" type="string" fromCol="额外加载资源"/>	
+              <variable name="playerexp" type="int" fromCol="玩家经验"/>	
+			  <variable name="goldreward" type="int" fromCol="金币奖励"/>	
+              <variable name="heroexp" type="int" fromCol="英雄经验"/>	
+			  <variable name="expcrystal" type="int" fromCol="经验结晶"/>	
+              <variable name="cost" type="int" fromCol="活力消耗"/>	
+              <variable name="stageicon" type="string" fromCol="关卡图标"/>	
+              <variable name="monstergroup" type="string" fromCol="怪物组"/>	
+              <variable name="stagedrop" type="string" fromCol="关卡奖励(服务器)"/>	
+              <variable name="specialcondition" type="int" fromCol="特殊奖励条件参数"/>	
+              <variable name="specialstagedrop" type="string" fromCol="特殊关卡奖励(服务器)"/>	
+              <variable name="dropcheck" type="int" fromCol="掉落检查"/>	
+              <variable name="limittime" type="int" fromCol="限制次数"/>	
+              <variable name="displaydrop" type="string" fromCol="显示用掉落"/>	
+              <variable name="displayMonster" type="string" fromCol="显示怪物"/>	
+              <variable name="bossbox" type="int" fromCol="宝箱id"/>	
+              <variable name="winCondition" type="int" fromCol="胜利条件"/>	
+              <variable name="waveFury" type="string" fromCol="每波怒气"/>	
+              <variable name="aiCheck" type="int" fromCol="AI检查间隔"/>	
+              <variable name="mysteriousStage" type="int" fromCol="神秘关卡"/>	
+              <variable name="mysteriousShop" type="int" fromCol="神秘商店"/>	
+              <variable name="fightTime" type="int" fromCol="战斗时间"/>	
+			  <variable name="isBoss" type="int" fromCol="是否Boss关卡"/>
+			  <variable name="resetCost" type="string" fromCol="重置消耗魔钻"/>	
+		</bean>
+		
+		<bean name="monstergroup12" from="12_monstergroup.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="怪物组id"/>	
+			<variable name="grouptype" type="int" fromCol="怪物组类型"/>	
+			<variable name="monsterid" type="string" fromCol="怪物id"/>	
+			<variable name="monsterprobability" type="string" fromCol="怪物几率"/>	
+		</bean>
+		
+		<bean name="monster13" from="13_monster.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="怪物id"/>
+			<variable name="monstername" type="string" fromCol="怪物名称"/>
+			<variable name="artresources" type="int" fromCol="资源id"/>
+			<variable name="monstertype" type="int" fromCol="怪物类型"/>
+			<variable name="normalattack" type="int" fromCol="普通攻击"/>
+			<variable name="monsterskill" type="string" fromCol="技能"/>
+			<variable name="MaxHP" type="int" fromCol="初始生命点"/>
+			<variable name="PhysicalAttack" type="int" fromCol="初始物理攻击点"/>
+			<variable name="PhysicalDefence" type="int" fromCol="初始物理防御点"/>
+			<variable name="MagicAttack" type="int" fromCol="初始法术攻击点"/>
+			<variable name="MagicDefence" type="int" fromCol="初始法术防御点"/>
+			<variable name="Hit" type="int" fromCol="初始命中点"/>
+			<variable name="Dodge" type="int" fromCol="初始闪避点"/>
+			<variable name="Critical" type="int" fromCol="初始暴击点"/>
+			<variable name="Tenacity" type="int" fromCol="初始韧性点"/>
+			<variable name="Speed" type="int" fromCol="初始速度点"/>
+			<variable name="BaseHit" type="int" fromCol="命中几率千分比"/>
+			<variable name="BaseDodge" type="int" fromCol="闪避几率千分比"/>
+			<variable name="BaseCritical" type="int" fromCol="暴击几率千分比"/>
+			<variable name="BaseTenacity" type="int" fromCol="韧性几率千分比"/>
+			<variable name="BasePhyDamageIncrease" type="int" fromCol="物伤加成千分比"/>
+			<variable name="BasePhyDamageDecrease" type="int" fromCol="物伤减免千分比"/>
+			<variable name="BaseMagDamageIncrease" type="int" fromCol="法伤加成千分比"/>
+			<variable name="BaseMagDamageDecrease" type="int" fromCol="法伤减免千分比"/>
+			<variable name="BaseCriticalDamage" type="int" fromCol="暴击伤害加成千分比"/>
+			<variable name="DamageIncrease" type="int" fromCol="伤害附加点"/>
+			<variable name="lifeRestoringForce" type="int" fromCol="生命恢复点"/>
+			<variable name="DamageDecrease" type="int" fromCol="伤害减免点"/>
+			<variable name="clientSignType" type="string" fromCol="角色类型标记（客户端）"/>
+			<variable name="HPLengthMultiple" type="int" fromCol="血条长度放大倍数"/>
+			<variable name="HPWidthMultiple" type="int" fromCol="血条宽度放大倍数"/>
+			<variable name="damageTextShow" type="string" fromCol="伤害字冒出位置上下偏移量"/>
+			<variable name="levelBorderMultiple" type="int" fromCol="等级框和字放大倍数"/>
+			<variable name="HPTransformFury" type="int" fromCol="每损失1%生命奖励怒气值模板ID"/>
+			<variable name="camp" type="int" fromCol="所属阵营"/>
+			<variable name="fadeCondition" type="int" fromCol="伤害达到生命上限%受击后仰"/>
+			<variable name="deathSlowTime" type="string" fromCol="死亡慢动作时间（秒）"/>
+			<variable name="monsterlevel" type="int" fromCol="怪物等级"/>
+			<variable name="monsterstar" type="int" fromCol="怪物星级"/>
+			<variable name="monsterEnlarge" type="string" fromCol="怪物放大系数"/>
+			<variable name="monsterPercentMaxHp" type="int" fromCol="怪物百分比计算时生命值"/>
+			<variable name="deathSkillType" type="string" fromCol="死亡掉落SKILL类型"/>
+			<variable name="deathSkillProb" type="string" fromCol="死亡掉落SKILL权重"/>
+			<variable name="monstermaxstar" type="int" fromCol="怪物最大星级"/>
+		</bean>
+		
+	</namespace>

@@ -1,0 +1,705 @@
+package chuhan.gsp.attr;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.pwrd.op.LogOpChannel;
+
+import xdb.Transaction;
+import chuhan.gsp.DataInit;
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.MsgType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.SShowedBeginnerTips;
+import chuhan.gsp.battle.PBeginLadder;
+import chuhan.gsp.consume.PConsumeActivity;
+import chuhan.gsp.game.CJMain;
+import chuhan.gsp.hero.OldHeroColumn;
+import chuhan.gsp.item.SRefreshVipBuyInfo;
+import chuhan.gsp.log.LogManager;
+import chuhan.gsp.log.Logger;
+import chuhan.gsp.log.OpLogManager;
+import chuhan.gsp.log.RemoteLogID;
+import chuhan.gsp.log.RemoteLogParam;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.main.GameTime;
+import chuhan.gsp.msg.Message;
+import chuhan.gsp.play.lottery.CLottery;
+import chuhan.gsp.util.Conv;
+import chuhan.gsp.util.DateUtil;
+import chuhan.gsp.util.LogUtil;
+
+public class PropRole {
+	
+	public static final int FIRST_CHARGE_VIP_LV = 3;
+	public static final long TI_RECOVERY_MILLIS = 5 * 60 *1000;
+	public static final long SHOP_REFRESH_TIME = -3*60*60*1000;	//每天商店购买刷新时间凌晨三点
+	public static final long SIGN_REFRESH_TIME = -3*60*60*1000;	//每月签到刷新时间凌晨三点	
+	public static final long REALTIME_REFRESH_TIME = -3*60*60*1000;	//实时战斗计数刷新时间
+	public static Logger logger = Logger.getLogger(PropRole.class);
+	
+	public static PropRole getPropRole(long roleId,boolean readonly)
+	{
+		if(roleId <= 0)
+			return null;
+		xbean.Properties xprop;
+		if(readonly)
+			xprop = xtable.Properties.select(roleId);
+		else
+			xprop = xtable.Properties.get(roleId);
+		
+		if(xprop == null)
+			return null;
+		
+		return new PropRole(roleId, xprop, readonly);
+	}
+	
+	private final long roleId;
+	private final xbean.Properties xprop;
+	public final boolean readonly;
+	
+	private PropRole(long roleId, xbean.Properties xprop, boolean readonly)
+	{
+		this.roleId = roleId;
+		this.xprop = xprop;
+		this.readonly = readonly;
+		processData();
+	}
+	
+	private void processData()
+	{
+		long now = GameTime.currentTimeMillis();
+		if(xprop.getLastdaychangetime() == 0)
+		{
+			xprop.setLastdaychangetime(now);
+			return;
+		}
+		int nowday = DateUtil.getCurrentDay(now);
+		int oldday = DateUtil.getCurrentDay(xprop.getLastdaychangetime());
+		if(nowday != oldday)
+		{
+//			xprop.setRecoverhuo(0);
+//			xprop.setRecoverti(0);
+//			xprop.getVipdailyitems().clear();
+//			xprop.setGetfritilinum(0);
+//			xprop.setTurntablefreenum(0);
+			/*if(nowday > oldday)
+				xprop.setBuychestvalue(80*(nowday-oldday));*/
+			xprop.setLastdaychangetime(now);
+		}
+	}
+	
+	public long getRoleId()
+	{
+		return roleId;
+	}
+	
+	public xbean.Properties getProperties()
+	{
+		return xprop;
+	}
+	
+	public int getLevel()
+	{
+		return xprop.getLevel();
+	}
+	
+	public SLevelConfig getLevelConfig()
+	{
+		return ConfigManager.getInstance().getConf(SLevelConfig.class).get(getLevel());
+	}
+	
+	public int getVipLevel()
+	{
+		return xprop.getViplv();
+	}
+	
+	public int setVipLevel(int lv)
+	{
+		if(lv < 0 || lv > 20)
+			return xprop.getViplv();
+		xprop.setViplv(lv);
+		xdb.Procedure.psendWhileCommit(roleId, new SRefreshVipLevel(Conv.toByte(xprop.getViplv())));
+		return xprop.getViplv();
+	}
+	
+	public void sendSRefreshVipBuyInfo()
+	{
+		SRefreshVipBuyInfo snd = new SRefreshVipBuyInfo();
+//		for(Map.Entry<Integer, Integer> entry : xprop.getVipitems().entrySet())
+//			snd.boughtitems.put(entry.getKey(), Conv.toByte(entry.getValue()));
+//		for(Map.Entry<Integer, Integer> entry : xprop.getVipdailyitems().entrySet())
+//			snd.boughtitems.put(entry.getKey(), Conv.toByte(entry.getValue()));
+		if(Transaction.current() != null)
+			xdb.Procedure.psendWhileCommit(roleId, snd);
+		else
+			gnet.link.Onlines.getInstance().send(roleId, snd);
+	}
+	
+	public int getExp()
+	{
+		return xprop.getExp();
+	}
+	
+	public void setExp(int v)
+	{
+		xprop.setExp(v);
+	}
+	
+	public int getYuanBao()
+	{
+		return xprop.getYuanbao();
+	}
+	
+	
+	/**
+	 * 增加元宝
+	 * @param v 只能为正
+	 * @param reason 参考YuanBaoAddType
+	 * @param hint 其他参数
+	 * @return
+	 */
+	public int addYuanBao(int v, int reason, Object hint)
+	{
+		if(v <= 0)
+			return 0;
+		
+		int r = addYuanBao(v);
+		if(r == 0)
+			return r;
+		try{//do log
+			java.util.Map<String, Object> params = LogUtil.putRoleBasicParams(roleId, false, new HashMap<String, Object>());
+			params.put(RemoteLogParam.TYPEINFO, reason);
+			params.put(RemoteLogParam.YUANBAO, v);
+			params.put(RemoteLogParam.HINT, hint);
+			LogManager.getInstance().doLogWhileCommit(RemoteLogID.ADDYUANBAO, params);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return r;
+	}
+	
+	/**
+	 * 增加元宝
+	 * @param v 只能为正
+	 * @param reason 参考YuanBaoAddType
+	 * @return
+	 */
+	public int addYuanBao(int v, int reason)
+	{
+		if(v <= 0)
+			return 0;
+		
+		int r = addYuanBao(v);
+		if(r == 0)
+			return r;
+		try{//do log
+			java.util.Map<String, Object> params = LogUtil.putRoleBasicParams(roleId, false, new HashMap<String, Object>());
+			params.put(RemoteLogParam.TYPEINFO, reason);
+			params.put(RemoteLogParam.YUANBAO, v);
+			LogManager.getInstance().doLogWhileCommit(RemoteLogID.ADDYUANBAO, params);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return r;
+	}
+	
+	/**
+	 * 减少元宝
+	 * @param v 只能为负
+	 * @param reason 参考YuanBaoConsumeType
+	 * @return
+	 */
+	public int delYuanBao(int v, int reason)
+	{
+		if(v >= 0)
+			return 0;
+		int r = addYuanBao(v);
+		if(r == 0)
+			return r;
+		try{//do log
+			PropRole propRole = PropRole.getPropRole(roleId, true);
+			if(null != propRole) {
+				OpLogManager.getInstance().doLogWhileCommit(LogOpChannel.COST, roleId, GameTime.currentTimeMillis(),
+						DateUtil.getCurrentStringFormatEn(GameTime.currentTimeMillis()), 
+						reason, null, null, 0, v, 0, propRole.getProperties().getUsername(),
+						propRole.getProperties().getRolename(), propRole.getProperties().getLevel());
+			}
+			
+			java.util.Map<String, Object> params = LogUtil.putRoleBasicParams(roleId, false, new HashMap<String, Object>());
+			params.put(RemoteLogParam.TYPEINFO, reason);
+			params.put(RemoteLogParam.YUANBAO, -v);
+			LogManager.getInstance().doLogWhileCommit(RemoteLogID.COSTYUANBAO, params);
+			
+//			PConsumeActivity.process(roleId, Math.abs(r));
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return r;
+	}
+	
+	/**
+	 * 元宝变化
+	 * @param v
+	 * @return
+	 */
+	private int addYuanBao(int v)
+	{
+		if(v == 0)
+			return 0;
+		if((xprop.getYuanbao() + v) < 0)
+		{
+			xdb.Procedure.psend(roleId, new SYuanbaoNotEnough());
+			//Message.psendMsgNotify(roleId, 108);
+			return 0;
+		}
+		
+		xprop.setYuanbao(xprop.getYuanbao() + v);
+		
+		// 刷新元宝数量
+		xdb.Procedure.psendWhileCommit(roleId, new SRefreshYuanBao(xprop.getYuanbao())); 
+		return v;
+	}
+	
+	public int addGold(int v, int reason)
+	{
+		if(v < 0)
+			return DataInit.ERROR_RESULT;
+		
+		int r = addGold(v);
+		if(r == 0)
+			return r;
+		
+		return r;
+	}
+	public int delGold(int v, int reason)
+	{
+		if(v > 0)
+			return DataInit.ERROR_RESULT;
+		int r = addGold(v);
+		if(r == 0)
+			return r;
+		
+		return r;
+	}
+		
+	private int addGold(int v)
+	{
+		if(v == 0)
+			return 0;
+		if((xprop.getGold() + v) < 0)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_ENOUGH_GOLD));
+			return 0;
+		}
+		xprop.setGold(xprop.getGold() + v);
+		xdb.Procedure.psendWhileCommit(roleId, new SRefreshGold(xprop.getGold()));
+		return v;
+	}
+	
+	public int addHammer(int v, int reason)
+	{
+		if(v < 0)
+			return DataInit.ERROR_RESULT;
+		
+		int r = addHammer(v);
+		if(r == 0)
+			return r;
+		
+		return r;
+	}
+	public int delHammer(int v, int reason)
+	{
+		if(v > 0)
+			return 0;
+		int r = addHammer(v);
+		if(r == 0)
+			return r;
+		
+		return r;
+	}
+		
+	private int addHammer(int v)
+	{
+		if(v == 0)
+			return 0;
+		if((xprop.getHammer() + v) < 0)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_ENOUGH_HAMMER));
+			return 0;
+		}
+		xprop.setHammer(xprop.getHammer() + v);
+		xdb.Procedure.psendWhileCommit(roleId, new SRefreshHammer(xprop.getHammer()));
+		return v;
+	}
+	
+
+	//本级最大经验值
+	public int getExpMax()
+	{
+		return ConfigManager.getInstance().getConf(SLevelConfig.class).get(getLevel()).exp;
+	}
+	
+	
+	public boolean levelUp()
+	{
+		final int nexp = this.getExpMax();
+		if (xprop.getExp() < nexp)
+			return false;
+		if (getLevel() >= DataInit.ROLE_LEVEL_MAX){
+			LogManager.logger.error("玩家超过等级上限。roleid："+getRoleId()+"level:"+getLevel()+"maxLevel:"+DataInit.ROLE_LEVEL_MAX);
+			return false;
+		}
+		
+		xprop.setExp(xprop.getExp()-nexp);
+		xprop.setLevel(xprop.getLevel() + 1);
+		xdb.Procedure.psendWhileCommit(roleId, new SRefreshLevel(Conv.toShort(getLevel())));
+		
+		Message.broadcastMsgNotifyWithDelay(5000, MsgType.MSG_ROLE_LEVEL,getProperties().getRolename(),String.valueOf(xprop.getLevel()));
+		
+		fullTili();
+		//回活力体力
+		//addHuoli(5);
+		//addTili(5);
+		/*		
+		if(getLevel() == 5)
+		{
+			if(getVipLevel() < 2)
+				setVipLevel(2);
+		}
+		else if(getLevel() == 10)
+		{
+			xdb.Procedure.pexecuteWhileCommit(new PBeginLadder(roleId));//开启天梯玩法
+		}
+		*/
+		
+//		addYuanBao(10);
+
+		logLevelUp();
+		return true;
+	}
+	
+	private void logLevelUp()
+	{
+		try {
+			PropRole propRole = PropRole.getPropRole(roleId, true);
+			if(null != propRole) {
+				OpLogManager.getInstance().doLogWhileCommit(LogOpChannel.UPGRADE, roleId, 
+						propRole.getProperties().getRolename(), propRole.getProperties().getLevel(),
+						GameTime.currentTimeMillis(), DateUtil.getCurrentStringFormatEn(GameTime.currentTimeMillis()),
+						propRole.getProperties().getUsername());
+			}
+			
+			java.util.Map<String, Object> params = LogUtil.putRoleBasicParams(roleId, false, new HashMap<String, Object>());
+			LogManager.getInstance().doLogWhileCommit(RemoteLogID.LEVELUP, params);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean isRightBattleNum(int battleNum)
+	{
+		if(battleNum > this.xprop.getBattlenum())
+			return false;
+		return true;
+	}
+	
+	public void setBattleNum(int battleNum)
+	{
+		if(battleNum < this.xprop.getBattlenum())
+			return;
+		else if(battleNum == this.xprop.getBattlenum())
+		{
+			this.xprop.setBattlenum(this.xprop.getBattlenum() + 1);
+			refreshBattleNum();	
+		}		
+	}
+	
+	public void refreshBattleNum()
+	{
+		SRefreshBattleNum snd = new SRefreshBattleNum();
+		snd.data = this.xprop.getBattlenum();
+		xdb.Procedure.psendWhileCommit(roleId, snd);
+	}
+	
+	public int getBattleNum()
+	{
+		return this.xprop.getBattlenum();
+	}
+	
+	public int getTili(long now)
+	{
+		if(xprop.getTi() == getMaxTili())
+		{
+			return xprop.getTi();
+		}
+		
+		long addtili = (now - xprop.getTichangetime()) / TI_RECOVERY_MILLIS;
+		if(xprop.getTi() + addtili >= getMaxTili())
+		{
+			xprop.setTi(getMaxTili());
+			xprop.setTichangetime(0);
+		}
+		else
+		{
+			xprop.setTi(xprop.getTi() + (int)addtili);
+			xprop.setTichangetime(xprop.getTichangetime() + addtili * TI_RECOVERY_MILLIS);
+		}
+		
+		return xprop.getTi();
+	}
+	
+	public int getTiTime(long now)
+	{
+		int ti = getTili(now);
+		if(xprop.getTichangetime() == 0 || ti == getMaxTili())
+			return 0;
+		long tiTime = (TI_RECOVERY_MILLIS - (now - xprop.getTichangetime())) / 1000;
+		return (int)tiTime;
+	}
+	
+	public int getCJFreeGold(long now)
+	{
+		int num = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.freegold).cdtime;
+		long tiTime = (num * 60 * 1000 - (now - xprop.getFreegoldtime())) / 1000;
+		if(tiTime < 0)
+			tiTime = 0;
+		return (int)tiTime;
+	}
+	
+	public int getCJFreeYb(long now)
+	{
+		int num = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.freeyb).cdtime;
+		long tiTime = (num * 60 * 1000 - (now - xprop.getFreeybtime())) / 1000;
+		if(tiTime < 0)
+			tiTime = 0;
+		return (int)tiTime;
+	}
+	/*
+	public int getYbNum()
+	{
+		int num = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.yb).getPeoplenum();
+		int result = num - xprop.getCjybnum();
+		if(result < 0)
+			result = 0;
+		return result;
+	}
+	*/
+	
+	public boolean useTili(int usenum)
+	{
+		if(usenum > 0)
+			usenum = usenum*(-1);
+		long now = chuhan.gsp.main.GameTime.currentTimeMillis();
+		int tilihave = getTili(now);
+		if(tilihave + usenum >= 0)
+		{
+			xprop.setTi(tilihave + usenum);
+			if(tilihave == getMaxTili() || xprop.getTichangetime() == 0)
+			{
+				xprop.setTichangetime(now);
+			}
+		}
+		else
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_ENOUGH_TI));
+			return false;
+		}
+		
+		if(usenum != 0)
+		{
+			refreshTili(now);
+		}
+		
+		return true;
+	}
+	
+	public void refreshTili(long now)
+	{
+		SRefreshTili snd = new SRefreshTili();
+		snd.tili = getTili(now);
+		snd.titime = getTiTime(now);
+		xdb.Procedure.psendWhileCommit(roleId, snd);
+	}
+	
+	
+	public int getMaxTili()
+	{
+		int result = ConfigManager.getInstance().getConf(SLevelConfig.class).get(getLevel()).tinumadd +
+				ConfigManager.getInstance().getConf(Sconfig.class).get(getLevel());
+		return ConfigManager.getInstance().getConf(SLevelConfig.class).get(getLevel()).tinumadd;
+	}
+	public int getMaxHeroSize()
+	{
+		return ConfigManager.getInstance().getConf(SLevelConfig.class).get(getLevel()).heronum;
+	}
+	public int getMaxEquipSize()
+	{
+		return ConfigManager.getInstance().getConf(SLevelConfig.class).get(getLevel()).bagnum;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public int addTili(int v)
+	{
+		long now = chuhan.gsp.main.GameTime.currentTimeMillis();
+		int oldti = getTili(now);
+		int newti = setTili(getTili(now)+v, now);
+		return newti - oldti;
+	}
+	
+	public int setTili(int v, long now)
+	{
+		/*int max = getMaxTili();
+		if(v > max)
+			v = max;*/
+		if(v < 0)
+			return xprop.getTi();
+		int max = getMaxTili();
+		if(v > max)
+			v = max;
+		xprop.setTi(v);
+		xprop.setTichangetime(now);
+		
+		refreshTili(now);
+//		xdb.Procedure.psendWhileCommit(roleId, new SRefreshTili(Conv.toByte(v)));
+		return v;
+	}
+	
+	public int fullTili()
+	{
+		long now = chuhan.gsp.main.GameTime.currentTimeMillis();
+		int max = getMaxTili();
+		if(xprop.getTi() < max)
+		{
+			setTili(max,now);
+//			xprop.setTi(getMaxTili());
+//			xprop.setTichangetime(now);
+//			xdb.Procedure.psendWhileCommit(roleId,new SRefreshTili(Conv.toByte(xprop.getTi())));
+		}
+		return xprop.getTi();
+	}
+	
+	public int GetGoldBuyNum(long now)
+	{
+		int num = 0;
+		if(DateUtil.inTheSameDay(now, xprop.getGoldbuytime(), SHOP_REFRESH_TIME))
+		{
+			num = xprop.getGoldbuynum();
+		}
+		else
+		{
+			num = 0;
+			xprop.setGoldbuynum(num);
+			xprop.setGoldbuytime(now);
+		}
+		return num;
+	}
+	public void addGoldBuyNum()
+	{
+		xprop.setGoldbuynum(xprop.getGoldbuynum() +1);
+	}
+	
+	public int GetTiBuyNum(long now)
+	{
+		int num = 0;
+		if(DateUtil.inTheSameDay(now, xprop.getTibuytime(), SHOP_REFRESH_TIME))
+		{
+			num = xprop.getTibuynum();
+		}
+		else
+		{
+			num = 0;
+			xprop.setTibuynum(num);
+			xprop.setTibuytime(now);
+		}
+		return num;
+	}
+	public void addTiBuyNum()
+	{
+		xprop.setTibuynum(xprop.getTibuynum() + 1);
+	}
+	
+	public int GetSignNum(long now)
+	{
+		int num = 0;
+		if(DateUtil.inTheSameMonth(now, xprop.getSigntime(), SIGN_REFRESH_TIME))
+		{
+			num = xprop.getSignnum();
+		}
+		else
+		{
+			num = 0;
+			xprop.setSignnum(num);
+		}
+		return num;
+	}
+	public void addSignNum(long now)
+	{
+		xprop.setSignnum(xprop.getSignnum() + 1);
+		xprop.setSigntime(now);
+	}
+	public boolean isTodaySigned(long now)
+	{
+		return DateUtil.inTheSameDay(now, xprop.getSigntime(), SIGN_REFRESH_TIME);
+	}
+	
+	
+	
+	
+	
+	
+	public void addTips(int tipid)
+	{
+//		xprop.getAlreadytips().add(tipid);
+	}
+	
+	public void sendTips()
+	{
+		SShowedBeginnerTips snd = new SShowedBeginnerTips();
+//		for(int tipid : xprop.getAlreadytips())
+//			snd.tipid.add(Conv.toByte(tipid));
+		xdb.Procedure.psendWhileCommit(roleId, snd);
+	}
+	
+	public int getContinueLoginDays()
+	{
+		if(xprop.getOfflinetime() > xprop.getOnlinetime())
+			return xprop.getContinuelogin();//offline ing
+		long now = GameTime.currentTimeMillis();
+		int onlineday = DateUtil.getCurrentDay(xprop.getOnlinetime());
+		int nowday = DateUtil.getCurrentDay(now);
+		if(nowday <= onlineday)
+			return xprop.getContinuelogin();
+		return xprop.getContinuelogin() + (nowday - onlineday);
+	}
+	
+	/**
+	 * 好友是否到达上限
+	 * @return
+	 */
+	public boolean friendIsFull() {
+//		if(xprop.getFriendnum() < (20 + getLevel() / 5)) {
+//			return false;
+//		}
+		
+		return true;
+	}
+		
+	public void setRecoverTi(int v,long now)
+	{
+//		xprop.setRecoverti(v);
+		xprop.setLastdaychangetime(now);
+	}
+	
+
+	
+}

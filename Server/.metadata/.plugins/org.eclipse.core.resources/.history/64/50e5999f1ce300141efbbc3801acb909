@@ -1,0 +1,209 @@
+package chuhan.gsp.award;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import chuhan.gsp.item.innerdrop16;
+import chuhan.gsp.item.normaldrop15;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.util.ParserString;
+
+/**
+ * 掉落管理类
+ * @author aa
+ *
+ */
+public class DropManager {	
+	public static DropManager instance = new DropManager();
+	
+	private static final int PERCENT_MAX = 10000;
+	
+	private DropManager() {
+
+	}
+
+	public static DropManager getInstance() {
+
+		return instance;
+	}
+	
+	public static void reload() throws Exception
+	{
+		DropManager newInstance = new DropManager();
+		newInstance.init();
+		instance = newInstance;
+	}
+	
+	public void init() throws ParseException
+	{
+		
+	}
+	
+	public List<Integer> getInDpIdListByInDpIdList(List<Integer> inDropIdList){
+		List<Integer> result = new ArrayList<Integer>();
+		for(Integer inDropId : inDropIdList){
+			List<innerdrop16> inDropList = getInDpListByInDpId(inDropId);
+			if(inDropList == null || inDropList.size() == 0)
+				continue;
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据大包掉落获取小包掉落组
+	 * @param normalDropId
+	 * @return
+	 */
+	public List<Integer> getInDpIdListByNmId(int normalDropId){
+		normaldrop15 nmdrop = ConfigManager.getInstance().getConf(normaldrop15.class).get(normalDropId);
+		if(nmdrop == null){
+			return null;
+		}
+		String indrop = nmdrop.getInnerdrop();
+		//全掉落
+		if(nmdrop.getNormaldroptype() == 1){
+			return ParserString.parseString2Int(indrop);
+		}
+		
+		List<Integer> allDrop = ParserString.parseString2Int(indrop);
+		List<Integer> allProb = ParserString.parseString2Int(nmdrop.getInnerdropprob());
+		if(allDrop.size() != allProb.size())
+			return null;
+		
+		//根据几率掉落
+		if(nmdrop.getNormaldroptype() == 2){
+			HashMap<Integer,DropInit> dropMap = getDropMap(allDrop,allProb,PERCENT_MAX);
+			return getDropIdList(dropMap,nmdrop.getNormaldroptime());
+		}
+		if(nmdrop.getNormaldroptype() == 3){
+			HashMap<Integer,DropInit> dropMap = getDropMap(allDrop,allProb,0);
+			return getDropIdList(dropMap,nmdrop.getNormaldroptime());
+		}
+		return null;
+	}
+	
+	/**
+	 * 从大包获取小包的掉落map
+	 * @param allDrop
+	 * @param allProb
+	 * @param maxnum
+	 */
+	public HashMap<Integer,DropInit> getDropMap(List<Integer> allDrop,List<Integer> allProb, int maxnum){
+		HashMap<Integer,DropInit> dropMap = new HashMap<Integer,DropInit>();
+		int percentCount = 0;
+		for(int i = 0;i< allDrop.size();i++){
+			int id = allDrop.get(i);
+			int percent = allProb.get(i);
+			percentCount += percent;
+			DropInit di = new DropInit(percent, id,1);
+			dropMap.put(dropMap.size(), di);
+		}
+		if(maxnum != 0){
+			int percent = maxnum - percentCount;
+			if(percent > 0){
+				DropInit di = new DropInit(percent, -1, Integer.MAX_VALUE);
+				dropMap.put(dropMap.size(), di);
+			}
+		}
+		return dropMap;
+	}
+	
+	public HashMap<Integer,DropInit> getDropMap(List<innerdrop16> inDropList, int maxnum){
+		HashMap<Integer,DropInit> dropMap = new HashMap<Integer,DropInit>();
+		int percentCount = 0;
+		for(innerdrop16 inDrop : inDropList){
+			int id = inDrop.getId();
+			int percent = inDrop.getDropwight();
+			percentCount += percent;
+			DropInit di = new DropInit(percent, id,inDrop.getInnerdroptime());
+			dropMap.put(dropMap.size(), di);
+		}
+		
+		if(maxnum != 0){
+			int percent = maxnum - percentCount;
+			if(percent > 0){
+				DropInit di = new DropInit(percent, -1, Integer.MAX_VALUE);
+				dropMap.put(dropMap.size(), di);
+			}
+		}
+		return dropMap;
+	}
+	
+	
+	/**
+	 * 获取掉落小包组
+	 * @param innerdropId
+	 * @return
+	 */
+	public List<innerdrop16> getInDpListByInDpId(int innerdropId){
+		List<innerdrop16> result = new ArrayList<innerdrop16>();
+		TreeMap<Integer,innerdrop16> treeMap = ConfigManager.getInstance().getConf(innerdrop16.class);
+		for(Map.Entry<Integer, innerdrop16> entry : treeMap.entrySet()){
+			if(entry.getValue().getInnerdropid() == innerdropId){
+				result.add(entry.getValue());
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 根据掉落比例和次数随机掉落组
+	 * @param dropMap
+	 * @param numMax
+	 * @return
+	 */
+	public List<Integer> getDropIdList(HashMap<Integer,DropInit> dropMap, int numMax)
+	{
+		List<Integer> result = new ArrayList<Integer>();
+		for(int num = 0;result.size()<numMax; num++){
+			int[] percentlist = new int[dropMap.size()];
+			int i = 0;
+			for (java.util.Map.Entry<Integer, DropInit> drop : dropMap.entrySet()) {
+				percentlist[i++] = drop.getValue().percent;
+			}
+			int dropnum = chuhan.gsp.util.Misc.getProbability(percentlist);
+			if(dropnum == -1){
+				result.add(-1);
+				continue;
+			}
+			DropInit drop = dropMap.get(dropnum);
+			if(drop == null){
+				result.add(-1);
+				continue;
+			}
+			if(drop.num > 0){
+				drop.num--;
+				result.add(drop.id);
+				continue;
+			}
+			//防止掉落死循环
+			if(num - numMax > 10)
+				break;
+		}		
+		return result;
+		
+	}
+	
+	/**
+	 * 掉落类
+	 * @author aa
+	 *
+	 */
+	public class DropInit
+	{
+		final int percent;
+		final int id;
+		int num;
+		DropInit(int percent, int id, int num)
+		{
+			this.percent = percent;
+			this.id = id;
+			this.num = num;
+		}
+	}
+	
+}

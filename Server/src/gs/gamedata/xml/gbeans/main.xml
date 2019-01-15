@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="chuhan" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <namespace name="gsp"> 
+		<namespace name="main">
+			<bean name="ModuleInfo" from="f服务器模块列表.xlsx" genxml="server">			 
+				  <variable name="id" type="int" fromCol="id" /> id
+				  <variable name="name" fromCol="name"  type="string"     />
+				  <variable name="classname" fromCol="类名"  type="string"     />
+				  <variable name="dep" fromCol="依赖1,依赖2,依赖3,依赖4"  type="vector"  value="string"    />
+			</bean>
+		</namespace>
+			<bean name="HotfixConfig" from="f服务器热加载配置.xlsx" genxml="server">			 
+			  <variable name="id" type="int" fromCol="id" /> id
+			  <variable name="type" fromCol="类型"  type="int"     />
+			  <variable name="name" fromCol="名称"  type="string"     />
+		</bean>
+		<bean name="HotfixXml2ModuleConfig" from="f服务器热加载文件模块对应表.xlsx" genxml="server">			 
+			  <variable name="id" type="int" fromCol="id" /> id
+			  <variable name="filename" fromCol="文件名"  type="string"     />
+			  <variable name="canreload" fromCol="是否支持"  type="bool"     />
+			  <variable name="module" fromCol="对应模块1"  type="string"     />
+		</bean>
+		<bean name="HotdeployClass" from="f服务器热加载配置Proc.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="id" /> 
+			  <variable name="oldClassName" type="string"   fromCol="oldclass"/>	
+			  <variable name="newClassName" type="string"   fromCol="newclass"/>			  
+		</bean>
+	<!-- 每个模块一个子文件 -->
+	<xi:include href="message.xml" />
+	<xi:include href="log.xml" />
+	<xi:include href="attr.xml" />
+	<xi:include href="item.xml" />
+	<xi:include href="battle.xml" />
+	<xi:include href="task.xml" />
+	<xi:include href="game.xml" />
+	<xi:include href="para.xml" />
+	<xi:include href="minigame.xml" />
+  </namespace>
+</namespace>  

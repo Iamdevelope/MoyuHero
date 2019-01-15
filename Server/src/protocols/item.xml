@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="item">
+	<protocol  name="BeanImport" type="1101" maxsize="32" prior="1"> 
+		<variable name="BagTypes" type="chuhan.gsp.item.BagTypes"/>
+		<variable name="ShopTypes" type="chuhan.gsp.item.ShopTypes"/>
+		<variable name="SkillItemData" type="chuhan.gsp.item.SkillItemData"/>
+		<variable name="EquipItemData" type="chuhan.gsp.item.EquipItemData"/>
+	</protocol>
+	
+	<!-- 与bagconfig.xlsx对应 -->
+	<bean name="BagTypes">
+		<enum name="EMPTY" value="0"/>
+		<enum name="BAG" value="1" /> 物品包裹
+		<enum name="SKILL" value="2" /> 技能包裹
+		<enum name="EQUIP" value="3" /> 装备包裹
+		<enum name="SOUL" value="4" /> 魂魄包裹
+		<enum name="COLLECTION" value="5" /> 收集包裹
+    <enum name="COUNT" value="6" /> 包裹类型数量
+		人物身上的包裹
+	</bean>
+	
+	<bean name="ShopTypes">
+		<enum name="YUAN_BAO" value="1"/> 元宝商城
+		<enum name="SOUL_VALUE" value="2" /> 元魂商城
+		<enum name="LADDER_SCORE" value="3" /> 积分商城
+	</bean>
+	
+	<bean name="SkillItemData">
+		<variable name="level" type="byte"/> 等级
+		<variable name="grade" type="byte"/> 阶数
+		<variable name="exp" type="int"/> 经验
+	</bean>
+	
+	<bean name="EquipItemData">
+		<variable name="init1" type="int"/> 基础属性1，默认-1
+		<variable name="init2" type="int"/> 基础属性2，默认-1
+		<variable name="init3" type="int"/>	基础属性3，默认-1
+		<variable name="attr1" type="int"/>	附属属性1，默认-1
+		<variable name="attr2" type="int"/> 附属属性2，默认-1
+		<variable name="attr3" type="int"/> 附属属性3，默认-1
+		<variable name="attr4" type="int"/> 附属属性4，默认-1
+	</bean>
+    
+    <bean name="TradeInfo">
+        <variable name="id" type="int" /> 交易id
+        <variable name="endtime" type="long" /> 结束时间
+        <variable name="usetimes" type="byte" /> 使用次数
+    </bean>
+	
+	<protocol name="SModItemNum" type="1102" maxsize="65535"  prior="101"> 改变物品的数量
+		<variable name="bagid" type="byte" validator="value=[1,)" />
+		<variable name="itemkey" type="int" validator="value=[1,)" />
+		<variable name="curnum" type="int" validator="value=[1,)" />
+	</protocol>
+	
+	<protocol name="SRemoveItem" type="1103" maxsize="65535"  prior="1"> 删除一个或多个物品 by yanglk
+		<variable name="bagid" type="byte" validator="value=[1,)" />
+		<variable name="itemkeys" type="list" value="int" /> 
+	</protocol>
+
+	<protocol name="SAddItem" type="1104" maxsize="65535" prior="1"> 添加物品 by yanglk
+		<variable name="bagid" type="byte" validator="value=[1,)" />
+		<variable name="itemdata" type="list" value="chuhan.gsp.Item" />
+	</protocol>
+	
+	<!-- 刷新玩家的钱或者存款 -->
+	<protocol name="SRefreshMoney" type="1107" maxsize="12" prior="1" > 
+		<variable name="bagid" type="byte" validator="value=[1,10]" />
+		<variable name="money" type="long" validator="value=[0,)" />
+	</protocol>
+	<!-- 服务器通知客户端刷新道具的flag -->
+	<protocol name="SRefreshItemFlag" type="1108" maxsize="65535" prior="1">     
+		<variable name="itemkey" type="int"/> 道具key
+		<variable name="flag" type="int"/> 道具flag
+		<variable name="bagid" type="byte"/> bag的类型
+	</protocol>
+
+	<protocol name="SRefreshItem" type="1109" maxsize="65535" prior="1"> 刷新一个物品的数据
+		<variable name="bagid" type="byte" validator="value=[1,)" />
+		<variable name="data" type="chuhan.gsp.Item" />
+	</protocol>
+	
+	<!-- 符文强化 -->
+	<protocol name="CRefineEquip" type="1110" maxsize="65535" prior="1" waiting="0"> 强化装备
+		<variable name="equipkey" type="int"/>
+	</protocol>
+	
+	<protocol name="CRenewEquip" type="1111" maxsize="65535" prior="1" waiting="0"> 重铸装备
+		<variable name="equipkey" type="int"/>
+		<variable name="costequipkey" type="int"/> 消耗的装备
+	</protocol>
+	
+	<protocol name="CSellItem" type="1112" maxsize="65535" prior="1"> 卖物品
+		<variable name="bagid" type="byte"/>
+		<variable name="items" type="map" key="int" value="int"/>
+	</protocol>
+	
+	<protocol name="CUseItem" type="1113" maxsize="256" prior="1" waiting="0">  使用物品 by yanglk
+		<variable name="bagid" type="byte"/>暂时只有bag，soul，collect里的物品能用
+		<variable name="itemkey" type="int"/>
+		<variable name="num" type="short"/>
+		<variable name="dstkey" type="int"/>当给别的物品或武将使用时，具体是什么由使用的物品自己判断
+	</protocol>
+    
+    <bean name="ShowItemData">
+		<variable name="key" type="int"/>
+		<variable name="id" type="short"/>
+        <variable name="num" type="short"/>
+	</bean>
+   <protocol name="SShowAddItem" type="1114" maxsize="65535" prior="1"> 添加一个物品显示
+		<variable name="data" type="vector" value="ShowItemData" />
+	</protocol>
+	
+	<protocol name="CLevelUpSkillItem" type="1115" maxsize="65535" prior="1" waiting="0"> 技能升级
+		<variable name="skillitemkey" type="int"/>
+		<variable name="consumeitemkeys" type="list" value="int"/>
+	</protocol>
+	<protocol name="SLevelUpSkillItem" type="1116" maxsize="65535" prior="1"> 技能升级结果
+	</protocol>
+	
+	<protocol name="CBuyItem" type="1117" maxsize="65535" prior="1"> 购买
+		<variable name="shoptype" type="byte" />ShopTypes
+		<variable name="shopkey" type="short" />商场中商品key
+		<variable name="num" type="short" /> 购买数量
+	</protocol>
+    
+	<!-- 符文强化返回 -->
+    <protocol name="SRefreshRefineEquip" type="1118" maxsize="65535" prior="1"> 强化装备刷新
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+	</protocol>
+    
+    <protocol name="SRefreshRenewEquip" type="1119" maxsize="65535" prior="1"> 重住装备刷新
+		<variable name="isBaoji" type="byte"/>是否暴击
+	</protocol>
+	
+	<protocol name="SSendBoughtItems" type="1120" maxsize="65535" prior="1"> 今日已经购买的物品数量
+		<variable name="boughtitems" type="map" key="int" value="byte"/>今日已经购买的物品数量
+	</protocol>
+	
+	<protocol name="SSendTodayRecoverd" type="1121" maxsize="65535" prior="1"> 今天已经恢复的次数
+		<variable name="tili" type="byte"/>今天已经恢复的体力次数
+		<variable name="huoli" type="byte"/>今天已经恢复的活力次数
+	</protocol>
+	
+	<protocol name="CRequestRecover" type="1122" maxsize="65535" prior="1"> 请求恢复
+		<variable name="recovertype" type="byte"/>1:体力，2：活力
+	</protocol>
+    
+    <protocol name="SRefreshVipBuyInfo" type="1123" maxsize="65535" prior="1"> 刷新vip购买信息
+		<variable name="boughtitems" type="map" key="int" value="byte"/>已经购买的vip物品数量
+	</protocol>
+    
+  <protocol name="CBuyVipItem" type="1124" maxsize="65535" prior="1"> 购买vip item
+		<variable name="shopkey" type="short" />商场中商品key
+		<variable name="num" type="short" /> 购买数量
+	</protocol>
+	
+	<protocol name="CLevelUpBindSkill" type="1125" maxsize="65535" prior="1" waiting="0"> 绑定技能升级
+		<variable name="herokey" type="int"/>
+		<variable name="consumeitemkeys" type="list" value="int"/>
+	</protocol>
+
+	<protocol name="CRenewEquipByXuanTie" type="1126" maxsize="65535" prior="1" waiting="0"> 用玄铁重铸装备
+		<variable name="equipkey" type="int"/>
+	</protocol>
+    
+    <protocol  name="CRequestTradeList" type="1127" maxsize="32" prior="1"> 请求可交易列表
+	</protocol>
+    
+    <protocol  name="SRefreshTradeList" type="1128" maxsize="65535" prior="1"> 刷新交易列表
+        <variable name="items" type="vector" value="TradeInfo"/> 交易信息
+	</protocol>
+    
+    <protocol  name="CRequestTradeItem" type="1129" maxsize="64" prior="1"> 请求交易
+        <variable name="id" type="int"/>
+        <variable name="useitembagtype" type="byte"/>
+        <variable name="useitemkey" type="int"/>
+	</protocol>
+    
+    <protocol  name="SRefreshTradeItem" type="1130" maxsize="65535" prior="1"> 刷新交易条目
+        <variable name="iteminfo" type="TradeInfo"/>
+	</protocol>
+	
+	<protocol  name="CBagExpansion" type="1131" maxsize="32" prior="1"> 背包扩充
+		<variable name="bagType" type="byte"/>
+	</protocol>
+	
+	<protocol name="SShowGiftItem" type="1132" maxsize="512" prior="1" waiting="0"> 显示礼包获得列表ID
+		<variable name="giftitems" type="list" value="int"/>
+	</protocol>
+	
+	<!-- 符文鉴定 -->
+	<protocol name="CIdentifyEquip" type="1133" maxsize="65535" prior="1"> 
+		<variable name="equipkey" type="int"/>
+	</protocol>
+	
+	<!-- 符文鉴定返回 -->
+    <protocol name="SIdentifyEquip" type="1134" maxsize="65535" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+	</protocol>
+	
+	<!-- 分解符文 -->
+	<protocol  name="CSplitEquip" type="1135" maxsize="64" prior="1"> 
+		<variable name="equipkeyList" type="list" value="int"/>
+	</protocol>
+	
+	<!-- 分解符文结果返回 -->
+	<protocol  name="SSplitEquip" type="1136" maxsize="64" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		<variable name="result" type="int"/>
+	</protocol>
+	
+
+</namespace>

@@ -1,0 +1,119 @@
+package chuhan.gsp.util;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+/**
+ * 属性计算
+ * @author aa
+ *
+ */
+public class AttrCompute
+{
+	
+	public static final Logger logger = Logger.getLogger(AttrCompute.class);
+	/*
+	1.	生命、物攻、物防、法攻、法防、速度
+	2.	命中、闪避、暴击、韧性
+	3.	物伤加成率、物伤减免率、法伤加成率、法伤减免率、暴击伤害率
+	4.	附加伤害值、绝对减伤值
+	*/
+	private static final int HP = 11;			//生命
+	private static final int PATTACK = 12;		//物攻
+	private static final int PDEFENCE = 13;		//物防
+	private static final int MATTACK = 14;		//法攻
+	private static final int MDEFENCE = 15;		//法防
+	private static final int SPEED = 16;		//速度
+	
+	private static final int HIT = 21;			//命中
+	private static final int DODGE = 22;		//闪避
+	private static final int CRITICAL = 23;		//暴击
+	private static final int TENACITY = 24;		//韧性
+	
+	private static final int PADD_PERSENT = 31;		//物伤加成率
+	private static final int PDEL_PERSENT = 32;		//物伤减免率
+	private static final int MADD_PERSENT = 33;		//法伤加成率
+	private static final int MDEL_PERSENT = 34;		//法伤减免率
+	private static final int CRITICAL_PERSENT = 35;		//暴击伤害率
+	
+	private static final int DAMAGEADD = 41;		//附加伤害值
+	private static final int DAMAGEDEL = 42;		//绝对减伤值
+	
+//	/*
+	
+	public static List<Integer> parseString2Int(String strin){
+		return strList2IntList(parseString(strin,FIRST_SPLIT));
+	}
+	
+	public static List<Integer> parseString2Int(String strin,String strsplit){
+		return strList2IntList(parseString(strin,strsplit));
+	}
+	
+	public static List<Integer> strList2IntList(List<String> strList)
+	{
+		try{
+			if(strList == null || strList.size() == 0)
+				return null;
+			List<Integer> result = new ArrayList<Integer>();
+			for(String str : strList){
+				result.add(Integer.parseInt(str));
+			}
+			
+			return result;
+		}
+		catch(Exception e)
+		{
+			logger.error("ParserString strList2IntList error." , e);
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	/**
+	 * 解析string根据默认#分割字符串
+	 * @param strin
+	 * @return
+	 */
+	public static List<String> parseString(String strin){
+		return parseString(strin,FIRST_SPLIT);
+	}
+	
+	/**
+	 * 解析string根据strsplit分割字符串
+	 * @param strin
+	 * @param strsplit
+	 * @return
+	 */
+	public static List<String> parseString(String strin,String strsplit)
+	{
+		try
+		{	
+			if(strin == null || strin.equals(""))
+				return null;
+			List<String> result = new ArrayList<String>();
+			if (strin.contains(strsplit)) {
+				String[] strArray = strin.split(strsplit);
+				for(String str : strArray) {
+					result.add(str);
+				}
+			}else{
+				result.add(strin);
+			}
+			return result;
+		}
+		catch(Exception e)
+		{
+			logger.error("ParserString parseString error. String = " + strin , e);
+			e.printStackTrace();
+		}
+		return null; 
+	}
+
+	
+	
+	
+	
+}

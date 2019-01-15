@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="minigame"> 	
+		<bean name="clianliankandifficultyconfig" from="连连看难度配置.xlsx" genxml="client" priority="1">
+			<variable name="id" type="int" fromCol="难度" />
+			<variable name="time" type="int" fromCol="倒计时"/> 	
+			<variable name="iconcount" type="int"  fromCol="方块种类"/>	
+			<variable name="result" type="vector"  value="int" fromCol="评价一,评价二,评价三,评价四"/>
+		</bean>
+	</namespace>

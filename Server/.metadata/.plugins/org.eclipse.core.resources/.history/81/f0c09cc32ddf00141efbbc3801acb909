@@ -1,0 +1,618 @@
+package chuhan.gsp.play.lottery;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
+import chuhan.gsp.DataInit;
+import chuhan.gsp.MsgType;
+import chuhan.gsp.game.CJEquip;
+import chuhan.gsp.game.CJHero;
+import chuhan.gsp.game.CJMain;
+import chuhan.gsp.game.CJqfChance;
+import chuhan.gsp.hero.PAddHero;
+import chuhan.gsp.item.PAddEquip;
+import chuhan.gsp.item.initEquip;
+import chuhan.gsp.item.initHero;
+import chuhan.gsp.log.Logger;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.msg.Message;
+
+
+
+
+public class LotteryManager{
+
+	public static Logger logger = Logger.getLogger(LotteryManager.class);
+	static private LotteryManager instance = null;
+	
+	public static int qfgold_num = 1;		//全服金币计数
+	public static int qfyb_num = 1;			//全服元宝计数
+	
+	public final int GOLD_LOTTERY = 1;	//金币抽奖
+	public final int YB_LOTTERY = 2;		//元宝抽奖
+	
+	public final int FIRST_FREEGOLD = 1;	//首次免费金币
+	public final int FIRST_FREEYB = 10;		//首次免费元宝
+	public final int FIRST_YB = 100;		//首次元宝
+	
+	public final int GOLDFREE = 1;
+	public final int GOLD = 2;
+	public final int GOLD10 = 3;
+	public final int GOLDQF = 4;
+	public final int YBFREE = 5;
+	public final int YBFIRST = 6;
+	public final int YB = 7;
+	public final int YBQF = 8;
+	public final int YB10 = 9;
+	public final int YBPEOPLE = 10;
+	
+	LinkedList<CJqfChance> qfGold = new LinkedList<CJqfChance>();
+	LinkedList<CJqfChance> qfYb = new LinkedList<CJqfChance>();
+	public int qfGold_Maxnum = 0;
+	public int qfYb_Maxnum = 0;
+	
+	private LotteryManager()
+	{
+		initCheckQF();
+	}
+	public static LotteryManager getInstance() {
+		if(instance == null)
+		{
+			instance = new LotteryManager();
+		}
+		return instance;
+	}
+	
+	private void SendLotteryEnd(long roleId, int result, int intype, java.util.LinkedList<Integer> itemidlist, java.util.LinkedList<Integer> heroidlist, int goldfreetime, int ybfreetime)
+	{
+		SLottery send = new SLottery();
+		send.heroidlist = heroidlist;
+		send.itemidlist = itemidlist;
+		send.result = result;
+		send.lotterytype = intype;
+		send.freegoldtime = goldfreetime;
+		send.freeybtime = ybfreetime;
+		xdb.Procedure.psend(roleId, send);
+	}
+	
+	//抽奖入口
+	public boolean LotteryEntry(int intype, long roleId)
+	{
+		long now = chuhan.gsp.main.GameTime.currentTimeMillis();
+		java.util.LinkedList<Integer> itemidlist = new java.util.LinkedList<Integer>();
+		java.util.LinkedList<Integer> heroidlist = new java.util.LinkedList<Integer>();
+
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleId,false);
+		int cost = ConfigManager.getInstance().getConf(CJMain.class).get(intype).cost;
+		if(intype == CLottery.freegold || intype == CLottery.freeyb)
+		{
+			if( !infree(intype,proprole) )
+			{
+				SendLotteryEnd(roleId,SLottery.END_NOT_FREE,intype,itemidlist,heroidlist,proprole.getCJFreeGold(now),proprole.getCJFreeYb(now));
+				return false;
+			}
+		}
+		else if(intype == CLottery.gold || intype == CLottery.gold10)
+		{
+			if( proprole.delGold(cost * (-1), 0) != cost * (-1))
+			{
+				SendLotteryEnd(roleId,SLottery.END_ERROR,intype,itemidlist,heroidlist,proprole.getCJFreeGold(now),proprole.getCJFreeYb(now));
+				return false;
+			}
+		}
+		else if(intype == CLottery.yb || intype == CLottery.yb10)
+		{
+			if( proprole.delYuanBao(cost * (-1), 0) != cost * (-1))
+			{
+				SendLotteryEnd(roleId,SLottery.END_ERROR,intype,itemidlist,heroidlist,proprole.getCJFreeGold(now),proprole.getCJFreeYb(now));
+				return false;
+			}
+		}
+		int heropercent = ConfigManager.getInstance().getConf(CJMain.class).get(intype).herochance;
+		int equippercent = ConfigManager.getInstance().getConf(CJMain.class).get(intype).equipchance;
+		
+		int Dropnum = this.getDropnum(intype);	//掉落次数
+		if(Dropnum == 10)
+		{
+			Dropnum--;
+			LotteryType ltype = new LotteryType();
+			ltype = get10Cj(ltype,intype);
+//			ltype = HeOrEqDrop(ltype,heropercent,equippercent);
+			getidByLType(ltype,itemidlist,heroidlist);
+		}
+		
+		if(intype == CLottery.gold10)
+		{
+			heropercent = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.gold).herochance;
+			equippercent = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.gold).equipchance;
+		}
+		else if(intype == CLottery.yb10)
+		{
+			heropercent = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.yb).herochance;
+			equippercent = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.yb).equipchance;
+		}
+		
+		for(int i = 0;i < Dropnum;i++)
+		{
+			LotteryType ltype = new LotteryType();
+			ltype.gORy = getGorY(intype);
+			ltype.strnum = getstrnum(intype);
+			ltype = checkPeople(ltype,proprole);
+			if(ltype.isfirst != 0 || ltype.isqf != 0)
+			{
+				getidByLType(ltype,itemidlist,heroidlist);
+				continue;
+			}
+			ltype = checkQF(ltype);
+			if(ltype.isqf != 0)
+			{
+				getidByLType(ltype,itemidlist,heroidlist);
+				continue;
+			}
+
+			ltype = HeOrEqDrop(ltype,heropercent,equippercent);
+			getidByLType(ltype,itemidlist,heroidlist);
+		}
+		
+		for(int itemid : itemidlist)
+		{
+			PAddEquip addProc = new PAddEquip(roleId, itemid, 0, 0, 0);
+			addProc.call();
+			initEquip cfg = ConfigManager.getInstance().getConf(initEquip.class).get(itemid);
+			Message.broadcastMsgNotifyWithDelay(1000, MsgType.MSG_EQUIP_GET,proprole.getProperties().getRolename(),
+					String.valueOf(cfg.getStarlevel()),cfg.getName());
+		}
+		for(int heroid : heroidlist)
+		{
+			PAddHero addProc = new PAddHero(roleId, heroid, 1);
+			addProc.call();
+			initHero cfg = ConfigManager.getInstance().getConf(hero01.class).get(heroid);
+			Message.broadcastMsgNotifyWithDelay(1000, MsgType.MSG_HERO_GET,proprole.getProperties().getRolename(),
+					String.valueOf(cfg.getQuality()),cfg.getNameID());
+		}
+		
+		SendLotteryEnd(roleId,SLottery.END_OK,intype,itemidlist,heroidlist,proprole.getCJFreeGold(now),proprole.getCJFreeYb(now));
+		return true;
+	}
+	
+	//通过ltype计算抽奖的值
+	private void getidByLType(LotteryType ltype, java.util.LinkedList<Integer> itemidlist, java.util.LinkedList<Integer> heroidlist)
+	{
+		if(ltype.isfirst == 1)
+		{
+			heroidlist.add(ltype.firstheroid);
+			return;
+		}
+		if(ltype.hero == 1)
+		{
+			int getnum = getDropId(getHidListByStr(ltype.strnum,ltype.starlevel));
+			if(0 != getnum)
+				heroidlist.add(getnum);
+		}
+		else if(ltype.equip == 1)
+		{
+			int getnum = getDropId(getEidListByStr(ltype.strnum,ltype.starlevel));
+			if(0 != getnum)
+				itemidlist.add(getnum);
+		}
+		else
+		{
+			int getnum = getDropId(getHidListByStr(ltype.strnum,ltype.starlevel));
+			if(0 != getnum)
+			{
+				heroidlist.add(getnum);
+				return;
+			}
+			getnum = getDropId(getEidListByStr(ltype.strnum,ltype.starlevel));
+			if(0 != getnum)
+				itemidlist.add(getnum);
+		}
+	}
+	
+	
+	//判断个人计数和首抽
+	private LotteryType checkPeople(LotteryType ltype, chuhan.gsp.attr.PropRole proprole)
+	{
+		int peoplefirst = proprole.getProperties().getCjfirst();
+		if(ltype.strnum == GOLDFREE && peoplefirst % 10 == 0)
+		{
+			ltype.isfirst = 1;
+			ltype.firstheroid = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.freegold).firsthero;
+			proprole.getProperties().setCjfirst(peoplefirst + FIRST_FREEGOLD);
+			return ltype;
+		}
+		else if(ltype.strnum == YBFREE || ltype.strnum == YB)
+		{
+			int ybnum = proprole.getProperties().getCjybnum() + 1;
+			ybnum = ybnum % ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.yb).getPeoplenum();
+			proprole.getProperties().setCjybnum(ybnum);
+			
+			if(ltype.strnum == YBFREE && peoplefirst % 100 / 10 == 0)
+			{
+				ltype.isfirst = 1;
+				ltype.firstheroid = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.freeyb).firsthero;
+				proprole.getProperties().setCjfirst(peoplefirst + FIRST_FREEYB);
+				return ltype;
+			}
+			else if(ltype.strnum == YB)
+			{
+				if(peoplefirst / 100 == 0)
+				{
+					ltype.strnum = YBFIRST;
+					ltype.isqf = 2;
+					proprole.getProperties().setCjfirst(peoplefirst + FIRST_YB);
+					return ltype;
+				}
+				else if(ybnum == 0)
+				{
+					ltype.strnum = YBPEOPLE;
+					ltype.isqf = 2;
+					return ltype;
+				}
+			}
+		}
+		
+		return ltype;
+	}
+	
+	
+	// 计算英雄卡片或装备卡片掉落
+	private LotteryType HeOrEqDrop(LotteryType ltype, int heropercent, int equippercent) {
+		int[] percentlist = new int[2];
+		percentlist[0] = heropercent;
+		percentlist[1] = equippercent;
+//		int noDrop = 100 - percentlist[0] - percentlist[1];
+//		if (noDrop < 0)
+//			percentlist[2] = 0;
+//		else
+//			percentlist[2] = noDrop;
+
+		int dropnum = chuhan.gsp.util.Misc.getProbability(percentlist);
+		if (dropnum == 0) {
+			ltype.hero = 1;
+		} else if (dropnum == 1) {
+			ltype.equip = 1;
+		}
+		return ltype;
+	}
+	
+	//根据个人免费时间判断
+	private boolean infree(int intype, chuhan.gsp.attr.PropRole proprole)
+	{
+		long lastfreetime = 0;
+		int num = 0;
+		long now = chuhan.gsp.main.GameTime.currentTimeMillis();
+		if(intype == CLottery.freegold)
+		{
+			lastfreetime = proprole.getProperties().getFreegoldtime();
+			num = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.freegold).cdtime;
+		}
+		else if(intype == CLottery.freeyb)
+		{
+			lastfreetime = proprole.getProperties().getFreeybtime();
+			num = ConfigManager.getInstance().getConf(CJMain.class).get(CLottery.freeyb).cdtime;
+		}
+		if(isHaveFree(lastfreetime,num,now))
+		{
+			if(intype == CLottery.freegold)
+			{
+				proprole.getProperties().setFreegoldtime(now);
+			}
+			else if(intype == CLottery.freeyb)
+			{
+				proprole.getProperties().setFreeybtime(now);
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	//free时间判断
+	private boolean isHaveFree(long time, int num, long now)
+	{
+		return now - time > num * 60 * 1000;
+	}
+	
+	//初步判断抽奖strnum
+	private int getstrnum(int intype)
+	{
+		switch((Integer)intype)
+		{
+		case CLottery.freegold:
+			return GOLDFREE;
+		case CLottery.gold:
+			return GOLD;
+		case CLottery.gold10:
+			return GOLD;
+		case CLottery.freeyb:
+			return YBFREE;
+		case CLottery.yb:
+			return YB;
+		case CLottery.yb10:
+			return YB;
+		default:
+			return 0;
+		}
+			
+	}
+
+	//判断全服事件
+	private LotteryType checkQF(LotteryType ltype)
+	{
+		int qfnum = 0;
+		LinkedList<CJqfChance> qfChance = null;
+		CJqfChance chance = null;
+		if(ltype.gORy == GOLD_LOTTERY)
+		{
+			qfnum = qfgold_num++;
+			qfChance = qfGold;
+			if(qfgold_num > qfGold_Maxnum)
+				qfgold_num = qfgold_num - qfGold_Maxnum;
+		}
+		else if(ltype.gORy == YB_LOTTERY)
+		{
+			qfnum = qfyb_num++;
+			qfChance = qfYb;
+			if(qfyb_num > qfYb_Maxnum)
+				qfyb_num = qfyb_num - qfYb_Maxnum;
+		}
+		
+		for(CJqfChance cj : qfChance)
+		{
+			if(qfnum % cj.getNum() == 0 && (chance == null || cj.getNum() > chance.getNum()) )
+			{
+				chance = cj;
+			}
+		}
+		
+		if(chance != null)
+		{
+			ltype.isqf = 1;
+			ltype.hero = chance.herochance;
+			ltype.equip = chance.equipchance;
+			if(chance.herostar != 0)
+				ltype.starlevel = chance.herostar;
+			else if(chance.equipstar != 0)
+				ltype.starlevel = chance.equipstar;
+			if(ltype.gORy == GOLD_LOTTERY)
+				ltype.strnum = GOLDQF;
+			else if(ltype.gORy == YB_LOTTERY)
+				ltype.strnum = YBQF;
+		}
+		
+		return ltype;
+	}
+	
+	private LotteryType get10Cj(LotteryType ltype, int intype)
+	{
+		if(intype == CLottery.gold10)
+		{
+			ltype.strnum = GOLD10;
+			ltype.equip = 1;
+		}
+		else if(intype == CLottery.yb10)
+		{
+			ltype.strnum = YB10;
+			ltype.hero = 1;
+		}
+		
+		return ltype;
+	}
+	
+	//区分金币抽奖还是元宝抽奖
+	private int getGorY(int intype)
+	{
+		if(intype == CLottery.freegold || intype == CLottery.gold || intype == CLottery.gold10)
+			return GOLD_LOTTERY;
+		return YB_LOTTERY;
+	}
+	
+	//计算抽奖次数
+	private int getDropnum(int intype)
+	{
+		if(intype == CLottery.gold10 || intype == CLottery.yb10)
+		{
+			return 10;
+		}
+		return 1;
+	}
+	
+	// 根据比例计算掉落
+	private int getDropId(java.util.HashMap<Integer, DropInit> dropMap) {
+		int[] percentlist = new int[dropMap.size()];
+		int i = 0;
+		for (java.util.Map.Entry<Integer, DropInit> drop : dropMap.entrySet()) {
+			percentlist[i++] = drop.getValue().percent;
+		}
+		int dropnum = chuhan.gsp.util.Misc.getProbability(percentlist);
+		if (dropnum == -1)
+			return 0;
+		DropInit drop = dropMap.get(dropnum);
+		if (drop == null)
+			return 0;
+
+		return drop.id;
+	}
+	
+	//根据星级及掉落方式确认掉落列表和几率,starlevel=0表示无星级限制
+	private HashMap<Integer,DropInit> getHidListByStr(int strnum,int starlevel)
+	{
+		HashMap<Integer,DropInit> dropmap = new HashMap<Integer,DropInit>();
+		Map<Integer, CJHero> heromap = ConfigManager.getInstance().getConf(CJHero.class);
+		for(Map.Entry<Integer, CJHero> hero : heromap.entrySet())
+		{
+			if(hero.getValue().getStar() == starlevel || starlevel == 0)
+			{				
+				if(strnum == GOLDFREE)
+				{
+					if(hero.getValue().getGoldfree() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getGoldfree(),hero.getValue().getId()));
+					}
+				}else if(strnum == GOLD)
+				{
+					if(hero.getValue().getGold() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getGold(),hero.getValue().getId()));
+					}
+				}else if(strnum == GOLD10)
+				{
+					if(hero.getValue().getGold10() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getGold10(),hero.getValue().getId()));
+					}
+				}else if(strnum == GOLDQF)
+				{
+					if(hero.getValue().getGoldqf() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getGoldqf(),hero.getValue().getId()));
+					}
+				}else if(strnum == YBFREE)
+				{
+					if(hero.getValue().getYbfree() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getYbfree(),hero.getValue().getId()));
+					}
+				}else if(strnum == YBFIRST)
+				{
+					if(hero.getValue().getYbfirst() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getYbfirst(),hero.getValue().getId()));
+					}
+				}else if(strnum == YB)
+				{
+					if(hero.getValue().getYb() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getYb(),hero.getValue().getId()));
+					}
+				}else if(strnum == YBQF)
+				{
+					if(hero.getValue().getYbqf() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getYbqf(),hero.getValue().getId()));
+					}
+				}else if(strnum == YB10)
+				{
+					if(hero.getValue().getYb10() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getYb10(),hero.getValue().getId()));
+					}
+				}else if(strnum == YBPEOPLE)
+				{
+					if(hero.getValue().getYbpeople() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(hero.getValue().getYbpeople(),hero.getValue().getId()));
+					}
+				}				
+			}	
+		}
+		return dropmap;
+	}
+	
+	//根据星级及掉落方式确认掉落列表和几率,starlevel=0表示无星级限制
+	private HashMap<Integer,DropInit> getEidListByStr(int strnum,int starlevel)
+	{
+		HashMap<Integer,DropInit> dropmap = new HashMap<Integer,DropInit>();
+		Map<Integer, CJEquip> equipmap = ConfigManager.getInstance().getConf(CJEquip.class);
+		for(Map.Entry<Integer, CJEquip> equip : equipmap.entrySet())
+		{
+			if(equip.getValue().getStar() == starlevel || starlevel == 0)
+			{				
+				if(strnum == GOLDFREE)
+				{
+					if(equip.getValue().getGoldfree() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getGoldfree(),equip.getValue().getId()));
+					}
+				}else if(strnum == GOLD)
+				{
+					if(equip.getValue().getGold() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getGold(),equip.getValue().getId()));
+					}
+				}else if(strnum == GOLD10)
+				{
+					if(equip.getValue().getGold10() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getGold10(),equip.getValue().getId()));
+					}
+				}else if(strnum == GOLDQF)
+				{
+					if(equip.getValue().getGoldqf() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getGoldqf(),equip.getValue().getId()));
+					}
+				}else if(strnum == YBFREE)
+				{
+					if(equip.getValue().getYbfree() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getYbfree(),equip.getValue().getId()));
+					}
+				}else if(strnum == YB)
+				{
+					if(equip.getValue().getYb() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getYb(),equip.getValue().getId()));
+					}
+				}else if(strnum == YBQF)
+				{
+					if(equip.getValue().getYbqf() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getYbqf(),equip.getValue().getId()));
+					}
+				}else if(strnum == YB10)
+				{
+					if(equip.getValue().getYb10() != 0)
+					{
+						dropmap.put(dropmap.size(), new DropInit(equip.getValue().getYb10(),equip.getValue().getId()));
+					}
+				}				
+			}	
+		}
+		return dropmap;
+	}
+	
+	//初始化全服计数相关内容
+	private void initCheckQF() {
+		Map<Integer, CJqfChance> qfchancemap = ConfigManager.getInstance()
+				.getConf(CJqfChance.class);
+		for (Map.Entry<Integer, CJqfChance> qfchance : qfchancemap.entrySet()) {
+			if (qfchance.getValue().getType() == GOLD_LOTTERY) {
+				if (qfchance.getValue().getNum() > qfGold_Maxnum)
+					qfGold_Maxnum = qfchance.getValue().getNum();
+				qfGold.addFirst(qfchance.getValue());
+			} else if (qfchance.getValue().getType() == YB_LOTTERY) {
+				if (qfchance.getValue().getNum() > qfYb_Maxnum)
+					qfYb_Maxnum = qfchance.getValue().getNum();
+				qfYb.addFirst(qfchance.getValue());
+			}
+		}
+
+	}
+		
+	public class LotteryType
+	{
+		int strnum = 0;
+		int starlevel = 0;
+		int hero = 0;	//1为英雄
+		int equip = 0;	//1为物品
+		int isfirst = 0;	//是否首抽事件
+		int firstheroid = 0;	//首抽英雄id
+		int isqf = 0;	//是否全服状态1为全服,2为元宝个人
+		int gORy = 0;	//1表示金币，2表示元宝
+		LotteryType(){}
+	}
+	
+	public class DropInit
+	{
+		final int percent;
+		final int id;
+		DropInit(int percent, int id)
+		{
+			this.percent = percent;
+			this.id = id;
+		}
+	}
+	
+}

@@ -1,0 +1,432 @@
+<xdb xgenOutput="src" trace="info" traceTo=":file" corePoolSize="30" procPoolSize="10" schedPoolSize="5" dbhome="xdb" logpages="4096" backupDir="xbackup" checkpointPeriod="60000" backupIncPeriod="600000" backupFullPeriod="36000000" angelPeriod="5000" xdbVerify="true">
+	<ProcedureConf executionTime="3000" maxExecutionTime="0" retryTimes="3" retryDelay="100"/>
+
+	<xbean name="UserInfo">
+		<variable name="plat" type="string" />
+		<variable name="uid" type="string" /> 实际就是username
+	</xbean>
+	<table name="users" key="long" value="UserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="userlock" autoIncrement="true"/>
+
+	<xbean name="WanmeiUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+		<variable name="username" type="string" />
+	</xbean>
+	<table name="wanmeiusers" key="string" value="WanmeiUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wanmeiuserlock"/>
+		
+<!-- 下面开始是 网龙91相关的  -->	
+	<xbean name="Wanglong91UserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+	</xbean>
+	<table name="wanglong91users" key="string" value="Wanglong91UserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wanglong91userlock"/>
+	<table name="wanglong91adusers" key="string" value="Wanglong91UserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wanglong91aduserlock"/>
+
+	<xbean name="Wanglong91OrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="username" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	key 是  orderserialplat
+	<table name="wanglong91orderinfos" key="string" value="Wanglong91OrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wanglong91orderinfolock"/>
+	<table name="wanglong91ordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wanglong91ordergametoplatlock"/>
+	
+<!-- 下面开始是 铁人pp相关的  -->	
+	<xbean name="Tieren25ppUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+		<variable name="username" type="string" />
+	</xbean>
+	<table name="tieren25ppusers" key="string" value="Tieren25ppUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="tieren25ppuserlock"/>
+
+	<xbean name="Tieren25ppOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="username" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	key 是  orderserialplat
+	<table name="tieren25pporderinfos" key="string" value="Tieren25ppOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="tieren25pporderinfolock"/>
+	<table name="tieren25ppordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="tieren25pporderinfoslock"/>
+
+<!-- 下面开始是 同步推 相关的  -->		
+	<xbean name="TongbuUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+		<variable name="username" type="string" />
+	</xbean>
+	<table name="tongbuusers" key="string" value="TongbuUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="tongbuuserlock"/>
+
+	<xbean name="TongbuOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	key 是  orderserialgame
+	<table name="tongbuorderinfos" key="string" value="TongbuOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="tongbuorderinfolock"/>
+	<!--table name="tongbuordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="tongbuorderinfoslock"/>-->
+	
+	
+	<!-- mac登录账户  -->	
+	<xbean name="MacUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+		<variable name="username" type="string" /> mac
+		<variable name="bindplatform" type="string"/>该mac绑定的平台
+	</xbean>
+	<table name="macusers" key="string" value="MacUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="macuserlock"/>
+	
+	<!-- AppStore购买验证信息  -->	
+	<xbean name="AppOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="serverid" type="string" /> au确认过发票后就与服务器id绑定，同transactionid的发票不能更换所属服务器
+		<variable name="vars" type="binary" />
+	</xbean>
+	<table name="apporders" key="string" value="AppOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="macuserlock"/> key=transactionid
+	<!-- 下面开始是173相关的  -->
+	<xbean name="WM173UserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+	</xbean>
+	<table name="wm173users" key="string" value="WM173UserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wm173userlock"/>
+
+	<xbean name="WM173OrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="username" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	key 是  orderserialplat
+	<table name="wm173orderinfos" key="string" value="WM173OrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wm173orderinfolock"/>
+	<table name="wm173ordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wm173ordergametoplatlock"/>
+	
+	<!-- 下面开始是uc相关的  -->
+	<xbean name="UcUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+	</xbean>
+	<table name="ucusers" key="string" value="UcUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="ucuserlock"/>
+
+	<xbean name="UcOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="username" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	key 是  orderserialplat
+	<table name="ucorderinfos" key="string" value="UcOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="ucorderinfolock"/>
+	<table name="ucordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="ucordergametoplatlock"/>
+	
+		<!-- 下面开始是360相关的  -->
+	<xbean name="QihooUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+		<variable name="refreshToken" type="string"/>
+		<variable name="lastToken" type="string"/> 上次取得的token
+		<variable name="tokenExpires_at" type="long"/>token过期时间
+	</xbean>
+	<table name="qihoousers" key="string" value="QihooUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="qihoouserlock"/>
+	
+	<xbean name="QihooOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="qihooorderinfos" key="string" value="QihooOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="qihooorderinfolock"/>
+	
+	<table name="qihooordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="qihooordergametoplatlock"/>
+	
+	<!--下面开始是多酷相关的  -->
+	<xbean name="DuoKuUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="duokuusers" key="string" value="DuoKuUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="duokuuserlock"/>
+	
+	<xbean name="DuoKuOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	key是orderserialgame
+	<table name="duokuorderinfos" key="string" value="DuoKuOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="duokuorderinfolock"/>
+	
+	<!--下面开始是小米相关的  -->
+	<xbean name="XiaoMiUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="xiaomiusers" key="string" value="XiaoMiUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="xiaomiuserlock"/>
+	
+	<xbean name="XiaoMiOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="xiaomiorderinfos" key="string" value="XiaoMiOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="xiaomiorderinfolock"/>
+	<table name="xiaomiordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="xiaomiordergametoplatlock"/>
+	
+	<!-- 下面开始是当乐相关的  -->
+	<xbean name="DangLeUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="dangleusers" key="string" value="DangLeUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="dangleuserlock"/>
+	
+	<xbean name="DangLeOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="dangleorderinfos" key="string" value="DangLeOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="dangleorderinfolock"/>
+	
+	<table name="dangleordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="dangleordergametoplatlock"/>
+	
+	<!-- 下面开始是老虎相关的  -->
+	<xbean name="LaHuUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="lahuusers" key="string" value="LaHuUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="lahuuserlock"/>
+	
+	<!-- 下面是华为相关的 -->
+	<xbean name="HuaWeiUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="huaweiusers" key="string" value="HuaWeiUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="huaweiuserlock"/>
+	
+	<xbean name="HuaWeiOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	<table name="huaweiorderinfos" key="string" value="HuaWeiOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="huaweiorderinfolock"/>
+	<table name="huaweiordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="huaweiordergametoplatlock"/>
+	
+	<!-- 下面是OPPO相关的 -->
+	<xbean name="OppoUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="oppousers" key="string" value="OppoUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="oppouserlock"/>
+	
+	<xbean name="OppoOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	<table name="oppoorderinfos" key="string" value="OppoOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="oppoorderinfolock"/>
+	<table name="oppoordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="oppoordergametoplatlock"/>
+	
+	<!-- 下面开始是飞流相关的  -->
+	<xbean name="FeiLiuUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+	</xbean>
+	<xbean name="AdUserInfo">
+		<variable name="adPlat" type="string" /> 哪个广告平台
+		<variable name="status" type="int" /> 0为未激活 1为已激活
+		<variable name="vars" type="map" key="string" value="string" /> 
+	</xbean>
+	<table name="feiliuusers" key="string" value="FeiLiuUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="feiliuuserlock"/>
+    <table name="feiliuad" key="string" value="AdUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256"/>
+	<table name="feiliuorderinfos" key="string" value="AppOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="feiliuorderinfolock"/>
+	
+	<!-- 下面开始是 快用相关的  -->	
+	<xbean name="KuaiyongUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+	</xbean>
+	<table name="kuaiyongusers" key="string" value="KuaiyongUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256"/>
+
+	<xbean name="KuaiyongOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="username" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	key 是  orderserialplat
+	<table name="kuaiyongorderinfos" key="string" value="KuaiyongOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" />
+	<table name="kuaiyongordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" />
+	
+	<!--下面开始是GooglePlay相关的  -->
+	<xbean name="GooglePlayUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="gusername" type="string"/>
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="googleplayusers" key="string" value="GooglePlayUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="googleplayuserlock"/>
+	
+	<xbean name="GooglePlayOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="serverid" type="string" /> au确认过发票后就与服务器id绑定，同transactionid的发票不能更换所属服务器
+		<variable name="vars" type="binary" />
+	</xbean>
+	<table name="googleplayorders" key="string" value="GooglePlayOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="googleplayuserlock"/> key=transactionid
+	
+	<!--下面开始是触控科技相关的  -->
+	<xbean name="ChuKongUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+		<variable name="refreshToken" type="string"/>
+		<variable name="lastToken" type="string"/> 上次取得的token
+		<variable name="tokenExpires_at" type="long"/>token过期时间
+	</xbean>
+	<table name="chukongusers" key="string" value="ChuKongUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chukonguserlock"/>
+	
+	<xbean name="ChuKongOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="chukongorderinfos" key="string" value="ChuKongOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chukongorderinfolock"/>
+	
+	<table name="chukongordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chukongordergametoplatlock"/>
+	
+	<!--豌豆荚相关 start-->
+	<xbean name="WanDouJiaUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="wandojiausers" key="string" value="WanDouJiaUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wandoujiauserlock"/>
+	
+	<xbean name="WanDouJiaOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="wandoujiaorderinfos" key="string" value="WanDouJiaOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wandoujiaorderinfolock"/>
+	
+   <table name="wandoujiaordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="wandoujiaordergametoplatlock"/>
+  <!--豌豆荚相关  end-->
+  
+ <!--联想平台相关 start--> 
+  	<xbean name="LevonoOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="levonoorderinfos" key="string" value="LevonoOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="levonoorderinfolock"/>
+	
+   <table name="levonoordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="levonoordergametoplatlock"/>
+ <!--联想平台相关 end--> 
+  <!--机锋平台相关 start--> 
+    <xbean name="GFanUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="gfanusers" key="string" value="GFanUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="gfanuserlock"/>
+  	<xbean name="GFanOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="gfanorderinfos" key="string" value="GFanOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="gfanorderinfolock"/>
+	
+   <table name="gfanordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="gfanordergametoplatlock"/>
+ <!--机锋平台相关 end--> 
+
+ 	<!--下面开始是应用汇相关的  -->
+	<xbean name="AppChinaUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="appchinausers" key="string" value="AppChinaUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="appchinauserlock"/>
+	
+	<xbean name="AppChinaOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	<table name="appchinaorderinfos" key="string" value="AppChinaOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="appchinaorderinfolock"/>
+	
+	<!--下面开始是中国移动游戏相关的  -->
+	<xbean name="ChinaMobileUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="chinamobileusers" key="string" value="ChinaMobileUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chinamobileuserlock"/>
+	<table name="chinamobilelogininfo" type="map" key="string" value="string" cacheCapacity="10240" lock="chinamobileuserlock" persistence="MEMORY"/>
+	
+	<xbean name="ChinaMobileOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	<table name="chinamobileorderinfos" key="string" value="ChinaMobileOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chinamobileorderinfolock"/>
+	
+	<!--下面开始是3G门户相关的  -->
+	<xbean name="ChuKong3GUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="chukong3gusers" key="string" value="ChuKong3GUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chukong3guserlock"/>
+	
+	<xbean name="ChuKong3GOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="userId" type="string" /> 平台用户id
+		<variable name="vars" type="binary" />
+	</xbean>
+	
+	<table name="chukong3gorderinfos" key="string" value="ChuKong3GOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chukong3gorderinfolock"/>
+	<table name="chukong3gordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="chukong3gordergametoplatlock"/>
+	
+	<!-- 下面是联通相关的 -->
+	<xbean name="UnicomUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long"/>
+	</xbean>
+	<table name="unicomusers" key="string" value="UnicomUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="unicomuserlock"/>
+	
+	<xbean name="UnicomOrderInfo">
+		<variable name="createtime" type="long" />
+		<variable name="orderserialgame" type="string" />
+		<variable name="vars" type="binary" />
+	</xbean>
+	<table name="unicomorderinfos" key="string" value="UnicomOrderInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="unicomorderinfolock"/>
+	<table name="unicomordergametoplat" key="string" value="string" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="unicomordergametoplatlock"/>
+ 
+	<!-- 下面开始是 测试账号相关的  -->
+	<xbean name="TestUserInfo">
+		<variable name="userid" type="int" />
+		<variable name="userinfoid" type="long" />
+		<variable name="username" type="string" />
+	</xbean>
+	<table name="testusers" key="string" value="TestUserInfo" cacheCapacity="10240" cachehigh="512" cachelow="256" lock="testuserlock"/>	
+	
+<!-- localid信息 -->	
+  <TableSysConf name="_sys_" cacheCapacity="1" cachehigh="512" cachelow="256"/>
+  	<UniqNameConf localId="1">
+		<XioConf name="xdb.util.UniqName">
+			<!--  Manager name="Client" keepSize="1" maxSize="1">
+				<Coder>
+					<Rpc class="xdb.util.UniqName$Allocate"/>
+					<Rpc class="xdb.util.UniqName$Confirm"/>
+					<Rpc class="xdb.util.UniqName$Release"/>
+					<Rpc class="xdb.util.UniqName$Exist"/>
+					<Rpc class="xdb.util.UniqName$AllocateId"/>
+					<Rpc class="xdb.util.UniqName$ReleaseId"/>
+				</Coder>
+				<Connector remoteIp="10.7.0.37" remotePort="29024" sendBufferSize="16384" receiveBufferSize="16384" tcpNoDelay="true" inputBufferSize="131072" outputBufferSize="131072"/>
+			</Manager -->
+		</XioConf>
+	</UniqNameConf>
+</xdb>

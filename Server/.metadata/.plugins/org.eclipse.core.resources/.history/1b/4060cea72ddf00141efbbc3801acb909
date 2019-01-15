@@ -1,0 +1,169 @@
+package chuhan.gsp.item.types;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.goldhuman.Common.Octets;
+import com.goldhuman.Common.Marshal.OctetsStream;
+
+import xdb.Transaction;
+import chuhan.gsp.DataInit;
+import chuhan.gsp.attr.AttrType;
+import chuhan.gsp.attr.SLevelConfig;
+import chuhan.gsp.item.BasicItem;
+import chuhan.gsp.item.EquipItemData;
+import chuhan.gsp.item.SEquip;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.util.Conv;
+
+public abstract class EquipItem extends BasicItem{
+	
+	public static int MAX_GRADE = 9;
+	
+	xbean.EquipExtData extdata;
+	SEquip equipcfg;
+	
+	EquipItem(int itemid) {
+		super(itemid);
+		equipcfg = ConfigManager.getInstance().getConf(SEquip.class).get(getItemid());
+	}
+	
+	EquipItem(xbean.Item item) {
+		super(item);
+		if(Transaction.current() == null)
+			extdata = xtable.Equipextdatas.select(dataItem.getUniqueid());
+		else
+			extdata = xtable.Equipextdatas.get(dataItem.getUniqueid());
+		equipcfg = ConfigManager.getInstance().getConf(SEquip.class).get(getItemid());
+	}
+
+	@Override
+	protected void afterInsert() {
+		if(xtable.Skillextdatas.get(dataItem.getUniqueid()) != null)
+			return;
+		extdata = xbean.Pod.newEquipExtData();
+		xtable.Equipextdatas.insert(dataItem.getUniqueid(), extdata);
+	}
+
+	@Override
+	protected void afterDelete() {
+		xtable.Skillextdatas.remove(dataItem.getUniqueid());
+	}
+	
+	@Override
+	public int getWorth() {
+		return 0;//super.getWorth() + ConfigManager.getInstance().getConf(SLevelConfig.class).get(getLevel()).bonusworth;
+	}
+	
+	@Override
+	public Octets getExtdataOctets() {
+		EquipItemData extoct = new EquipItemData();
+		extoct.level = Conv.toShort(extdata.getLevel());
+		extoct.grade = Conv.toByte(extdata.getGrade());
+		extoct.gradeexp = Conv.toShort(extdata.getGradeexp());
+		return extoct.marshal(new OctetsStream());
+	};
+	
+	public int getLevel()
+	{
+		return extdata.getLevel();
+	}
+	
+	public void setLevel(int v)
+	{
+		extdata.setLevel(v);
+	}
+	
+	public int getGrade()
+	{
+		return extdata.getGrade();
+	}
+	
+	public int getFinalColor()
+	{
+		if(getGrade() < 1)
+			return getColor();
+		else if(getGrade() < 9)
+			return getColor()+1;
+		else
+			return getColor()+2;
+	}
+	
+	public void setGrade(int v)
+	{
+		extdata.setGrade(v);
+	}
+	
+	public int getGradeExp()
+	{
+		return extdata.getGradeexp();
+	}
+	
+	public int getAllGradeExp()
+	{
+		int expsum = getGradeExp();
+		for(int i = 0 ; i < getGrade(); i++)
+		{
+			expsum += getNeedExp(i);
+		}
+		return expsum;
+	}
+	
+	public int getNeedExp()
+	{
+		return getNeedExp(getGrade());
+	}
+	
+	public static int getNeedExp(int curlevel)
+	{
+		return 0;//ConfigManager.getInstance().getConf(SLevelConfig.class).get(curlevel+1).equipexp;
+	}
+	
+	public void setGradeExp(int v)
+	{
+		extdata.setGradeexp(v);
+	}
+	
+	public int getHp()
+	{
+		return (int)(equipcfg.army + equipcfg.army_grow * (getLevel()-1) + equipcfg.army_remake_grow *(getLevel()/10)*getGrade());
+	}
+	public int getAttack()
+	{
+		return (int)(equipcfg.atta + equipcfg.atta_grow * (getLevel()-1) + equipcfg.atta_remake_grow *(getLevel()/10)*getGrade());
+	}
+	public int getDefend()
+	{
+		return (int)(equipcfg.denf + equipcfg.denf_grow * (getLevel()-1) + equipcfg.denf_remake_grow *(getLevel()/10)*getGrade());
+	}
+	public int getWisdom()
+	{
+		return (int)(equipcfg.wise + equipcfg.wise_grow * (getLevel()-1) + equipcfg.wise_remake_grow *(getLevel()/10)*getGrade());
+	}
+	public int getSpeed()
+	{
+		return (int)(equipcfg.speed + equipcfg.speed_grow * (getLevel()-1) + equipcfg.speed_remake_grow *getGrade());
+	}
+	@Override
+	public boolean canSell()
+	{
+		return true;
+	}
+	
+	public SEquip getEquipConfig()
+	{
+		return equipcfg;
+	}
+	
+	public Map<Integer,Float> getEffects()
+	{
+		Map<Integer,Float> effects = new HashMap<Integer, Float>();
+		effects.put(AttrType.ARMY+1, (float)getHp());
+		effects.put(AttrType.ATTACK+1, (float)getAttack());
+		effects.put(AttrType.DEFEND+1, (float)getDefend());
+		effects.put(AttrType.SKILL+1, (float)getWisdom());
+		effects.put(AttrType.SPEED+1, (float)getSpeed());
+		return effects;
+	}
+	
+}

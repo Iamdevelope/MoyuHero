@@ -1,0 +1,59 @@
+package chuhan.gsp.util;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+
+public class ParserString
+{
+	
+	public static final Logger logger = Logger.getLogger(ParserString.class);
+	
+	private static final String FIRST_SPLIT = "#";
+	
+//	/*
+	public static List<String> parseString(String strin,String strsplit)
+	{
+		try
+		{	
+			if(strin == null || strin.equals(""))
+				return null;
+			List<String> result = new ArrayList<String>();
+			if (strin.contains(strsplit)) {
+				String[] strArray = strin.split(strsplit);
+				for(String str : strArray) {
+					result.add(str);
+				}
+			}else{
+				result.add(strin);
+			}
+			
+			
+			
+			String[] strs = str.split(";");
+			ID2Odds id2odds = new ID2Odds(strs.length);
+			for (int i = 0 ; i < strs.length;i++)
+			{
+				String[] rands = strs[i].split("@");
+				id2odds.ids[i] = Integer.valueOf(rands[0]);
+				id2odds.odds[i] = Integer.valueOf(rands[1]);
+			}
+			return id2odds;
+		}
+		catch(Exception e)
+		{
+			logger.error("Parse IdAndOdds error. String = " + str , e);
+			e.printStackTrace();
+		}
+		return null;
+		 
+	}
+//	*/
+	
+	
+	
+	
+}

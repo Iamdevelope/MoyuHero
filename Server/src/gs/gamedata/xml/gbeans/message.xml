@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="message">	
+		<bean name="cmessage" from="msg.xlsx" genxml="client" priority="1">
+			<variable name="id" fromCol="id" type="int" />
+			<variable name="type" fromCol="type" type="int" />
+			<variable name="msg" fromCol="msg" type="String" />
+		</bean>	
+		<bean name="SMessage" from="SMessage.xlsx" genxml="server">
+		    <variable name="id" fromCol="ID" type="int" />
+			<variable name="msg" fromCol="smsg" type="string" />
+		</bean>		
+	</namespace>

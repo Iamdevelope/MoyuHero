@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<auany 
+    default.plat.type="1"
+    jmx.rmiport = "2708"
+    jmx.serverport = "2709" 
+    http.server.ip="0.0.0.0" 
+    http.server.port="8080"
+    xio.output.security="oyvxyskVhnydfl8vgasqTuzee3bnbopl" 
+    xio.input.security="khSrmjpjrsarmks3aAfrvldn5zafuzdd"
+    >
+    
+    <!--=======================================dota start====================================== -->
+    <!--dota use 700~2000 -->
+    
+     <plat 
+        class="com.auany.plats.Wanglong91" 
+        type="1001" 
+        httpcallbackurl="/wanglong91" 
+        appid="107619" 
+        appkey="92b939ad625a141c9664c97153f335e3adfd893883ca18ce" 
+        url="http://service.sj.91.com/usercenter/ap.aspx"
+        >
+		<httpconfig 
+		connecttimeout="15000" 
+		readtimeout="5000"
+		/>
+	</plat>
+	<plat 
+        class="com.auany.plats.Tieren25pp"
+        type="1002" 
+        appid="332" 
+        httpcallbackurl="/tieren25pp" 
+        passportserver="passport_i.25pp.com" 
+        passporttcpport="8080" 
+        timeout="15000"
+        />
+	<plat 
+        class="com.auany.plats.AppStore"
+        type="1003"
+        server="https://buy.itunes.apple.com/verifyReceipt"
+        timeout="15000"
+        logappid="10060"
+        />formal:"https://buy.itunes.apple.com/verifyReceipt" sanbox:"https://sandbox.itunes.apple.com/verifyReceipt" 
+	<plat 
+        class="com.auany.plats.Tongbu" 
+        type="1004" 
+        httpcallbackurl="/tongbu" 
+        appid="130438"
+        appkey="OvI5eVa6mxJY0Vi$hvHqoy6hwJPZsMTv"
+        url="http://192.168.0.143:8000/"
+        >
+	    	<httpconfig 
+	        connecttimeout="15000" 
+	        readtimeout="5000"
+	    />
+	</plat>
+	<plat 
+        class="com.auany.plats.WM173" 
+        type="1005" 
+        httpcallbackurl="/wm173" 
+        appid="10061" 
+        appkey="V9SZQwpsLZPFVscWULpNChdLzTI8CtDk" 
+        url="http://user.laohu.com/m/api/validate"
+        >
+	    	<httpconfig 
+	        connecttimeout="15000" 
+	        readtimeout="5000"
+	        />
+	</plat>
+
+	<plat 
+        class="com.auany.plats.DangLe" 
+        type="1008" 
+        httpcallbackurl="/dangle"
+        appid="482" 
+        appkey="1FTinSBA"
+		paymentkey="YG8FIpWJBdNJ"
+		userInfo_url="http://connect.d.cn/open/member/info/"
+		>
+	    	<httpconfig 
+	        connecttimeout="15000" 
+	        readtimeout="5000"
+	        />
+	</plat>
+	
+	<plat 
+        class="com.auany.plats.LaHu"
+        type="1014"
+        appid="10060"
+        appkey="xP6iUzB6dekY59CTO2O5PZaX05eqtNft"
+        logappid="10060"
+        userInfo_url="http://user.laohu.com/m/api/validate"
+        serverurl="https://buy.itunes.apple.com/verifyReceipt">
+        <httpconfig  connecttimeout="15000" readtimeout="5000"/>
+    </plat>
+
+	<plat 
+        class="com.auany.plats.GooglePlay"
+        type="1021"
+        serverurl="https://www.googleapis.com/androidpublisher/v1.1/applications/">
+        <httpconfig connecttimeout="15000" readtimeout="5000"/>
+	</plat>
+	
+	<!--dota Hybrid-->
+	<plat class="com.auany.plats.Hybrid" type="777" default="1014" >
+	 	<use type="1003"/>
+		<use type="1014"/>
+	</plat>官方
+    
+	<plat class="com.auany.plats.Hybrid" type="1999" default="1003" >
+		<use type="1001"/>
+		<use type="1002"/>
+		<use type="1003"/>
+		<use type="1004"/>
+		<use type="1005"/>
+		<use type="1008"/>
+		<use type="1014"/>
+		<use type="1021"/>
+	</plat>全混
+  
+	<plat class="com.auany.plats.Hybrid" type="1997" default="1001" >
+		<use type="1001"/>
+		<use type="1002"/>
+		<use type="1004"/>
+		<use type="1005"/>
+		<use type="1008"/>
+		<use type="1021"/>
+  </plat>全越狱
+  <!--=======================================chuhan end====================================== -->
+</auany>

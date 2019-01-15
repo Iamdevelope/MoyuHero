@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="task"> 
+		<!-- 11_stage.xlsx 关卡信息表 -->
+		<bean name="bossbox25" from="25_bossbox.xlsx" genxml="client">
+			<variable name="id" type="int" fromCol="掉落标识"/>
+			<variable name="bossboxid" type="int" fromCol="BOSS宝箱ID"/>
+			<variable name="dorplevel" type="int" fromCol="筛选等级"/>
+			<variable name="rewardid" type="int" fromCol="奖励id"/>
+			<variable name="rewardnum" type="int" fromCol="奖励数量"/>
+			<variable name="dropwight1" type="int" fromCol="筛选权重"/>
+			<variable name="dropwight1plus" type="int" fromCol="筛选权重增量"/>
+			<variable name="dropwight2" type="int" fromCol="掉落权重"/>
+		</bean>
+		
+		<bean name="shop35" from="35_shop.xlsx" genxml="client">
+			<variable name="id" type="int" fromCol="商品id"/>	
+			<variable name="commodityName" type="string" fromCol="商品名称描述"/>	
+			<variable name="commodityDes" type="string" fromCol="商品内容描述"/>	
+			<variable name="tabID" type="int" fromCol="页签id"/>	
+			<variable name="sorting" type="int" fromCol="页签内排序"/>	
+			<variable name="type" type="int" fromCol="商品类型"/>	
+			<variable name="para" type="string" fromCol="参数id"/>	
+			<variable name="dailyMaxBuy" type="int" fromCol="每日购买次数"/>	
+			<variable name="shelveMaxBuy" type="int" fromCol="总购买次数"/>	
+			<variable name="costType" type="int" fromCol="所需资源类型"/>	
+			<variable name="cost" type="string" fromCol="资源花费"/>	
+			<variable name="onShelve" type="string" fromCol="上架日期"/>	
+			<variable name="offShelve" type="string" fromCol="下架日期"/>	
+			<variable name="discountCost" type="string" fromCol="打折花费"/>	
+			<variable name="discountOn" type="string" fromCol="打折开始日期"/>	
+			<variable name="discountOff" type="string" fromCol="打折结束日期"/>	
+			<variable name="resourceName" type="string" fromCol="图标资源名称"/>	
+			<variable name="vipLimit" type="int" fromCol="所需vip最低等级"/>	
+		</bean>
+
+	</namespace>

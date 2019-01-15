@@ -1,0 +1,14 @@
+package chuhan.gsp.main;
+
+public enum IdType{
+	NULL,
+	ITEM_GROUP,//100-999
+	BAG_ITEM,//3000-3999
+	EQUIP,//4000-4999
+	SKILL,//5000-5999
+	SOUL,//6000-6999
+	COLLECT,//7000-7999
+	HERO,//9000-9999
+	AWARD_ID,//10000-
+	}
+

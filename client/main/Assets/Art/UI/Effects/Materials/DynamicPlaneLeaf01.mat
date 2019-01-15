@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: DynamicPlaneLeaf01
+  m_Shader: {fileID: 4800000, guid: 24a4cdf2bf962eb4e8bd2fae3e9b19fd, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: b3200228ac89a6c4295fc2d6a3111a7d, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FlowMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 1de99c793f5dc6349b3ba9b6dec7bdd9, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
+      data:
+        first:
+          name: _FlowStr
+        second: .100000001
+      data:
+        first:
+          name: _FlowSpeed
+        second: .100000001
+      data:
+        first:
+          name: _sin
+        second: 2
+      data:
+        first:
+          name: _step
+        second: 1
+      data:
+        first:
+          name: _TimeX
+        second: 1
+      data:
+        first:
+          name: _TimeY
+        second: 2
+      data:
+        first:
+          name: _OffsetStr
+        second: .0250000004
+    m_Colors: {}

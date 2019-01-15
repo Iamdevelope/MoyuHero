@@ -1,0 +1,47 @@
+package chuhan.gsp.hero;
+
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.MsgType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.PropRole;
+import chuhan.gsp.msg.Message;
+
+
+
+public class PPeiYangHero extends xdb.Procedure{
+	private final long roleid;
+	public int herokey; // 英雄key
+	public int slotnum; // 培养位置
+	
+	public PPeiYangHero(long roleid, int herokey, int slotnum) {
+		this.roleid = roleid;
+		this.herokey = herokey;
+		this.slotnum = slotnum;
+
+
+	}
+	
+	@Override
+	protected boolean process() throws Exception {
+		
+		xbean.Properties xprop = xtable.Properties.get(roleid);
+		if(xprop == null){
+			return false;
+		}
+		HeroColumn herocol = HeroColumn.getHeroColumn(roleid, false);
+		
+		boolean result = herocol.peiyangEntry(this.herokey,  this.slotnum);
+
+		SPeiyangHero snd = new SPeiyangHero();
+
+		if(result)
+			snd.result = SPeiyangHero.END_NOT_OK;
+		else{
+			snd.result = SPeiyangHero.END_OK;
+		}
+		xdb.Procedure.psend(roleid, snd);
+		
+		return result;
+	}
+	
+}

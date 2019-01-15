@@ -1,0 +1,271 @@
+package chuhan.gsp.battle;
+
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.hero.TroopColumn;
+import chuhan.gsp.log.Logger;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.task.SGuankaConfig;
+
+
+
+public class Battle {
+
+	public static final Logger logger = Logger.getLogger(Battle.class);
+	
+//	private static final double GOLD_FLOAT = 0.05;
+	private static final String LINE_SPLIT = "#";
+//	private static final String PERCENT_SPLIT = ":";
+	
+	private final long roleId;
+	private final SGuankaConfig iGuankaInfo;
+	
+	
+
+	private java.util.HashMap<Integer,Integer> useherokeyList; 
+	private int dropGold = 0;
+	private int dropCrystal = 0;
+	private java.util.LinkedList<Integer> equipIdList;
+	private java.util.LinkedList<Integer> heroIdList;
+	private java.util.LinkedList<Integer> monsterList;
+
+	public java.util.HashMap<Integer, Integer> getUseherokeyList() {
+		return useherokeyList;
+	}
+	
+	public java.util.LinkedList<Integer> getUseHeroList()
+	{
+		java.util.LinkedList<Integer> returnlist = new java.util.LinkedList<Integer>(); 
+		for(java.util.Map.Entry<Integer, Integer> e : useherokeyList.entrySet())
+		{
+			if(e.getValue() != 0)
+			{
+				returnlist.addFirst(e.getValue());
+			}
+		}
+		return returnlist;
+	}
+	
+	public Battle(long roleId, int scenarioKey)
+	{
+		this.iGuankaInfo = ConfigManager.getInstance().getConf(SGuankaConfig.class).get(scenarioKey);
+		this.roleId = roleId;
+		useherokeyList = new java.util.HashMap<Integer,Integer>();
+		equipIdList = new java.util.LinkedList<Integer>();
+		heroIdList = new java.util.LinkedList<Integer>();
+		monsterList = new java.util.LinkedList<Integer>();
+	
+	}
+	
+	public Battle(long roleId, xbean.GameLevel gamelevel)
+	{
+		this.iGuankaInfo = ConfigManager.getInstance().getConf(SGuankaConfig.class).get(gamelevel.getBattleid());
+		this.roleId = roleId;
+		useherokeyList.putAll(gamelevel.getUseherokeylist());
+		equipIdList.addAll(gamelevel.getEquipidlist());
+		heroIdList.addAll(gamelevel.getHeroidlist());
+		this.dropGold = gamelevel.getDropgold();
+		this.dropCrystal = gamelevel.getDropcrystal();
+	}
+	
+	public chuhan.gsp.battle.BattleInfo getProtocolBattelInfo()
+	{
+		chuhan.gsp.battle.BattleInfo pReturn = new chuhan.gsp.battle.BattleInfo();
+		pReturn.battleid = this.iGuankaInfo.getId();
+		pReturn.useherokeylist.putAll(this.useherokeyList);
+		pReturn.monstergroup.addAll(this.monsterList);
+		pReturn.heroexp = this.iGuankaInfo.getHeroexp();
+		pReturn.teamexp = this.iGuankaInfo.getPlayerexp();
+		
+
+			
+		return pReturn;
+	}
+	
+	public boolean CreateBattleInfo(int troopid)
+	{
+		if(this.iGuankaInfo == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_BATTLEID));
+			return false;
+		}
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleId,false);
+//		if(!proprole.useTili(iGuankaInfo.getTili()))
+//		{
+//			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_ENOUGH_TI));
+//			return false;
+//		}
+		
+		TroopColumn troopcol = TroopColumn.getTroopColumn(roleId, false);
+		this.useherokeyList = troopcol.getHkeyLolistByTrid(troopid);
+		
+		this.dropGold = 0;//floatnum(iBattleInfo.getGold(),GOLD_FLOAT,false);
+		this.dropCrystal = 0;
+//		HeOrEqDrop();
+		
+		String str = iGuankaInfo.getMonstergroup();
+		if (-1 != str.indexOf(LINE_SPLIT)) {
+			String[] drop = str.split(LINE_SPLIT);
+			for(String id : drop) {
+				this.monsterList.add(Integer.valueOf(id));
+			}
+		}else{
+			this.monsterList.add(Integer.valueOf(str));
+		}
+		
+		return true;	
+	}
+	
+	//计算英雄卡片或装备卡片掉落
+	public void HeOrEqDrop()
+	{
+		int[] percentlist = new int[3];
+		//percentlist[0] = iBattleInfo.getHeropercent();
+		//percentlist[1] = iBattleInfo.getEquippercent();
+		int noDrop = 100-percentlist[0]-percentlist[1];
+		if(noDrop < 0)
+			percentlist[2] = 0;
+		else
+			percentlist[2] = noDrop;
+		
+		int dropnum = chuhan.gsp.util.Misc.getProbability(percentlist);
+		if(dropnum == 0)
+		{
+			//this.heroIdList.add(getDropId(strTodrop(iBattleInfo.getHerodrop())));
+		}
+		else if(dropnum == 1)
+		{
+			//this.equipIdList.add(getDropId(strTodrop(iBattleInfo.getEquipdrop())));
+		}
+		
+		String str = iGuankaInfo.getMonstergroup();
+		if (-1 != str.indexOf(LINE_SPLIT)) {
+			String[] drop = str.split(LINE_SPLIT);
+			for(String id : drop) {
+				this.monsterList.add(Integer.valueOf(id));
+			}
+		}else{
+			this.monsterList.add(Integer.valueOf(str));
+		}		
+	}
+	
+	/*
+	//解析英雄掉落和物品掉落配表
+	public java.util.HashMap<Integer,DropInit> strTodrop(String str)
+	{
+		java.util.HashMap<Integer,DropInit> dropMap = new java.util.HashMap<Integer,DropInit>();
+		
+		if ( -1 != str.indexOf(LINE_SPLIT) ) {
+			String[] dropline = str.split(LINE_SPLIT);
+			for (String strline : dropline) {
+				if (-1 != strline.indexOf(PERCENT_SPLIT)) {
+					String[] drop = strline.split(PERCENT_SPLIT);
+					if (drop.length == 2) {
+						int id = Integer.parseInt(drop[0]);
+						int percent = Integer.parseInt(drop[1]);
+						DropInit di = new DropInit(percent, id);
+						dropMap.put(dropMap.size(), di);
+					}
+				}
+			}
+		}
+		else
+		{
+			if (-1 != str.indexOf(PERCENT_SPLIT)) {
+				String[] drop = str.split(PERCENT_SPLIT);
+				if (drop.length == 2) {
+					int id = Integer.parseInt(drop[0]);
+					int percent = Integer.parseInt(drop[1]);
+					DropInit di = new DropInit(percent, id);
+					dropMap.put(dropMap.size(), di);
+				}
+			}
+			
+		}
+		return dropMap;
+	}
+	*/
+	//根据比例计算掉落
+	public int getDropId(java.util.HashMap<Integer,DropInit> dropMap)
+	{
+		int[] percentlist = new int[dropMap.size()];
+		int i = 0;
+		for (java.util.Map.Entry<Integer, DropInit> drop : dropMap.entrySet()) {
+			percentlist[i++] = drop.getValue().percent;
+		}
+		int dropnum = chuhan.gsp.util.Misc.getProbability(percentlist);
+		if(dropnum == -1)
+			return 0;
+		DropInit drop = dropMap.get(dropnum);
+		if(drop == null)
+			return 0;
+		
+		return drop.id;
+	}
+	
+	//金币的随机数
+	public int floatnum(int initnum, double floatnum, boolean isunsigned)
+	{
+		double minPct = 1 - floatnum;
+		double maxPct = 1 + floatnum;
+		if(isunsigned)
+		{
+			minPct = 1;
+		}
+		return chuhan.gsp.util.Misc.randomValue(initnum, minPct, maxPct);
+	}
+	
+	public int getDropGold() {
+		return dropGold;
+	}
+
+	public void setDropGold(int dropGold) {
+		this.dropGold = dropGold;
+	}
+
+	public int getDropCrystal() {
+		return dropCrystal;
+	}
+
+	public void setDropCrystal(int dropCrystal) {
+		this.dropCrystal = dropCrystal;
+	}
+
+	public java.util.LinkedList<Integer> getEquipIdList() {
+		return equipIdList;
+	}
+
+	public void setEquipIdList(java.util.LinkedList<Integer> equipIdList) {
+		this.equipIdList = equipIdList;
+	}
+
+	public java.util.LinkedList<Integer> getHeroIdList() {
+		return heroIdList;
+	}
+
+	public void setHeroIdList(java.util.LinkedList<Integer> heroIdList) {
+		this.heroIdList = heroIdList;
+	}
+	
+	public SGuankaConfig getiBattleInfo() {
+		return iGuankaInfo;
+	}
+	
+	
+	public long getRoleId() {
+		return roleId;
+	}
+
+
+	public class DropInit
+	{
+		final int percent;
+		final int id;
+		DropInit(int percent, int id)
+		{
+			this.percent = percent;
+			this.id = id;
+		}
+	}
+	
+}

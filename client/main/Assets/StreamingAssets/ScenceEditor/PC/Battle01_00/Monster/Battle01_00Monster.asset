@@ -1,0 +1,299 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5336521439275aa4696099e31835fc30, type: 3}
+  m_Name: Battle01_00Monster
+  m_EditorClassIdentifier: 
+  MonsterGroupDataList:
+  - MonstersGroupID: 1
+    isSupport: 0
+    MonsterGroupAngle: {x: -0, y: 162.800003, z: 0}
+    MonsterGroupdata:
+    - EntertypeListCount: 0
+      MyPos: {x: 52.5147018, y: 4, z: 24.1704674}
+      MyAngle: {x: 0, y: .988756418, z: 0, w: .149535328}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 1.33040059
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: .5
+        ActionName: Alarm1
+        ActionSpeed: 2.5999999
+        BenchCount: 0
+        RunAroundCount: 2
+        RunAroundPoints:
+        - {x: 51.8652725, y: 4, z: 26.6911545}
+        - {x: 53.2000008, y: 4, z: 23.5}
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+      - Entertype: 2
+        RunAroundTime: .734755158
+        MonsterRuntype: 1
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 1
+        ActionName: Run1
+        ActionSpeed: 9
+        BenchCount: 0
+        RunAroundCount: 2
+        RunAroundPoints:
+        - {x: 52.5147018, y: 4, z: 24.1704674}
+        - {x: 50.5999985, y: 4, z: 30.5}
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 44.8427811, y: 4, z: 31.2849922}
+      MyAngle: {x: 0, y: .883479714, z: 0, w: .46846959}
+      EnterWaitTime: 1
+      MonsterPointdataList:
+      - Entertype: 2
+        RunAroundTime: .683272779
+        MonsterRuntype: 1
+        MonsterActiontype: 1
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: jump1
+        ActionSpeed: 9.60000038
+        BenchCount: 0
+        RunAroundCount: 2
+        RunAroundPoints:
+        - {x: 44.8427811, y: 4, z: 31.2849922}
+        - {x: 50.2000008, y: 4, z: 27.5}
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 54.3556404, y: 4, z: 30.0424519}
+      MyAngle: {x: 0, y: .952502191, z: 0, w: -.304531872}
+      EnterWaitTime: 1
+      MonsterPointdataList:
+      - Entertype: 2
+        RunAroundTime: .490229875
+        MonsterRuntype: 1
+        MonsterActiontype: 1
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: jump1
+        ActionSpeed: 10.6000004
+        BenchCount: 1
+        RunAroundCount: 2
+        RunAroundPoints:
+        - {x: 54.3556404, y: 4, z: 30.0424519}
+        - {x: 53.0999985, y: 4, z: 25}
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+  - MonstersGroupID: 2
+    isSupport: 0
+    MonsterGroupAngle: {x: -0, y: 95.6399994, z: 0}
+    MonsterGroupdata:
+    - EntertypeListCount: 0
+      MyPos: {x: 31.3199978, y: 2, z: 56.082962}
+      MyAngle: {x: 0, y: .741039038, z: 0, w: .671461999}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 0
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 29.1547985, y: 2, z: 55.2718239}
+      MyAngle: {x: 0, y: .741039038, z: 0, w: .671461999}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 0
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 29.1000538, y: 2, z: 56.4981422}
+      MyAngle: {x: 0, y: .741039038, z: 0, w: .671461999}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 0
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 29.1742496, y: 2, z: 57.656456}
+      MyAngle: {x: 0, y: .741039038, z: 0, w: .671461999}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 0
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+  - MonstersGroupID: 3
+    isSupport: 1
+    MonsterGroupAngle: {x: -0, y: 0, z: 0}
+    MonsterGroupdata:
+    - EntertypeListCount: 0
+      MyPos: {x: 10.46, y: 2, z: 44.5149994}
+      MyAngle: {x: 0, y: 0, z: 0, w: 1}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 0
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 8.125, y: 2, z: 44.1650009}
+      MyAngle: {x: 0, y: 0, z: 0, w: 1}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 0
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 11.0600004, y: 2.11999989, z: 41.9799995}
+      MyAngle: {x: 0, y: 0, z: 0, w: 1}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 4
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 2
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 9.40500069, y: 2.07999992, z: 42.045002}
+      MyAngle: {x: 0, y: 0, z: 0, w: 1}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 4
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 2
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+    - EntertypeListCount: 0
+      MyPos: {x: 7.5800004, y: 2.00499988, z: 41.9099998}
+      MyAngle: {x: 0, y: 0, z: 0, w: 1}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 4
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: Fidle1
+        ActionSpeed: 0
+        BenchCount: 1
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0
+  - MonstersGroupID: 4
+    isSupport: 0
+    MonsterGroupAngle: {x: -0, y: 0, z: 0}
+    MonsterGroupdata:
+    - EntertypeListCount: 0
+      MyPos: {x: 11.1900005, y: -.0100002289, z: 13.2950001}
+      MyAngle: {x: 0, y: 0, z: 0, w: 1}
+      EnterWaitTime: 0
+      MonsterPointdataList:
+      - Entertype: 1
+        RunAroundTime: 0
+        MonsterRuntype: 0
+        MonsterActiontype: 0
+        MonsterLooktype: 0
+        ActionTime: 0
+        ActionName: 
+        ActionSpeed: 0
+        BenchCount: 0
+        RunAroundCount: 0
+        RunAroundPoints: []
+        IsMovetoFirstPoint: 0
+        Effname: 
+        EffTime: 0

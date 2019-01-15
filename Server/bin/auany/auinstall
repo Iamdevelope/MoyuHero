@@ -1,0 +1,50 @@
+#!/bin/sh
+
+cd `dirname $0`
+
+DATETIME=`date +%Y%m%d%H%M%S`
+DEST_DIR=/root/server/auany
+BIN_DIR=/root/bin
+INSTALL_LOG=$DEST_DIR/install.log
+
+echo $DATETIME-install begin ... >$INSTALL_LOG	
+if [ -n "$DEST_DIR" ];
+then
+	echo stop auany ... >$INSTALL_LOG
+	sh $DEST_DIR/stop.sh
+fi
+
+mkdir -p $BIN_DIR
+DBHOME=/export/auxdb
+DBBACK=/export/auxbackup
+mkdir -p $DBHOME
+mkdir -p $DBBACK
+
+echo copying all files >> $INSTALL_LOG
+mkdir -p $DEST_DIR
+cp -r $DBHOME $DBBACK/${DATETIME}	2>/dev/null
+cp daemon                 $DEST_DIR/
+cp -rf lib                $DEST_DIR/
+cp libdb_amd64.so         $DEST_DIR/
+cp *.sh                   $DEST_DIR/
+cp auany.config.xml       $DEST_DIR/
+cp auany.xio.xml          $DEST_DIR/
+cp jmxremote.password     $DEST_DIR/
+cp jsscacerts             $DEST_DIR/
+cp change.properties      $DEST_DIR/
+
+cp auany.jar $DEST_DIR/auany.jar.new
+cp gsx.xdb.xml $DEST_DIR/gsx.xdb.xml.new
+echo process datas ... >> $INSTALL_LOG
+cp -rf $DBHOME $DBBACK/${DATETIME} 2>/dev/null
+sh $DEST_DIR/transform.sh
+
+rm -rf $DEST_DIR/xdb
+rm -rf $DEST_DIR/xbackup
+ln -s $DBHOME	$DEST_DIR/xdb 2> /dev/null
+ln -s $DBBACK	$DEST_DIR/xbackup 2> /dev/null	
+
+chmod 600 $DEST_DIR/jmxremote.password
+chmod 0755 $DEST_DIR/*.sh	
+
+echo install finished >> $INSTALL_LOG

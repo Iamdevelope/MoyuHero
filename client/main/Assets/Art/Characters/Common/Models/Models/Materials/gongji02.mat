@@ -1,0 +1,307 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: gongji02
+  m_Shader: {fileID: 4800000, guid: 882a6ec3b779c3149af32b0f4f875a37, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: fab0899d9ef5e2e40a44103921d9837b, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _maintex
+        second:
+          m_Texture: {fileID: 2800000, guid: fab0899d9ef5e2e40a44103921d9837b, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MatCap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _toonramp
+        second:
+          m_Texture: {fileID: 2800000, guid: ab32c04e0e597744fa44601c64973df1, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: -.00100000005, y: 0}
+      data:
+        first:
+          name: _noise
+        second:
+          m_Texture: {fileID: 2800000, guid: c943c11c2fcda294499b4fc119758646, type: 3}
+          m_Scale: {x: .5, y: .5}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _destorytex
+        second:
+          m_Texture: {fileID: 2800000, guid: 28c7aad1372ff114b90d330f8a2dd938, type: 3}
+          m_Scale: {x: 4, y: 4}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ToonShade
+        second:
+          m_Texture: {fileID: 8900000, guid: 7458382629891a947aa2b80dd912e0c9, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_2
+        second:
+          m_Texture: {fileID: 2800000, guid: fab0899d9ef5e2e40a44103921d9837b, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Ramp
+        second:
+          m_Texture: {fileID: 2800000, guid: aa8f13aefc2418e47a0e93085d844530, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_4
+        second:
+          m_Texture: {fileID: 2800000, guid: aa8f13aefc2418e47a0e93085d844530, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_toonramp
+        second:
+          m_Texture: {fileID: 2800000, guid: fab0899d9ef5e2e40a44103921d9837b, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _node_maintex
+        second:
+          m_Texture: {fileID: 2800000, guid: aa8f13aefc2418e47a0e93085d844530, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _nose
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _destroytex
+        second:
+          m_Texture: {fileID: 2800000, guid: 28c7aad1372ff114b90d330f8a2dd938, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
+      data:
+        first:
+          name: _flare
+        second: 0
+      data:
+        first:
+          name: _mainstrength
+        second: 1
+      data:
+        first:
+          name: _Hue
+        second: 0
+      data:
+        first:
+          name: _Saturation
+        second: 0
+      data:
+        first:
+          name: _Value
+        second: 0
+      data:
+        first:
+          name: _Flare
+        second: 0
+      data:
+        first:
+          name: _exp
+        second: 3
+      data:
+        first:
+          name: _outlinewidth
+        second: 1
+      data:
+        first:
+          name: _destory
+        second: 0
+      data:
+        first:
+          name: _Outline
+        second: .00200000009
+      data:
+        first:
+          name: _destoryvalue
+        second: 1
+      data:
+        first:
+          name: _buffstrength
+        second: 2
+      data:
+        first:
+          name: _fresnelexp
+        second: 3
+      data:
+        first:
+          name: _noiseexp
+        second: 3
+      data:
+        first:
+          name: _noisexspeed
+        second: 3
+      data:
+        first:
+          name: _noiseyspeed
+        second: 5
+      data:
+        first:
+          name: _buff
+        second: 0
+      data:
+        first:
+          name: _line
+        second: 0
+      data:
+        first:
+          name: _node_gloss
+        second: 1
+      data:
+        first:
+          name: _node_clip
+        second: .600000024
+      data:
+        first:
+          name: _node_specular
+        second: 0
+      data:
+        first:
+          name: _node_line
+        second: .00499999989
+      data:
+        first:
+          name: _node_9
+        second: .469999999
+      data:
+        first:
+          name: _node_12
+        second: .270000011
+      data:
+        first:
+          name: _node_aaa
+        second: 0
+      data:
+        first:
+          name: _node_940
+        second: 0
+      data:
+        first:
+          name: _str
+        second: 2
+      data:
+        first:
+          name: _power
+        second: 1
+      data:
+        first:
+          name: _freexp
+        second: 3
+      data:
+        first:
+          name: _powerexp
+        second: 3
+      data:
+        first:
+          name: _buffstr
+        second: 2
+      data:
+        first:
+          name: _noisespeed
+        second: .100000001
+      data:
+        first:
+          name: _clip
+        second: 0
+      data:
+        first:
+          name: _noisepower
+        second: 0
+      data:
+        first:
+          name: _destroyvalue
+        second: 1
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: .588, g: .588, b: .588, a: 1}
+      data:
+        first:
+          name: _flarecolor
+        second: {r: .5, g: .319999993, b: .109999999, a: 1}
+      data:
+        first:
+          name: _Flarecolor
+        second: {r: .5, g: .319999993, b: .109999999, a: 1}
+      data:
+        first:
+          name: _maincolor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _linecolor
+        second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _OutlineColor
+        second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _buffcolor
+        second: {r: 1, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _node_631
+        second: {r: .5, g: .5, b: .5, a: 1}
+      data:
+        first:
+          name: _node_690
+        second: {r: .5, g: .5, b: .5, a: 1}
+      data:
+        first:
+          name: _node_maincolor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _node_865
+        second: {r: .25, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _frecolor
+        second: {r: .5, g: .5, b: .5, a: 1}

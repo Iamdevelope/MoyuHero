@@ -1,0 +1,83 @@
+
+package chuhan.gsp;
+
+import com.goldhuman.Common.Marshal.Marshal;
+import com.goldhuman.Common.Marshal.OctetsStream;
+import com.goldhuman.Common.Marshal.MarshalException;
+
+public class ErrorType implements Marshal , Comparable<ErrorType>{
+	public final static int ERR_NOT_ONLINE = 1; // 用户已掉线
+	public final static int ERR_NOT_ENOUGH_TI = 2; // 没有足够体力
+	public final static int ERR_NOT_ENOUGH_GOLD = 3; // 没有足够金币
+	public final static int ERR_NOT_ENOUGH_YUANBAO = 4; // 没有足够水晶
+	public final static int ERR_NOT_ENOUGH_SHENGLINGZQ = 5; // 没有足够圣灵之泉
+	public final static int ERR_NOT_ENOUGH_HERONUM = 5; // 没有足够英雄空间
+	public final static int ERR_NOT_ENOUGH_EQUIPNUM = 5; // 没有足够物品空间
+	public final static int ERR_NOT_RIGHT_MAIL = 6; // 信件ID错误
+	public final static int ERR_NOT_RIGHT_GIFT = 6; // 礼物ID错误
+	public final static int ERR_NOT_HAVE_EQUIP = 6; // 物品key错误
+	public final static int ERR_NOT_RIGHT_EQUIP_STAR = 7; // 物品星级错误
+	public final static int ERR_NOT_RIGHT_EQUIP = 7; // 物品数据错误
+	public final static int ERR_IS_WEAR_BY_HERO = 7; // 物品被英雄穿着
+	public final static int ERR_NOT_HAVE_HERO = 8; // 英雄key错误
+	public final static int ERR_NOT_RIGHT_HERO_STAR = 9; // 英雄星级错误
+	public final static int ERR_NOT_RIGHT_HERO_LEVEL = 9; // 英雄等级错误
+	public final static int ERR_NOT_RIGHT_HERO = 9; // 英雄数据错误
+	public final static int ERR_NOT_RIGHT_SLOT = 9; // 培养数据错误
+	public final static int ERR_NOT_RIGHT_SLOTNUM = 9; // 培养位置错误
+	public final static int ERR_SLOT_IS_MAX = 9; // 培养已经最高等级
+	public final static int ERR_IS_CLOWN_HERO = 9; // 小丑英雄不允许操作
+	public final static int ERR_HERO_IN_TROOP = 9; // 英雄在战队中
+	public final static int ERR_CHANGE_TROOPTYPE = 9; // 战队无法改变类型
+	public final static int ERR_CLOSE_HERO_LOCATION = 9; // 近战位置错误
+	public final static int ERR_NOT_HAVE_TROOP = 10; // 战队编号错误
+	public final static int ERR_HAVE_SAMEMODE_HERO = 11; // 战队里有同种英雄
+	public final static int ERR_NOT_IN_BATTLE = 12; // 没有在战斗中
+	public final static int ERR_LOCK_BATTLEID = 12; // 关卡还未解锁
+	public final static int ERR_NOT_RIGHT_BATTLEID = 12; // 关卡ID错误
+	public final static int ERR_ADD_TROOP = 13; // 队伍变更失败
+
+
+	public ErrorType() {
+	}
+
+	public final boolean _validator_() {
+		return true;
+	}
+
+	public OctetsStream marshal(OctetsStream _os_) {
+		return _os_;
+	}
+
+	public OctetsStream unmarshal(OctetsStream _os_) throws MarshalException {
+		return _os_;
+	}
+
+	public boolean equals(Object _o1_) {
+		if (_o1_ == this) return true;
+		if (_o1_ instanceof ErrorType) {
+			return true;
+		}
+		return false;
+	}
+
+	public int hashCode() {
+		int _h_ = 0;
+		return _h_;
+	}
+
+	public String toString() {
+		StringBuilder _sb_ = new StringBuilder();
+		_sb_.append("(");
+		_sb_.append(")");
+		return _sb_.toString();
+	}
+
+	public int compareTo(ErrorType _o_) {
+		if (_o_ == this) return 0;
+		int _c_ = 0;
+		return _c_;
+	}
+
+}
+

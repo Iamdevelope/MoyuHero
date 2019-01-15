@@ -1,0 +1,486 @@
+Buildfile: E:\gameserver\Server\src\build.xml
+
+checkconf:
+
+genrpc:
+     [java] import --> "linksize.xml"
+     [java] rpcgen --> linksize.xml
+   [delete] Deleting directory E:\gameserver\Server\src\gclient
+   [delete] Deleting directory E:\gameserver\Server\src\gs\beans
+   [delete] Deleting: E:\gameserver\Server\src\gs\gs.xio.xml
+     [java] import --> "protocol.main.xml"
+     [java] import --> "gnet.xml"
+     [java] rpcgen --> protocol.main.xml
+     [xslt] Processing E:\gameserver\Server\src\gs\gs.xio.xml to E:\gameserver\Server\src\xml.tmp
+     [xslt] Loading stylesheet E:\gameserver\Server\src\xsl\gs.xio.xml.xsl
+
+genxdb:
+
+genxdb:
+     [java] WARN CAPACITY conf="" name=bean.User.username info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.User.idlist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.AUUserInfo.nickname info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.AUUserInfo.username info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Properties.rolename info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Properties.username info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Properties.plattypestr info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Properties.mac info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Properties.moheshop info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Properties.smshop info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Properties.newyindao info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Buff.effects info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Buff.extdata info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BuffAgent.buffs info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Bag.items info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Bag.removedkeys info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Troops.troops info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mail.sender info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mail.title info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mail.msg info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mail.innerdropidlist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mail.items info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mail.strlist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mail.strlist<value> info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Mails.mails info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.lotty.singlelotty info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.lotty.tenlotty info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.lotty.tensinglelotty info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.lotty.getherolotty info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.LotteryItemlayer.lotteryitemlist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.LotteryItemAll.superlist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.LotteryItemAll.lotteryitemmap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.huoyues.huoyuemap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.boss.boss1killname info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.boss.boss2killname info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.bossshop.shoplist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.bossRankInfo.rolename info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.bossRankList.ranklist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.stagetanxian.stagetanxian info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.teamtanxian.team info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.stagetxall.teamallmap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.stagetxall.stagetxallmap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.monthcards.rolemonthcards info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.gameactivitys.gameactivitymap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EquipColumn.equips info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Hero.heroskill info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Hero.heromishu info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Hero.heropeiyang info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Hero.heroequip info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.HeroColumn.heroes info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.HeroSkinColumn.heroskins info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.moheodds.moheoddsmap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.heroclone.clonelist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.duihuanlq.clonelist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.duihuanlq.clonelist<value> info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.roledhmap.dhmap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.ArtifactColumn.artifacts info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.ShopbuyColumn.shopbuys info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.NewShopList.shoplist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.NewShopMap.shopmap info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EndlessInfo.useherokeylist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EndlessInfo.monstergroup info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EndlessInfo.herobloodlist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EndlessInfo.heroattribute info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EndlessRankInfo.rolename info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EndlessRankInfo.heroattribute info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.EndlessRankList.ranklist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.GameLevel.useherokeylist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.GameLevel.equipidlist info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.FighterInfo.effects info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.FighterInfo.finalattrs info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.FighterInfo.skills info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BattleInfo.fighterinfos info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BattleInfo.fighters info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BattleInfo.fighters<value> info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BattleInfo.deadfighters info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BattleInfo.engine info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.StageInfo.stagebattles info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.StageRole.stages info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BillData.platbillid info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BillRole.bills info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.GoogleReceiptData.packagename info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.GoogleReceiptData.productid info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.GoogleReceiptData.token info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.AppReceiptData.receipt info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.LadderRole.enermies info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.SysMsg.params info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.SysMsg.params<value> info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.SysMsg.text info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.MsgRole.sysmsgs info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BloodRole.effects info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BloodRole.repeatstaraward info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BloodRole.fixstaraward info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.BloodRankList.rankers info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.ChargeActivity.isgainaward info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.ChargeActivityRole.activities info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.RebateChargeActivity.awardinfo info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.RebateChargeActivityRole.activities info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.FirstFeedActivityRole.activities info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.ConsumeActivity.isgainaward info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.ConsumeActivityRole.activities info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.TuJianHeros.tujianbox info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.TuJianHeros.tujianhero info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.TuJianHeros.tjheromaxlevel info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.ItemNumLimit.itemnums info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.FirstLadderInfoRole.roleinfos info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.FriendReqs.byme info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.FriendReqs.imby info=capacity is required.
+     [java] WARN CAPACITY conf="" name=bean.Friends.mine info=capacity is required.
+     [java] WARN CAPACITY conf="" name=table.macinfos<key> info=capacity is required.
+     [java] WARN OWNER xbean="Item" owners=[soulbag, bag, equipbag, skillbag, collectbag]
+     [java] WARN OWNER xbean="Bag" owners=[soulbag, bag, equipbag, skillbag, collectbag]
+     [java] WARN OWNER xbean="OtherHero" owners=[endlessranklists, endlesscolumns]
+
+gengbeans:
+
+clean:
+   [delete] Deleting directory E:\gameserver\Server\src\gs\build
+   [delete] Deleting directory E:\gameserver\Server\src\gs\build2
+   [delete] Deleting directory E:\gameserver\Server\src\gs\dist
+
+init:
+    [mkdir] Created dir: E:\gameserver\Server\src\gs\build
+    [mkdir] Created dir: E:\gameserver\Server\src\gs\build2
+    [mkdir] Created dir: E:\gameserver\Server\src\gs\dist
+
+genbean:
+   [delete] Deleting directory E:\gameserver\Server\src\gs\confsrc
+    [mkdir] Created dir: E:\gameserver\Server\src\gs\confsrc
+     [java] gs: 04 十一月 2015 17:25:17,239  INFO Main:141 main- writing chuhan.gsp.main.ModuleInfo
+     [java] gs: 04 十一月 2015 17:25:17,243 DEBUG cache:81 main- Could not find template in cache, creating new one; id=[bean.ftl[zh_CN,GBK,parsed] ]
+     [java] gs: 04 十一月 2015 17:25:17,244 DEBUG cache:81 main- Compiling FreeMarker template bean.ftl[zh_CN,GBK,parsed]  from E:\gameserver\Server\src\gs\gamedata\xml\codetemplates\bean.ftl
+     [java] gs: 04 十一月 2015 17:25:17,367  INFO Main:141 main- writing chuhan.gsp.HotfixConfig
+     [java] gs: 04 十一月 2015 17:25:17,368 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,369  INFO Main:141 main- writing chuhan.gsp.HotfixXml2ModuleConfig
+     [java] gs: 04 十一月 2015 17:25:17,370 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,375  INFO Main:141 main- writing chuhan.gsp.HotdeployClass
+     [java] gs: 04 十一月 2015 17:25:17,375 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,377  INFO Main:141 main- writing chuhan.gsp.message.cmessage
+     [java] gs: 04 十一月 2015 17:25:17,377 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,379  INFO Main:141 main- writing chuhan.gsp.message.SMessage
+     [java] gs: 04 十一月 2015 17:25:17,379 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,380  INFO Main:141 main- writing chuhan.gsp.log.SLogFormatConfig
+     [java] gs: 04 十一月 2015 17:25:17,380 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,382  INFO Main:141 main- writing chuhan.gsp.attr.heroexp02
+     [java] gs: 04 十一月 2015 17:25:17,382 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,383  INFO Main:141 main- writing chuhan.gsp.attr.player03
+     [java] gs: 04 十一月 2015 17:25:17,384 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,385  INFO Main:141 main- writing chuhan.gsp.attr.config10
+     [java] gs: 04 十一月 2015 17:25:17,386 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,387  INFO Main:141 main- writing chuhan.gsp.attr.attributetrain32
+     [java] gs: 04 十一月 2015 17:25:17,387 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,389  INFO Main:141 main- writing chuhan.gsp.attr.SAttributeDesConfig
+     [java] gs: 04 十一月 2015 17:25:17,390 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,391  INFO Main:141 main- writing chuhan.gsp.attr.SCBuffConfig
+     [java] gs: 04 十一月 2015 17:25:17,391 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,393  INFO Main:141 main- writing chuhan.gsp.attr.SBuffConflicts
+     [java] gs: 04 十一月 2015 17:25:17,393 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,394  INFO Main:141 main- writing chuhan.gsp.attr.SActivityAward
+     [java] gs: 04 十一月 2015 17:25:17,394 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,396  INFO Main:141 main- writing chuhan.gsp.attr.clevelconfig
+     [java] gs: 04 十一月 2015 17:25:17,396 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,398  INFO Main:141 main- writing chuhan.gsp.item.hero01
+     [java] gs: 04 十一月 2015 17:25:17,399 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,404  INFO Main:141 main- writing chuhan.gsp.item.skill06
+     [java] gs: 04 十一月 2015 17:25:17,406 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,408  INFO Main:141 main- writing chuhan.gsp.item.normaldrop15
+     [java] gs: 04 十一月 2015 17:25:17,408 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,409  INFO Main:141 main- writing chuhan.gsp.item.innerdrop16
+     [java] gs: 04 十一月 2015 17:25:17,409 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,410  INFO Main:141 main- writing chuhan.gsp.item.skillupcost17
+     [java] gs: 04 十一月 2015 17:25:17,410 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,411  INFO Main:141 main- writing chuhan.gsp.item.item26
+     [java] gs: 04 十一月 2015 17:25:17,412 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,413  INFO Main:141 main- writing chuhan.gsp.item.baseruneattribute28
+     [java] gs: 04 十一月 2015 17:25:17,414 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,414  INFO Main:141 main- writing chuhan.gsp.item.addruneattribute29
+     [java] gs: 04 十一月 2015 17:25:17,414 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,415  INFO Main:141 main- writing chuhan.gsp.item.runecost30
+     [java] gs: 04 十一月 2015 17:25:17,415 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,416  INFO Main:141 main- writing chuhan.gsp.item.artresource31
+     [java] gs: 04 十一月 2015 17:25:17,417 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,417  INFO Main:141 main- writing chuhan.gsp.item.artifact33
+     [java] gs: 04 十一月 2015 17:25:17,418 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,419  INFO Main:141 main- writing chuhan.gsp.item.heroaddstage67
+     [java] gs: 04 十一月 2015 17:25:17,419 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,420  INFO Main:141 main- writing chuhan.gsp.item.heroupgradexp68
+     [java] gs: 04 十一月 2015 17:25:17,420 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,421  INFO Main:141 main- writing chuhan.gsp.item.heroculture70
+     [java] gs: 04 十一月 2015 17:25:17,421 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,422  INFO Main:141 main- writing chuhan.gsp.item.equipmentquality71
+     [java] gs: 04 十一月 2015 17:25:17,422 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,423  INFO Main:141 main- writing chuhan.gsp.item.equipmentstrength72
+     [java] gs: 04 十一月 2015 17:25:17,423 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,424  INFO Main:141 main- writing chuhan.gsp.item.ms73
+     [java] gs: 04 十一月 2015 17:25:17,424 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,425  INFO Main:141 main- writing chuhan.gsp.item.SBagConfig
+     [java] gs: 04 十一月 2015 17:25:17,425 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,427  INFO Main:141 main- writing chuhan.gsp.item.SItemList
+     [java] gs: 04 十一月 2015 17:25:17,427 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,427  INFO Main:141 main- writing chuhan.gsp.item.SHero
+     [java] gs: 04 十一月 2015 17:25:17,428 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,431  INFO Main:141 main- writing chuhan.gsp.item.cheroconfig
+     [java] gs: 04 十一月 2015 17:25:17,505 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,509  INFO Main:141 main- writing chuhan.gsp.item.SEquip
+     [java] gs: 04 十一月 2015 17:25:17,509 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,512  INFO Main:141 main- writing chuhan.gsp.item.cequipconfig
+     [java] gs: 04 十一月 2015 17:25:17,513 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,516  INFO Main:141 main- writing chuhan.gsp.item.SColor
+     [java] gs: 04 十一月 2015 17:25:17,516 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,518  INFO Main:141 main- writing chuhan.gsp.item.ccolorconfig
+     [java] gs: 04 十一月 2015 17:25:17,519 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,521  INFO Main:141 main- writing chuhan.gsp.item.SSkill
+     [java] gs: 04 十一月 2015 17:25:17,521 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,524  INFO Main:141 main- writing chuhan.gsp.item.cskillconfig
+     [java] gs: 04 十一月 2015 17:25:17,525 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,527  INFO Main:141 main- writing chuhan.gsp.item.SCollectionConfig
+     [java] gs: 04 十一月 2015 17:25:17,528 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,530  INFO Main:141 main- writing chuhan.gsp.item.ccollectionconfig
+     [java] gs: 04 十一月 2015 17:25:17,531 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,533  INFO Main:141 main- writing chuhan.gsp.item.cshopconfig
+     [java] gs: 04 十一月 2015 17:25:17,533 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,535  INFO Main:141 main- writing chuhan.gsp.item.sshopconfig
+     [java] gs: 04 十一月 2015 17:25:17,536 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,538  INFO Main:141 main- writing chuhan.gsp.item.cherolinkconfig
+     [java] gs: 04 十一月 2015 17:25:17,538 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,540  INFO Main:141 main- writing chuhan.gsp.item.sherolinkconfig
+     [java] gs: 04 十一月 2015 17:25:17,541 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,542  INFO Main:141 main- writing chuhan.gsp.item.ctradeconfig
+     [java] gs: 04 十一月 2015 17:25:17,543 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,545  INFO Main:141 main- writing chuhan.gsp.item.strade
+     [java] gs: 04 十一月 2015 17:25:17,546 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,549  INFO Main:141 main- writing chuhan.gsp.item.SQuanFuTongGao
+     [java] gs: 04 十一月 2015 17:25:17,549 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,550  INFO Main:141 main- writing chuhan.gsp.item.Chongzhi
+     [java] gs: 04 十一月 2015 17:25:17,551 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,551  INFO Main:141 main- writing chuhan.gsp.item.shouchonghuodong
+     [java] gs: 04 十一月 2015 17:25:17,552 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,553  INFO Main:141 main- writing chuhan.gsp.item.leijixiaohao
+     [java] gs: 04 十一月 2015 17:25:17,553 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,554  INFO Main:141 main- writing chuhan.gsp.item.leijixiaohaos
+     [java] gs: 04 十一月 2015 17:25:17,554 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,555  INFO Main:141 main- writing chuhan.gsp.battle.SBattleNPCConfig
+     [java] gs: 04 十一月 2015 17:25:17,607 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,609  INFO Main:141 main- writing chuhan.gsp.battle.cbattlenpcconfig
+     [java] gs: 04 十一月 2015 17:25:17,609 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,610  INFO Main:141 main- writing chuhan.gsp.battle.SBattleConfig
+     [java] gs: 04 十一月 2015 17:25:17,610 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,611  INFO Main:141 main- writing chuhan.gsp.battle.SBattleXuezhan
+     [java] gs: 04 十一月 2015 17:25:17,612 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,613  INFO Main:141 main- writing chuhan.gsp.battle.cbattlexuezhan
+     [java] gs: 04 十一月 2015 17:25:17,613 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,614  INFO Main:141 main- writing chuhan.gsp.battle.SZhenYingZhanGuanKa
+     [java] gs: 04 十一月 2015 17:25:17,614 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,615  INFO Main:141 main- writing chuhan.gsp.task.chapterinfo23
+     [java] gs: 04 十一月 2015 17:25:17,615 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,616  INFO Main:141 main- writing chuhan.gsp.task.stage11
+     [java] gs: 04 十一月 2015 17:25:17,616 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,618  INFO Main:141 main- writing chuhan.gsp.task.monstergroup12
+     [java] gs: 04 十一月 2015 17:25:17,618 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,619  INFO Main:141 main- writing chuhan.gsp.task.monster13
+     [java] gs: 04 十一月 2015 17:25:17,620 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,622  INFO Main:141 main- writing chuhan.gsp.task.cqiandaoconfig
+     [java] gs: 04 十一月 2015 17:25:17,622 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,623  INFO Main:141 main- writing chuhan.gsp.task.sqiandaoconfig
+     [java] gs: 04 十一月 2015 17:25:17,623 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,624  INFO Main:141 main- writing chuhan.gsp.task.STiantiConfig
+     [java] gs: 04 十一月 2015 17:25:17,624 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,625  INFO Main:141 main- writing chuhan.gsp.task.ctianticonfig
+     [java] gs: 04 十一月 2015 17:25:17,626 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,627  INFO Main:141 main- writing chuhan.gsp.task.cmeirenconfig
+     [java] gs: 04 十一月 2015 17:25:17,628 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,629  INFO Main:141 main- writing chuhan.gsp.task.smeirenconfig
+     [java] gs: 04 十一月 2015 17:25:17,629 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,630  INFO Main:141 main- writing chuhan.gsp.task.carroweffect
+     [java] gs: 04 十一月 2015 17:25:17,630 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,632  INFO Main:141 main- writing chuhan.gsp.task.sarroweffect
+     [java] gs: 04 十一月 2015 17:25:17,633 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,634  INFO Main:141 main- writing chuhan.gsp.task.ceventconfig
+     [java] gs: 04 十一月 2015 17:25:17,634 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,635  INFO Main:141 main- writing chuhan.gsp.task.SActivityConfig
+     [java] gs: 04 十一月 2015 17:25:17,635 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,636  INFO Main:141 main- writing chuhan.gsp.task.chuifuconfig
+     [java] gs: 04 十一月 2015 17:25:17,709 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,712  INFO Main:141 main- writing chuhan.gsp.task.shuifuconfig
+     [java] gs: 04 十一月 2015 17:25:17,712 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,715  INFO Main:141 main- writing chuhan.gsp.task.ctimetaskconfig
+     [java] gs: 04 十一月 2015 17:25:17,715 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,718  INFO Main:141 main- writing chuhan.gsp.task.stimetaskconfig
+     [java] gs: 04 十一月 2015 17:25:17,718 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,721  INFO Main:141 main- writing chuhan.gsp.task.cxuezhanxunhuan
+     [java] gs: 04 十一月 2015 17:25:17,722 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,725  INFO Main:141 main- writing chuhan.gsp.task.sxuezhanxunhuan
+     [java] gs: 04 十一月 2015 17:25:17,725 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,727  INFO Main:141 main- writing chuhan.gsp.task.cxuezhanguding
+     [java] gs: 04 十一月 2015 17:25:17,728 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,730  INFO Main:141 main- writing chuhan.gsp.task.sxuezhanguding
+     [java] gs: 04 十一月 2015 17:25:17,730 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,731  INFO Main:141 main- writing chuhan.gsp.task.sxuezhanpaiming
+     [java] gs: 04 十一月 2015 17:25:17,732 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,733  INFO Main:141 main- writing chuhan.gsp.task.cxuezhanpaiming
+     [java] gs: 04 十一月 2015 17:25:17,733 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,734  INFO Main:141 main- writing chuhan.gsp.task.schargeconfig
+     [java] gs: 04 十一月 2015 17:25:17,734 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,735  INFO Main:141 main- writing chuhan.gsp.task.cchargeconfig
+     [java] gs: 04 十一月 2015 17:25:17,736 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,737  INFO Main:141 main- writing chuhan.gsp.task.syaoqingren
+     [java] gs: 04 十一月 2015 17:25:17,737 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,738  INFO Main:141 main- writing chuhan.gsp.task.cyaoqingren
+     [java] gs: 04 十一月 2015 17:25:17,738 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,739  INFO Main:141 main- writing chuhan.gsp.task.scosplay
+     [java] gs: 04 十一月 2015 17:25:17,739 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,740  INFO Main:141 main- writing chuhan.gsp.task.ccosplay
+     [java] gs: 04 十一月 2015 17:25:17,741 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,742  INFO Main:141 main- writing chuhan.gsp.task.spiclink
+     [java] gs: 04 十一月 2015 17:25:17,742 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,743  INFO Main:141 main- writing chuhan.gsp.task.cpiclink
+     [java] gs: 04 十一月 2015 17:25:17,743 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,744  INFO Main:141 main- writing chuhan.gsp.task.cweiboconfig
+     [java] gs: 04 十一月 2015 17:25:17,744 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,746  INFO Main:141 main- writing chuhan.gsp.game.bossbox25
+     [java] gs: 04 十一月 2015 17:25:17,746 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,748  INFO Main:141 main- writing chuhan.gsp.game.shop35
+     [java] gs: 04 十一月 2015 17:25:17,748 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,750  INFO Main:141 main- writing chuhan.gsp.game.exchangecode38
+     [java] gs: 04 十一月 2015 17:25:17,814 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,815  INFO Main:141 main- writing chuhan.gsp.game.exchangecode381
+     [java] gs: 04 十一月 2015 17:25:17,816 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,817  INFO Main:141 main- writing chuhan.gsp.game.exchangecode382
+     [java] gs: 04 十一月 2015 17:25:17,817 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,818  INFO Main:141 main- writing chuhan.gsp.game.exchangecode383
+     [java] gs: 04 十一月 2015 17:25:17,818 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,819  INFO Main:141 main- writing chuhan.gsp.game.exchangecode384
+     [java] gs: 04 十一月 2015 17:25:17,820 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,820  INFO Main:141 main- writing chuhan.gsp.game.exchangecode385
+     [java] gs: 04 十一月 2015 17:25:17,820 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,821  INFO Main:141 main- writing chuhan.gsp.game.exchangecode386
+     [java] gs: 04 十一月 2015 17:25:17,821 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,822  INFO Main:141 main- writing chuhan.gsp.game.exchangecode387
+     [java] gs: 04 十一月 2015 17:25:17,822 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,823  INFO Main:141 main- writing chuhan.gsp.game.exchangecode388
+     [java] gs: 04 十一月 2015 17:25:17,823 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,823  INFO Main:141 main- writing chuhan.gsp.game.exchangecode389
+     [java] gs: 04 十一月 2015 17:25:17,824 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,824  INFO Main:141 main- writing chuhan.gsp.game.vip39
+     [java] gs: 04 十一月 2015 17:25:17,824 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,826  INFO Main:141 main- writing chuhan.gsp.game.illustratehandbook40
+     [java] gs: 04 十一月 2015 17:25:17,826 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,827  INFO Main:141 main- writing chuhan.gsp.game.medalexchange41
+     [java] gs: 04 十一月 2015 17:25:17,827 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,827  INFO Main:141 main- writing chuhan.gsp.game.loginbonus42
+     [java] gs: 04 十一月 2015 17:25:17,828 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,828  INFO Main:141 main- writing chuhan.gsp.game.mysteriousshop43
+     [java] gs: 04 十一月 2015 17:25:17,829 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,829  INFO Main:141 main- writing chuhan.gsp.game.monthcard45
+     [java] gs: 04 十一月 2015 17:25:17,830 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,867  INFO Main:141 main- writing chuhan.gsp.game.explorequest46
+     [java] gs: 04 十一月 2015 17:25:17,867 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,868  INFO Main:141 main- writing chuhan.gsp.game.heroclone47
+     [java] gs: 04 十一月 2015 17:25:17,869 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,869  INFO Main:141 main- writing chuhan.gsp.game.ultimatetrialmonster49
+     [java] gs: 04 十一月 2015 17:25:17,869 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,871  INFO Main:141 main- writing chuhan.gsp.game.ultimatetrialreward50
+     [java] gs: 04 十一月 2015 17:25:17,871 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,872  INFO Main:141 main- writing chuhan.gsp.game.herorecruit51
+     [java] gs: 04 十一月 2015 17:25:17,872 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,873  INFO Main:141 main- writing chuhan.gsp.game.ruintreasure52
+     [java] gs: 04 十一月 2015 17:25:17,917 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,920  INFO Main:141 main- writing chuhan.gsp.game.activitymission55
+     [java] gs: 04 十一月 2015 17:25:17,921 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,923  INFO Main:141 main- writing chuhan.gsp.game.SAddCashConfig
+     [java] gs: 04 十一月 2015 17:25:17,923 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,925  INFO Main:141 main- writing chuhan.gsp.game.legendexcharge57
+     [java] gs: 04 十一月 2015 17:25:17,926 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:17,999  INFO Main:141 main- writing chuhan.gsp.game.shieldcharacter58
+     [java] gs: 04 十一月 2015 17:25:17,999 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,000  INFO Main:141 main- writing chuhan.gsp.game.newbieguide60
+     [java] gs: 04 十一月 2015 17:25:18,000 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,001  INFO Main:141 main- writing chuhan.gsp.game.gameactivity61
+     [java] gs: 04 十一月 2015 17:25:18,002 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,003  INFO Main:141 main- writing chuhan.gsp.game.shangdian76
+     [java] gs: 04 十一月 2015 17:25:18,003 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,005  INFO Main:141 main- writing chuhan.gsp.game.shangdiandiaoluo77
+     [java] gs: 04 十一月 2015 17:25:18,005 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,006  INFO Main:141 main- writing chuhan.gsp.game.SDianjiangGailv
+     [java] gs: 04 十一月 2015 17:25:18,006 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,007  INFO Main:141 main- writing chuhan.gsp.game.SDianjiangQuanzhi
+     [java] gs: 04 十一月 2015 17:25:18,007 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,008  INFO Main:141 main- writing chuhan.gsp.game.SAchestconfig
+     [java] gs: 04 十一月 2015 17:25:18,008 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,009  INFO Main:141 main- writing chuhan.gsp.game.SBchestconfig
+     [java] gs: 04 十一月 2015 17:25:18,009 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,010  INFO Main:141 main- writing chuhan.gsp.game.cranname
+     [java] gs: 04 十一月 2015 17:25:18,011 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,012  INFO Main:141 main- writing chuhan.gsp.game.sranname
+     [java] gs: 04 十一月 2015 17:25:18,013 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,014  INFO Main:141 main- writing chuhan.gsp.game.sgmconfig
+     [java] gs: 04 十一月 2015 17:25:18,014 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,016  INFO Main:141 main- writing chuhan.gsp.game.caddcashconfig
+     [java] gs: 04 十一月 2015 17:25:18,016 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,017  INFO Main:141 main- writing chuhan.gsp.game.svipconfig
+     [java] gs: 04 十一月 2015 17:25:18,017 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,018  INFO Main:141 main- writing chuhan.gsp.game.cvipconfig
+     [java] gs: 04 十一月 2015 17:25:18,018 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,019  INFO Main:141 main- writing chuhan.gsp.game.cweekdaysconfig
+     [java] gs: 04 十一月 2015 17:25:18,019 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,020  INFO Main:141 main- writing chuhan.gsp.game.cvipstore
+     [java] gs: 04 十一月 2015 17:25:18,020 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,022  INFO Main:141 main- writing chuhan.gsp.game.svipstore
+     [java] gs: 04 十一月 2015 17:25:18,022 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,023  INFO Main:141 main- writing chuhan.gsp.game.sxitongjiangli
+     [java] gs: 04 十一月 2015 17:25:18,023 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,024  INFO Main:141 main- writing chuhan.gsp.game.ctujianconfig
+     [java] gs: 04 十一月 2015 17:25:18,024 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,025  INFO Main:141 main- writing chuhan.gsp.game.stujianconfig
+     [java] gs: 04 十一月 2015 17:25:18,025 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,026  INFO Main:141 main- writing chuhan.gsp.game.sturntable
+     [java] gs: 04 十一月 2015 17:25:18,027 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,028  INFO Main:141 main- writing chuhan.gsp.game.cTurntableAwardconfig
+     [java] gs: 04 十一月 2015 17:25:18,028 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,030  INFO Main:141 main- writing chuhan.gsp.game.sTurntableAward
+     [java] gs: 04 十一月 2015 17:25:18,030 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,031  INFO Main:141 main- writing chuhan.gsp.game.cTurntableRull
+     [java] gs: 04 十一月 2015 17:25:18,031 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,032  INFO Main:141 main- writing chuhan.gsp.game.sTurntableRull
+     [java] gs: 04 十一月 2015 17:25:18,032 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,033  INFO Main:141 main- writing chuhan.gsp.game.cstarthero
+     [java] gs: 04 十一月 2015 17:25:18,033 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,034  INFO Main:141 main- writing chuhan.gsp.game.sstarthero
+     [java] gs: 04 十一月 2015 17:25:18,034 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,035  INFO Main:141 main- writing chuhan.gsp.game.condition
+     [java] gs: 04 十一月 2015 17:25:18,036 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,036  INFO Main:141 main- writing chuhan.gsp.game.SHuodongduihuan
+     [java] gs: 04 十一月 2015 17:25:18,036 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,037  INFO Main:141 main- writing chuhan.gsp.game.chuodongduihuan
+     [java] gs: 04 十一月 2015 17:25:18,037 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,038  INFO Main:141 main- writing chuhan.gsp.game.sZhanmoConfig
+     [java] gs: 04 十一月 2015 17:25:18,038 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,038  INFO Main:141 main- writing chuhan.gsp.game.sZhuzhanConfig
+     [java] gs: 04 十一月 2015 17:25:18,039 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,039  INFO Main:141 main- writing chuhan.gsp.game.czhuzhanconfig
+     [java] gs: 04 十一月 2015 17:25:18,039 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,040  INFO Main:141 main- writing chuhan.gsp.game.SZhenYingZhanConfig
+     [java] gs: 04 十一月 2015 17:25:18,040 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,041  INFO Main:141 main- writing chuhan.gsp.game.czhenyingzhanconfig
+     [java] gs: 04 十一月 2015 17:25:18,041 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,042  INFO Main:141 main- writing chuhan.gsp.game.sZhanmoMingciJiangli
+     [java] gs: 04 十一月 2015 17:25:18,042 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,042  INFO Main:141 main- writing chuhan.gsp.game.SZhenYingZhanBangDan
+     [java] gs: 04 十一月 2015 17:25:18,122 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,124  INFO Main:141 main- writing chuhan.gsp.game.SZhanMoBossGuanLianBiao
+     [java] gs: 04 十一月 2015 17:25:18,124 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,126  INFO Main:141 main- writing chuhan.gsp.game.SVIPrepay
+     [java] gs: 04 十一月 2015 17:25:18,126 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,128  INFO Main:141 main- writing chuhan.gsp.para.cparaconfig
+     [java] gs: 04 十一月 2015 17:25:18,128 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,130  INFO Main:141 main- writing chuhan.gsp.minigame.clianliankandifficultyconfig
+     [java] gs: 04 十一月 2015 17:25:18,130 DEBUG cache:81 main- bean.ftl[zh_CN,GBK,parsed] cached copy not yet stale; using cached.
+     [java] gs: 04 十一月 2015 17:25:18,132 DEBUG cache:81 main- Could not find template in cache, creating new one; id=[main.ftl[zh_CN,GBK,parsed] ]
+     [java] gs: 04 十一月 2015 17:25:18,132 DEBUG cache:81 main- Compiling FreeMarker template main.ftl[zh_CN,GBK,parsed]  from E:\gameserver\Server\src\gs\gamedata\xml\codetemplates\main.ftl
+     [java] gs: 04 十一月 2015 17:25:18,144 ERROR Main:161 main- java文件生成成功
+
+genfiles:
+   [delete] Deleting: E:\gameserver\Server\src\xml.tmp
+
+BUILD SUCCESSFUL
+Total time: 9 seconds

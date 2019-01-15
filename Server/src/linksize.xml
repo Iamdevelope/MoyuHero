@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 这个文件列出从客户端发出，需要通过link中转的未知协议 -->
+<application name="chuhan" shareHome="../share" pvids="12" xmlns:xi="http://www.w3.org/2001/XInclude">	
+	<xi:include href="protocols/gsp.xml" />
+	
+	<state name="Client">
+		<provider ref="chuhan.gsp"/>		
+	</state>
+
+	<service name="gclient">
+		<manager name="LinkClient" type="client" initstate="Client" port="10000"/>
+	</service>
+</application>

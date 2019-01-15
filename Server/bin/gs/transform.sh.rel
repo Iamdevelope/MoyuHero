@@ -1,0 +1,59 @@
+#!/bin/sh
+cd `dirname $0`
+
+USE_XDB=/export/xdb		# 待转换的XDB表所在的文件夹
+NEW_XDB=/export/newxdb		# 转换后的临时新XDB
+
+OLD_XML=gsx.xdb.xml
+NEW_XML=gsx.xdb.xml.new		# 新的XDB结构定义
+USE_XDB_JAR=gsxdb.jar		
+PID_FILE=gsx.pid			
+LIB_DIR=lib			# 转换过程的依赖库
+
+
+if [ ! -f $OLD_XML ];then 
+	mv gsxdb.jar.new        gsxdb.jar       2>/dev/null
+	mv gsx.xdb.xml.new      gsx.xdb.xml     2>/dev/null
+
+	exit 0 
+fi
+
+diff $OLD_XML $NEW_XML -q
+if [ $? -eq 0 ]; then
+	mv gsxdb.jar.new        gsxdb.jar       2>/dev/null
+	mv gsx.xdb.xml.new      gsx.xdb.xml     2>/dev/null
+	exit 0;
+fi
+
+if [ ! -d $USE_XDB ]; then 
+	mv gsxdb.jar.new        gsxdb.jar       2>/dev/null
+	mv gsx.xdb.xml.new      gsx.xdb.xml     2>/dev/null
+	exit 0
+fi
+
+if [ ! -d $USE_XDB/dbdata ]; then 
+	mv gsxdb.jar.new        gsxdb.jar       2>/dev/null
+	mv gsx.xdb.xml.new      gsx.xdb.xml     2>/dev/null
+	exit 0
+fi
+
+if [ ! -f $PID_FILE ]; then 
+	rm -f xdb/xdb.inuse
+fi
+
+
+rm -rf /export/newxdb	
+mkdir $NEW_XDB
+
+echo "transform"
+sh xtransform.sh $USE_XDB_JAR $NEW_XML $USE_XDB $NEW_XDB $LIB_DIR
+if [ $? -ne 0 ]; then 
+	exit 1
+fi
+
+mv gsxdb.jar.new        gsxdb.jar       2>/dev/null
+mv gsx.xdb.xml.new      gsx.xdb.xml     2>/dev/null
+rm -rf /export/xdb  
+mv /export/newxdb /export/xdb 
+
+exit 0

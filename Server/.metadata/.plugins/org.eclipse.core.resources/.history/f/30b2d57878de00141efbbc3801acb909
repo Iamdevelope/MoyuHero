@@ -1,0 +1,669 @@
+﻿<xdb xgenOutput="src" trace="debug" traceTo=":out" corePoolSize="5" procPoolSize="20" schedPoolSize="5" dbhome="xdb" logpages="4096" backupDir="xbackup" checkpointPeriod="60000" backupIncPeriod="600000" backupFullPeriod="3600000" angelPeriod="5000" xdbVerify="true" allowBackup="false">
+	<ProcedureConf executionTime="3000" maxExecutionTime="0" retryTimes="3" retryDelay="100"/>
+
+
+
+	<xbean name="ServerInfo">
+		<variable name="firsttime" type="long" /> 第一次起服时间
+		<variable name="starttime" type="long"/> 本次起服时间
+	</xbean>
+	<table name="serverinfo" key="int" value="ServerInfo" cacheCapacity="1" cachehigh="512" cachelow="256" />
+
+	<xbean name="User">
+		<variable name="username" type="string" /> 帐号名称
+		<variable name="idlist" type="vector" value="long"/> 用户的角色列表 value是roleid
+		<variable name="createtime" type="long" /> 帐号第一次进入游戏的时间
+	</xbean>
+	<table name="user" key="int" value="User" cacheCapacity="1024" cachehigh="512" cachelow="256" lock="userlock"/>
+
+
+	<xbean name="AUUserInfo">		
+		<variable name="retcode" type="int"/>
+		<variable name="func" type="int"/>
+		<variable name="funcparm" type="int"/>
+		<variable name="loginip" type="int"/>
+		<variable name="blisgm" type="int"/>
+		<variable name="auth" type="vector" value="int" />
+		<variable name="algorithm" type="int"/>
+		<variable name="nickname" type="string"/>
+		<variable name="username" type="string"/>
+	</xbean>		
+	<table name="auuserinfo" key="int" value="AUUserInfo" cacheCapacity="4000" cachehigh="512" cachelow="256" lock="userlock"/>
+	
+	<!--<table name="username2id" key="string" value="int" cacheCapacity="4000" cachehigh="512" cachelow="256"/>-->
+
+
+	<xbean name="Properties">
+		<variable name="rolename" type="string"/> 角色名
+		<variable name="userid" type="int"/>  所属角色id
+		<variable name="username" type="string"/>  上次登录的账号名称
+		<variable name="plattypestr" type="string"/>  上次登录的平台string
+		<variable name="mac" type="string"/>  上次登录的MAC地址
+		<variable name="ostype" type="int"/>  系统类型
+		<variable name="level" type="int" default="1"/>	 等级
+		<variable name="exp" type="int"/>	 	 经验
+		<variable name="viplv" type="int" default="1"/>	 vip等级
+		<!--<variable name="vipitems" type="map" key="int" value="int"/> vip已经购买的物品-->
+		<!--<variable name="vipdailyitems" type="map" key="int" value="int"/> vip今天购买的物品-->
+		<variable name="ti" type="int"/>							体力
+		<variable name="tichangetime" type="long"/>		体力更新时间
+		<variable name="hammer" type="int"/>			铁锤
+		<variable name="gold" type="int"/>			金币
+		<variable name="yuanbao" type="int"/>			元宝（水晶）
+		<variable name="battlenum" type="int"/>			关卡记录
+		<variable name="createtime" type="long" /> 创建时间
+		<variable name="onlinetime" type="long"/> 上线时间
+		<variable name="offlinetime" type="long"/> 下线时间
+		<!--<variable name="soul" type="int"/> 元魂值-->
+		<variable name="continuelogin" type="int" default="1"/> 连续登录
+		<variable name="lastloginawardtime" type="long"/> 最后一次领连续登录的时间
+		<variable name="levelaward" type="int" default="0"/> 最后一次领连续登录的时间
+		<!--<variable name="recoverti" type="int" default="0"/> 今天恢复体力的次数-->
+		<variable name="lastdaychangetime" type="long" default="0"/> 上次数据变动时间，为跨天清除用（recoverti）
+		
+		<variable name="freegoldtime" type="long" default="0"/> 金币上次免费时间
+		<variable name="freeybtime" type="long" default="0"/> 元宝上次免费时间
+		<variable name="cjybnum" type="int" default="0"/> 元宝抽奖次数
+		<variable name="cjfirst" type="int" default="0"/> 首抽记录：个位免费金币，十位免费元宝，百位首次元宝
+		
+		<variable name="tibuynum" type="int" default="0"/> 体力购买次数
+		<variable name="tibuytime" type="long" default="0"/> 上次记录的体力购买时间
+		<variable name="goldbuynum" type="int" default="0"/> 金币购买次数
+		<variable name="goldbuytime" type="long" default="0"/> 上次记录的金币购买时间
+		
+		<variable name="signnum" type="int" default="0"/> 本月签到次数
+		<variable name="signtime" type="long" default="0"/> 签到时间
+		
+		<!--<variable name="selectvalue" type="float"/> 点将值-->
+		<!--<variable name="goldenFreeSelect" type="int"/> 金牌免费将次数-->
+		<!--<variable name="goldenYuanSelect" type="int"/> 金牌付费点将次数-->
+		<!--<variable name="goldenFreetime" type="long"/> 下次金牌免费时间-->
+		<!--<variable name="silverFreeSelect" type="int"/> 银牌点将次数-->
+		<!--<variable name="silverYuanSelect" type="int"/> 银牌点将次数-->
+		<!--<variable name="silverFreetime" type="long"/> 下次银牌免费时间-->
+		<!--<variable name="bronzeFreeselect" type="int"/> 铜牌点将次数-->
+		<!--<variable name="bronzeYuanselect" type="int"/> 铜牌点将次数-->
+		<!--<variable name="bronzeFreetime" type="long"/> 上次铜牌免费领取时间-->
+		<!--<variable name="todayFreetimes" type="int"/> 今天铜牌已免费次数-->
+		
+		<!--<variable name="alreadytips" type="set" value="int"/> 已经用过的tips-->
+		<!--<variable name="buychestvalue" type="int"/> 买箱子权值-->
+		<!--<variable name="getgoodvalue" type="int"/> 获取好东西的权值-->
+		<!--<variable name="openchestvalue" type="int"/> 开箱子权值-->
+		<!--<variable name="getFriTiliNum" type="int"/> 今日领取好友赠送体力次数-->
+		<!--<variable name="friendNum" type="int"/>好友数量-->
+		<!--<variable name="turntableFreeNum" type="int"/> 今日免费转盘的次数-->
+    <!--    <variable name="cardName" type="string"/> 周卡或月卡的商品名称-->
+		<!--<variable name="cardBuyTime" type="long"/>周卡或月卡的购买时间-->
+		<!--<variable name="cardRebateTime" type="long"/>周卡或月卡的返利时间-->
+	</xbean>
+	<table name="properties" key="long" value="Properties" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock" autoIncrement="true"/> yanglk
+
+
+	<xbean name="Buff">
+		<variable name="id" type="int" />buff类型Id，一种类型的buff只能有一个
+		<variable name="attachTime" type="long" default="0"/>buff attach时的时间，用于计算剩余时间和检测到期
+		<variable name="time" type="long" default="0"/>计时buff总持续时间（period时的period）
+		<variable name="round" type="int" default="0"/>计数buff剩余回合（period时的count）
+		<variable name="amount" type="long" default="0"/>buff的剩余量（period时的initDelay）
+		<variable name="effects" type="map" key="int" value="float"  /> key = effect type id
+		<variable name="extdata" type="map" key="int" value="float"  /> 额外数据，由buff实现者自己定义和使用
+	</xbean>
+	<xbean name="BuffAgent">
+		<variable name="buffs" type="map" key="int" value="Buff" />key为buffId
+	</xbean>
+
+
+	
+	<xbean name="Item">
+		<variable name="id" type="int"/> 物品编号 
+		<variable name="flags" type="int"/> 标志，叠加的时候，flags 也 OR 叠加
+		<variable name="position" type="int" default="-1"/> 包裹属性，位置。从0开始编号
+		<variable name="number" type="int"/>数量
+		<variable name="numbermap" type="map" key="int" value="int" capacity="8"/>数量
+		<variable name="uniqueid" type="long"/> 物品的唯一id
+	</xbean>
+	<xbean name="Bag">		
+		<variable name="money" type="long"/>
+		<variable name="capacity" type="int"/>
+		<variable name="nextid" type="int"/>
+		<variable name="items" type="map" key="int" value="Item"/>
+		<variable name="removedkeys" type="list" value="int"/>
+	</xbean>
+	<table name="bag" key="long" value="Bag" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> liuchen
+	<table name="skillbag" key="long" value="Bag" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> liuchen
+
+	<table name="equipbag" key="long" value="Bag" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> liuchen
+	<table name="soulbag" key="long" value="Bag" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> liuchen
+	<table name="collectbag" key="long" value="Bag" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> liuchen
+	
+	<xbean name="SkillExtData">		
+		<variable name="level" type="int" default="1"/>
+		<variable name="grade" type="int" default="0"/>
+		<variable name="exp" type="int" default="0"/>
+	</xbean>
+	<table name="skillextdatas" key="long" value="SkillExtData" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> liuchen
+	
+	<xbean name="EquipExtData">		
+		<variable name="level" type="int" default="1"/>
+		<variable name="grade" type="int" default="0"/>
+		<variable name="gradeexp" type="int" default="0"/>
+	</xbean>
+	<table name="equipextdatas" key="long" value="EquipExtData" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> liuchen
+	
+	<table name="roleonoffstate" type="map" key="long" value="int" cacheCapacity="10240" lock="rolelock" persistence="MEMORY"/> key是roleid,value是state
+	
+	<xbean name="BasicFightProperties">
+		<variable name="hp" type="float" />
+		<variable name="attack" type="float" />
+		<variable name="defend" type="float" />
+		<variable name="wisdom" type="float" />
+	</xbean>
+	
+	
+	<!-- 战队信息 by yanglk -->
+	<xbean name="Troop">
+		<variable name="troopNum" type="int"/>  战队编号
+		<variable name="location1" type="int"/> 0没装
+		<variable name="location2" type="int"/> 0没装
+		<variable name="location3" type="int"/> 0没装
+		<variable name="location4" type="int"/> 0没装
+		<variable name="location5" type="int"/> 0没装
+	</xbean>
+	<xbean name="Troops">
+		<variable name="troops" type="list" value="Troop"/>
+	</xbean>
+	
+	<table name="herotroops" key="long" value="Troops" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> yanglk
+	
+	<!-- 邮件信息 by yanglk -->
+	<xbean name="Mail">
+		<variable name="key" type="int"/> 邮件唯一ID
+		<variable name="sender" type="string"/> 发送者
+		<variable name="msg" type="string"/> 消息内容
+		<variable name="num" type="int"/>  数值
+		<variable name="numtype" type="int"/> 		1是金币，2是元宝，3是体力
+		<variable name="heroidlist" type="list" value="int"/> 英雄id
+		<variable name="equipidlist" type="list" value="int"/> 物品id
+		<variable name="giftid" type="int"/> 礼包id
+		<variable name="endtime" type="long"/> 结束时间
+	</xbean>
+	<xbean name="Mails">
+		<variable name="mails" type="list" value="Mail"/>
+		<variable name="nextkey" type="int"/>
+	</xbean>
+	
+	<table name="maillist" key="long" value="Mails" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> yanglk
+	
+	<!-- 装备信息 by yanglk -->
+	<xbean name="Equip">
+		<variable name="key" type="int"/> 物品唯一ID
+		<variable name="equipid" type="int"/> 物品ID
+		<variable name="qianghualevel" type="int"/>   强化等级
+		<variable name="attr1odds" type="int"/>   属性1几率
+		<variable name="attr2odds" type="int"/>   属性2几率
+		<variable name="qhadd" type="int"/>   强化增加几率
+	</xbean>
+	<xbean name="EquipColumn">
+		<variable name="equips" type="list" value="Equip"/>
+		<variable name="nextkey" type="int"/>
+	</xbean>
+	
+	<table name="equipcolumns" key="long" value="EquipColumn" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> yanglk
+	
+	
+	<!-- 英雄信息 by yanglk -->
+	<xbean name="Hero">
+		<variable name="key" type="int"/> 英雄唯一ID
+		<variable name="heroid" type="int"/> 英雄配表ID
+		<variable name="heroexp" type="int"/> 英雄本级经验
+		<variable name="herolevel" type="int"/>         英雄等级
+		<variable name="heroallexp" type="int"/>     英雄总经验
+		<variable name="qianghualevel" type="int"/>   强化等级
+		<variable name="qhadd" type="int"/>   强化增加几率
+		<variable name="weapon" type="int"/>   武器
+		<variable name="barde" type="int"/>   铠甲
+		<variable name="ornament" type="int"/>   饰品
+	</xbean>
+	<xbean name="HeroColumn">
+		<variable name="heroes" type="list" value="Hero"/>
+		<variable name="nextkey" type="int"/>
+	</xbean>
+	
+	<table name="herocolumns" key="long" value="HeroColumn" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/> yanglk
+	
+	
+	<xbean name="GameLevel">
+		<variable name="battleid" type="int"/> 副本ID
+		<variable name="useherokeyList" type="map" key="int" value="int"/> 关卡用到的英雄
+		<variable name="dropGold" type="int"/> 掉落金币
+		<variable name="dropCrystal" type="int"/> 掉落宝石
+		<variable name="equipIdList" type="list" value="int" /> 掉落物品列表
+		<variable name="heroIdList" type="list" value="int" /> 掉落英雄列表
+	</xbean>
+	<table name="gamelevels" key="long" value="GameLevel" lock="rolelock" cacheCapacity="4000" cachehigh="512" cachelow="256"	/>
+	
+	
+	<xbean name="RealTimeRole">
+		<variable name="realtimerank" type="int"/> 天梯排名
+		<variable name="realtimenum" type="int" default="1000"/> 天梯分数
+		<variable name="enermies" type="list" value="long" /> 最近的4个仇敌
+		<variable name="fightnum" type="int"/> 今天战斗次数
+		<variable name="lastfighttime" type="long"/> 上次战斗时间
+	</xbean>
+	<table name="realtimeroles" key="long" value="RealTimeRole" lock="rolelock" cacheCapacity="4000" cachehigh="512" cachelow="256"	/>
+	
+	
+	
+	<xbean name="XiuLianResult">
+		<variable name="herokey" type="int"/>
+		<variable name="hp"  type="int"/>
+		<variable name="attack" type="int"/>
+		<variable name="defend" type="int"/>
+		<variable name="wisdom" type="int"/>
+	</xbean>
+	<table name="xiulianresults" key="long" value="XiuLianResult" cacheCapacity="8000" cachehigh="512" cachelow="256" lock="rolelock" persistence="MEMORY"	/> liuchen
+	
+	<!--战斗内表 START-->
+	<xbean name="FighterInfo">
+		<variable name="fighterId" type="int"/>
+		<variable name="fightertype" type="int"/>
+		<variable name="pos" type="int"/>
+		<variable name="heroId" type="int"/>
+		<variable name="grouptype" type="int"/>阵营
+		<variable name="level" type="int" default="1"/> 等级
+		<variable name="color" type="int" default="0"/> 颜色
+		<variable name="grade" type="int" default="0"/> 阶
+		<variable name="weaponinfo" type="int" default="0"/> 武器信息
+		<variable name="armorinfo" type="int" default="0"/> 铠甲信息
+		<variable name="horseinfo" type="int" default="0"/> 战马信息
+		<variable name="speed" type="int" default="0"/> 速
+		<variable name="hp" type="int" /> 兵力
+		<variable name="bfp" type="BasicFightProperties"/>   基础战斗属性
+		<variable name="effects" type="map" key="int" value="float" /> 效果 key = effect type id
+		<variable name="finalattrs" type="map" key="int" value="float" />最终属性 key = attr type
+		<variable name="buffAgent" type="BuffAgent" /> buff代理
+		<variable name="skills" type="list" value="BattleSkill" /> 技能
+		<variable name="shape" type="int"/> 造型ID
+		
+		<enum name="HERO" value="1" />
+		<enum name="MONSTER" value="2" />
+	</xbean>
+	
+	<xbean name="BattleSkill">
+		<variable name="id" type="int" />
+		<variable name="level" type="int" />
+		<variable name="castrate" type="int" />以千为底
+	</xbean>
+	
+	<xbean name="BattleInfo" any="true">
+		<variable name="battleid" type="int"/>
+		<variable name="battlelevel" type="int"/>
+		<variable name="battletype" type="int"/>
+		<variable name="fighterInfos" type="map" key="int" value="FighterInfo" /> key=fighterid
+		<variable name="fighters" type="map" key="int" value="chuhan.gsp.battle.Fighter" /> key=fighterid
+		<variable name="deadfighters" type="map" key="int" value="FighterInfo" /> key=fighterid
+		<variable name="battlereulst" type="int"/>
+		<variable name="round" type="int"/>
+		<variable name="turn" type="int"/>
+		<variable name="engine" type="chuhan.gsp.util.FightJSEngine"/> 用于本场战斗的JS引擎
+	</xbean>
+	<table name="battles" key="long" value="BattleInfo" cacheCapacity="0" cachehigh="512" cachelow="256" persistence="MEMORY"	/> liuchen
+	<!--战斗内表 END-->
+	
+	<xbean name="StageBattleInfo" >
+		<variable name="id" type="int"/>
+		<variable name="maxstar" type="int"/>
+		<variable name="fightnum" type="int"/>
+		<variable name="lastfighttime" type="long"/>
+	</xbean>
+	<xbean name="StageInfo" >
+		<variable name="id" type="int"/>
+		<variable name="rewardgot" type="boolean" default="false"/>
+		<variable name="stagebattles" type="map" key="int" value="StageBattleInfo"/>
+	</xbean>
+	<xbean name="StageRole" >
+		<variable name="stages" type="map" key="int" value="StageInfo"/>
+	</xbean>
+	<table name="stageroles" key="long" value="StageRole" lock="rolelock" cacheCapacity="4000" cachehigh="512" cachelow="256"	/>
+	
+	<xbean name="BeautyInfo" >
+		<variable name="id" type="int"/>
+		<variable name="alreadytimes" type="int"/>
+		<variable name="maxtimes" type="int"/>
+		<variable name="currentSkin" type="int"/>
+		<variable name="haveSkins" type="list" value="int"/>
+	</xbean>
+	<xbean name="BeautyRole" >
+		<variable name="sleeptimes" type="int"/>
+		<variable name="lastsleeptime" type="long"/>
+		<variable name="beauties" type="map" key="int" value="BeautyInfo"/>
+	</xbean>
+	<table name="beautyroles" key="long" value="BeautyRole" lock="rolelock" cacheCapacity="4000" cachehigh="512" cachelow="256"	/>
+	
+	<xbean name="LadderRole">
+		<variable name="ladderrank" type="int"/> 天梯排名
+		<variable name="laddersoul" type="int"/> 天梯元魂
+		<variable name="lastsoulchangetime" type="long"/> 上次天梯元魂变动时间
+		<variable name="enermies" type="list" value="long" /> 最近的4个仇敌
+		<variable name="fighttimes" type="int"/> 今天战斗次数
+		<variable name="lastfighttime" type="long"/> 上次战斗时间
+	</xbean>
+	<table name="ladderroles" key="long" value="LadderRole" lock="rolelock" cacheCapacity="4000" cachehigh="512" cachelow="256"	/>
+	
+	<xbean name="LadderInfo">
+		<variable name="roleId" type="long"/>
+	</xbean>
+	<table name="pvpladder" key="int" value="LadderInfo" cacheCapacity="4000" cachehigh="512" cachelow="256"	/>
+	
+	<xbean name="SupplyActRole">
+		<variable name="lastsupplytime" type="long"/>
+		<variable name="firstsupplyed" type="boolean" default="false"/>
+		<variable name="secondsupplyed" type="boolean" default="false"/>
+	</xbean>
+	<table name="supplyactroles" key="long" value="SupplyActRole" lock="rolelock" cacheCapacity="4000" cachehigh="512" cachelow="256"	/>
+	
+	<xbean name="BillData">
+		<variable name="billid" type="long" />
+		<variable name="goodid" type="int" />
+		<variable name="goodnum" type="int" />
+		<variable name="present" type="int" />
+		<variable name="price" type="float" /> 总价格
+		<variable name="createtime" type="long" /> 创建时间
+		<variable name="state" type="int" />
+		<variable name="confirmtimes" type="int" /> 向au确认订单的次数
+		<variable name="platbillid" type="string" /> 平台生成的订单号
+		
+		<enum name="STATE_SENDED" value="1" /> 已通知客户端
+		<enum name="STATE_CONFIRMED" value="2" /> 已确认并且发放
+		<enum name="STATE_FAILED" value="4" /> 确认失败的
+	</xbean>
+	<xbean name="BillRole">
+		<variable name="bills" type="map" key="long" value="BillData"/>
+		<variable name="firstcharge" type="int" /> 是否已首充
+	</xbean>
+	<table name="billroles" key="long" value="BillRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"	/>
+	
+	<xbean name="GoogleReceiptData">
+		<variable name="roleId" type="long" />
+		<variable name="packageName" type="string"/>
+		<variable name="productId" type="string"/>
+		<variable name="token" type="string"/>
+	</xbean>	
+	<table name="googlereceiptes" key="long" value="GoogleReceiptData" cacheCapacity="3000" cachehigh="512" cachelow="256"/> key=transactionid
+	
+	<xbean name="AppReceiptData">
+		<variable name="roleId" type="long" />
+		<variable name="receipt" type="string" /> 苹果账单
+	</xbean>	
+	<table name="appreceiptes" key="long" value="AppReceiptData" cacheCapacity="3000" cachehigh="512" cachelow="256"/> key=transactionid
+
+	<!--系统补偿-->
+	<xbean name="CompenseRole">
+		<variable name="fetchedcompenses" type="set" value="int"/>
+	</xbean>
+	<table name="compenseroles" key="long" lock="rolelock" value="CompenseRole" cacheCapacity="3000"/>
+	
+	<!--系统消息-->
+	<xbean name="SysMsg">
+		<variable name="time" type="long" />
+		<variable name="msgid" type="int" />
+		<variable name="params" type="list" value="string"/>
+		<variable name="text" type="string" />
+		<variable name="isnew" type="boolean" />
+		<variable name="sended" type="boolean" default="false" />
+		<variable name="sendRoleId" type="long"/> 发送者id 系统-0
+		<variable name="msgType" type="int"/> 消息类型 0-系统 1-好友
+	</xbean>
+	<xbean name="MsgRole">
+		<variable name="sysmsgs" type="list" value="SysMsg"/>
+	</xbean>
+	<table name="msgroles" key="long" value="MsgRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"	/>
+	
+	<!--武将任务-->
+	<xbean name="HeroTaskRole">
+		<variable name="refreshtime" type="long"/>刷新时间
+		<variable name="endtask" type="set" value="int"/> 今天已经做完的任务
+		<variable name="taskposes" type="map" key="int" value="long"/> 位置的冷却时间
+	</xbean>
+	<table name="herotaskroles" key="long" value="HeroTaskRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"	/>
+	
+	<!--血战-->
+	<xbean name="BloodRole">
+		<variable name="curlevel" type="int" default="1"/> 当前层数
+		<variable name="lasthard" type="int"/> 上一次战斗的难度
+		<variable name="curstar" type="int"/>剩余没用的星
+		<variable name="battle1" type="int"/>随机出的战斗
+		<variable name="battle2" type="int"/>
+		<variable name="battle3" type="int"/>
+		<variable name="itemlevel" type="int" />已经获得的物品等级
+		<variable name="effects" type="map" key="int" value="float"/> 以前已加成的效果
+		<variable name="failed" type="int"/> 1已失败
+		<variable name="relivetimes" type="int"/> 今天已复活次数
+		<variable name="lastfighttime" type="long"/> 上次战斗时间
+		<variable name="totalstar" type="int"/>累计星
+		<variable name="maxlevel" type="int"/> 最高层
+		<variable name="repeatstaraward" type="map" key="int" value="int"/>
+		<variable name="fixstaraward" type="map" key="int" value="int"/>
+	</xbean>
+	<table name="bloodroles" key="long" value="BloodRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"	/>
+	
+	<xbean name="BloodRankRole">
+		<variable name="roleid" type="long"/>
+		<variable name="maxlevel" type="int"/>
+	</xbean>
+	<xbean name="BloodRankList">
+		<variable name="curweek" type="int"/>
+		<variable name="rankers" type="list" value="BloodRankRole"/> 以前已加成的效果
+	</xbean>
+	<table name="bloodranklist" key="int" value="BloodRankList" cacheCapacity="1" cachehigh="512" cachelow="256"/>
+	
+	<!--mac对应的数据-->
+	<xbean name="MacInfo">
+		<variable name="onlinetime" type="long"/>
+		<variable name="offlinetime" type="long"/>
+	</xbean>
+	<table name="macinfos" key="string" value="MacInfo" cacheCapacity="3000" cachehigh="512" cachelow="256"	/>
+	
+	<!--AwardLimit-->
+	<xbean name="AwardLimitDay">
+		<variable name="limititems" type="map" key="int" value="int"/>
+	</xbean>
+	<xbean name="AwardLimitRole">
+		<variable name="limitdays" type="map" key="int" value="AwardLimitDay"/>
+	</xbean>
+	<table name="awardlimitroles" key="long" value="AwardLimitRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+	
+	<!--累计充值活动-->
+	<xbean name="ChargeActivity">
+		<variable name="activityid" type="int"/> 在该id活动中
+		<variable name="totalcharge" type="int"/> 充值的总数
+		<variable name="isgainaward" type="map" key="int" value="boolean"/> 是否已经领取奖励 key=元宝数量
+	</xbean>
+	<xbean name="ChargeActivityRole">
+		<variable name="activities" type="map" key="int" value="ChargeActivity"/> key=活动id
+	</xbean>
+	<table name="chargeactivities" key="long" value="ChargeActivityRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<!--充值返利活动-->
+	<xbean name="RebateChargeActivity">
+		<variable name="awardinfo" type="map" key="int" value="int"/> key=rmb valeu=num
+	</xbean>
+	<xbean name="RebateChargeActivityRole">
+		<variable name="activities" type="map" key="int" value="RebateChargeActivity"/> key=活动id
+	</xbean>
+	<table name="rebatechargeactivities" key="long" value="RebateChargeActivityRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+	
+        <!--首冲活动-->
+	<xbean name="FirstFeedActivity">
+        <variable name="chargetime" type="long"/> 首次充值时间
+		<variable name="rebatetime" type="long"/> 领取时间
+		<variable name="isgainaward" type="boolean" /> 是否已经参与过
+	</xbean>
+	<xbean name="FirstFeedActivityRole">
+		<variable name="activities" type="map" key="int" value="FirstFeedActivity"/> key=活动id
+	</xbean>
+	<table name="firstfeedactivities" key="long" value="FirstFeedActivityRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<!--累计消费活动-->
+	<xbean name="ConsumeActivity">
+		<variable name="activityid" type="int"/> 在该id活动中
+		<variable name="totalconsume" type="int"/> 消费的总数
+		<variable name="isgainaward" type="map" key="int" value="boolean"/> 是否已经领取奖励 key=元宝数量
+	</xbean>
+	<xbean name="ConsumeActivityRole">
+		<variable name="activities" type="map" key="int" value="ConsumeActivity"/> key=活动id
+	</xbean>
+	<table name="consumeactivities" key="long" value="ConsumeActivityRole" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="TuJianHero"> 所有曾经获得过的武将(图鉴)
+		<variable name="heroId" type="int"/> 获得过的武将
+		<variable name="flag" type="int"/> 是否满级，0未满，1满级
+	</xbean>
+	<xbean name="TuJianHeros"> 所有曾经获得过的武将(图鉴)
+		<variable name="tujianhero" type="list" value="TuJianHero"/> 获得过的武将
+	</xbean>
+	<table name="tujianheros" key="long" value="TuJianHeros" lock="rolelock" cacheCapacity="10000" cachehigh="512" cachelow="256"/>
+		
+
+	<!--交易次数-->
+	<xbean name="TradeNumLimit">
+		<variable name="nums" type="map" key="int" value="int"/> 每个交易用过的次数 key-交易ID
+	</xbean>
+	<table name="tradenums" key="long" value="TradeNumLimit" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="FirstLadderInfo">
+		<variable name="startTime" type="long"/> 上一次登上天梯第一名的时间
+		<variable name="zaiWeiMilSec" type="int"/> 本周在天梯第一名的总时间 单位：毫秒
+	</xbean>
+	<!--上过天梯排行第一名的用户信息，每周一清-->
+	<xbean name="FirstLadderInfoRole">
+		<variable name="roleInfos" type="map" key="long" value="FirstLadderInfo"/> key=roleId
+	</xbean>
+	<table name="firstladderinforole" key="int" value="FirstLadderInfoRole" cacheCapacity="1" cachehigh="512" cachelow="256"/>
+	
+	<xbean name="FriendReqs">
+		<variable name="byMe" type="set" value="long"/> 我邀请的人
+		<variable name="imBy" type="set" value="long"/> 邀请我的人
+	</xbean>
+	<table name="friendreqs" key="long" value="FriendReqs" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="FriendInfo">
+		<variable name="toTiliNum" type="int"/> 今日赠送给他体力次数
+		<variable name="giveTiliNum" type="int"/> 今日给我体力次数
+		<variable name="lastdaychangetime" type="long" default="0"/> 上次数据变动时间，为跨天清除用
+	</xbean>
+	<xbean name="Friends">
+		<variable name="mine" type="map" key="long" value="FriendInfo"/> key=好友roldId
+	</xbean>
+	<table name="friends" key="long" value="Friends" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="TurntableInfo">
+		<variable name="tableId" type="int"/> 当前转盘ID
+		<variable name="spaceItemcheck" type="set" value="int"/> 空的道具格
+		<variable name="qualityNum" type="int"/> 当前已用精品抽奖次数
+	</xbean>
+	<table name="turntableinfo" key="long" value="TurntableInfo" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="Helper">
+		<variable name="roleId" type="long"/>
+		<variable name="pos" type="short"/> 所在位置 0表示没有选中
+	</xbean>
+	<xbean name="Helpers">
+		<variable name="helpers" type="list" value="Helper"/>
+	</xbean>
+	<!--所有活动的好友邀请情况-->
+	<xbean name="AllHelpers">
+		<variable name="allhelpers" type="map" key="int" value="Helpers"/> key=活动类型
+	</xbean>
+	<table name="allhelpers" key="long" value="AllHelpers" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="MHelpers">
+		<variable name="mhelpers" type="list" value="long"/>
+	</xbean>
+	<xbean name="AllMHelpers">
+		<variable name="allmhelpers" type="map" key="int" value="MHelpers"/>
+	</xbean>
+	<table name="allmhelpers" key="long" value="AllMHelpers" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256" persistence="MEMORY"/>
+
+	<xbean name="RaidBoss">
+		<variable name="playId" type="int"/> 活动ID
+		<variable name="bossId" type="int"/> 当前遇到BOSS的ID 跟战斗变化
+		<variable name="bossLv" type="int" default="1"/> 当前BOSS等级 跟活动届数变化
+		<variable name="bossTime" type="long"/> 遇到BOSS的时间
+		<variable name="rongYao" type="int"/> 荣耀
+	</xbean>
+	<table name="raidboss" key="long" value="RaidBoss" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="PlayProperties">
+		<variable name="playJiFen" type="int"/>
+		<variable name="exchangeInfo" type="map" key="int" value="int"/> key=兑换ID value=次数
+	</xbean>
+	<table name="playproperties" key="long" value="PlayProperties" cacheCapacity="10000" cachehigh="512" cachelow="256" lock="rolelock"/>
+
+	<xbean name="RaidBossRank">
+		<variable name="roleId" type="long"/>
+		<variable name="rongyao" type="int"/>
+	</xbean>
+	<xbean name="RaidBossRanks">
+		<variable name="rankers" type="list" value="RaidBossRank"/>
+	</xbean>
+	<table name="raidbossrank" key="int" value="RaidBossRanks" cacheCapacity="1" cachehigh="512" cachelow="256"/>
+
+	<xbean name="CampRoleInfo">
+		<variable name="playId" type="int"/>
+		<variable name="campId" type="int"/> 所处阵营 0-无阵营
+		<variable name="gongxun" type="int"/>
+		<variable name="continuWin" type="int"/> 连胜次数
+		<variable name="enemyRoleId" type="long"/>
+		<variable name="enemyCampId" type="int"/> 攻击的阵营
+		<variable name="lastdaychangetime" type="long" default="0"/> 上次数据变动时间，为跨天清除用
+		<variable name="attackNum" type="int"/> 今天已使用次数
+	</xbean>
+	<table name="camproleinfos" key="long" value="CampRoleInfo" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+	
+	<xbean name="CampInfo">
+		<variable name="jifen" type="int" default="10000"/> 阵营积分
+		<variable name="pkroles" type="list" value="long"/> 用于推荐给别人PK的人(每个阵营都包含了没阵营的人)
+		<variable name="roles" type="list" value="long"/> 阵营的人
+	</xbean>
+	<table name="campinfo" key="int" value="CampInfo" cacheCapacity="3" cachehigh="512" cachelow="256"/>
+
+	<xbean name="CampRank">
+		<variable name="roleId" type="long"/>
+		<variable name="gongxun" type="int"/>
+	</xbean>
+	<xbean name="CampRanks">
+		<variable name="rankers" type="list" value="CampRank"/>
+	</xbean>
+	<table name="camprank" key="int" value="CampRanks" cacheCapacity="1" cachehigh="512" cachelow="256"/>
+
+	<xbean name="InviteInfo">
+		<variable name="inviteMe" type="long"/> 邀请我的人
+		<variable name="amInvites" type="list" value="long"/> 我邀请的人
+		<variable name="awardNum" type="int"/> 领奖到第几人了
+	</xbean>
+	<table name="inviteinfo" key="long" value="InviteInfo" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+	<xbean name="ShareInfo">
+		<variable name="infos" type="map" key="int" value="int"/> key=皮肤ID value=分享次数
+	</xbean>
+	<table name="shareinfo" key="long" value="ShareInfo" lock="rolelock" cacheCapacity="3000" cachehigh="512" cachelow="256"/>
+
+  <TableSysConf name="_sys_" cacheCapacity="1" cachehigh="512" cachelow="256"/>
+	<UniqNameConf localId="1">
+		<XioConf name="xdb.util.UniqName">
+			<Manager name="Client" keepSize="1" maxSize="1">
+				<Coder>
+					<Rpc class="xdb.util.UniqName$Allocate"/>
+					<Rpc class="xdb.util.UniqName$Confirm"/>
+					<Rpc class="xdb.util.UniqName$Release"/>
+					<Rpc class="xdb.util.UniqName$Exist"/>
+					<Rpc class="xdb.util.UniqName$AllocateId"/>
+					<Rpc class="xdb.util.UniqName$ReleaseId"/>
+				</Coder>
+				<Connector remoteIp="192.168.0.133" remotePort="20032" sendBufferSize="16384" receiveBufferSize="16384" tcpNoDelay="true" inputBufferSize="131072" outputBufferSize="131072"/>
+			</Manager>
+		</XioConf>
+	</UniqNameConf>  
+</xdb>

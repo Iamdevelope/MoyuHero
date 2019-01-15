@@ -1,0 +1,943 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="play">
+	<!--协议号1901-2000-->
+	<bean name="Helpers">
+		<variable name="roleId" type="long"/>
+		<variable name="roleLv" type="short"/>
+		<variable name="roleName" type="string"/>
+		<variable name="isFriend" type="byte"/> 是否好友 0-否 1-是
+		<variable name="isSelect" type="byte"/> 是否选中 0-否 1-是
+		<variable name="heroId" type="int"/>
+		<variable name="colorgrade" type="byte"/>
+		<variable name="heroLv" type="short"/>
+		<variable name="score" type="int"/>
+	</bean>
+	<bean name="SelectHelpers">
+		<variable name="roleId" type="long"/>
+		<variable name="heroLv" type="short"/>
+		<variable name="heroId" type="int"/>
+		<variable name="colorgrade" type="byte"/>
+		<variable name="weapon" type="byte"/>
+		<variable name="armor" type="byte"/>
+		<variable name="horse" type="byte"/>
+	</bean>
+	<bean name="RankInfo">
+		<variable name="roleId" type="long"/>
+		<variable name="roleLv" type="short"/>
+		<variable name="value" type="int"/>
+		<variable name="roleName" type="string"/>
+		<variable name="campId" type="short"/> 阵营，阵营战用
+		<variable name="heroIds" type="list" value="int"/>
+	</bean>
+	<bean name="PlayType">
+		<enum name="RAIDBOSS" value="1"/> 斩魔BOSS 1-有boss 2-无boss 3-待开始
+		<enum name="CAMP" value="2"/> 阵营战 1-有活动 2-待开始
+	</bean>
+	
+	<bean name="Gift">
+		<variable name="gold" type="int"/>
+		<variable name="yb" type="int"/>
+		<variable name="ti" type="int"/>
+		<variable name="hammer" type="int"/>
+		<variable name="itemidlist" type="list" value="int"/>
+    <variable name="heroidlist" type="list" value="int"/>	
+	</bean>
+
+
+	<protocol  name="BeanImport" type="1901" maxsize="32" prior="1">
+		<variable name="b1" type="chuhan.gsp.play.camp.CampType"/>
+		<variable name="b2" type="PlayType"/>
+	</protocol>
+
+	<protocol  name="CPlayStatus" type="1902" maxsize="512" prior="1">
+		<variable name="playid" type="byte"/> 玩法ID 参见PlayType
+	</protocol>
+
+	<protocol  name="SPlayStatus" type="1903" maxsize="65535" prior="1">
+		<variable name="playid" type="byte"/> 玩法ID 参见PlayType
+		<variable name="status" type="byte"/> 每个玩法自定义
+		<variable name="nextTime" type="long"/>
+	</protocol>
+
+	<!--兑换-->
+	<protocol name="CExchange" type="1904" maxsize="512" prior="1">
+		<variable name="id" type="int"/>
+		<variable name="playtype" type="byte"/>
+	</protocol>
+    
+    <protocol name="CMHelpers" type="1905" maxsize="65535" prior="1">
+        <variable name="playtype" type="byte"/> 
+    </protocol>
+    <protocol name="SMHelpers" type="1906" maxsize="65535" prior="1">
+        <variable name="playtype" type="byte"/> 
+    </protocol>
+    <!-- 向助战的陌生人发送好友邀请 -->
+    <protocol name="CFriendRequest" type="1907" maxsize="65535" prior="1">
+        <variable name="isAdd" type="byte"/> 是否添加陌生人 0-否 1-是
+        <variable name="playtype" type="byte"/> 
+    </protocol>
+	
+
+	<!--转盘 协议号2001-2100-->
+	<namespace name="turntable">
+		<!--获取主视图-->
+		<protocol  name="CMainView" type="2001" maxsize="65535" prior="1"> 
+		</protocol>
+		<protocol  name="SMainView" type="2002" maxsize="65535" prior="1">
+			<variable name="isHaveFree" type="byte"/> 是否有免费转的次数
+			<variable name="tableId" type="int"/>转盘ID
+			<variable name="itemcheck" type="byte"/>道具格信息,按位算(0-空 1-非空)
+		</protocol>
+		<!--刷新转盘-->
+		<protocol  name="CFlushTurnTable" type="2003" maxsize="65535" prior="1"> 
+		</protocol>
+		<protocol  name="SFlushTurnTable" type="2004" maxsize="65535" prior="1"> 
+		</protocol>
+		<!--转(抽奖)-->
+		<protocol  name="CTurnTable" type="2005" maxsize="65535" prior="1" waiting="2006"> 
+			<variable name="turntype" type="byte"/> 抽奖类型(1-普通 2-精品)
+		</protocol>
+		<protocol  name="STurnTable" type="2006" maxsize="65535" prior="1"> 
+			<variable name="itemcheck" type="byte"/> 随机到的道具格
+			<variable name="isHaveFree" type="byte"/> 是否有免费转的次数
+			<variable name="key" type="int"/> 获得的奖励key
+			<variable name="id" type="int"/> 获得的奖励id
+			<variable name="num" type="int"/> 获得的奖励数量
+		</protocol>
+	</namespace>
+
+	<!--斩魔 协议2101-2200-->
+	<namespace name="raidboss">
+		<!-- 主视图 -->
+		<protocol name="CMainView" type="2101" maxsize="65535" prior="1">
+		</protocol>
+		<protocol name="SMainView" type="2102" maxsize="65535" prior="1">
+			<variable name="endTime" type="long"/> 活动结束时间
+			<variable name="rank" type="int"/>排名
+			<variable name="rongyao" type="int"/>荣耀
+			<variable name="bossId" type="int"/>BOSS ID=0表示当前没BOSS
+			<variable name="bossLv" type="int"/>
+			<variable name="runTime" type="long"/>逃亡时间点
+		</protocol>
+		<!-- 查看随机到的助战好友 -->
+		<protocol name="CHelpers" type="2103" maxsize="65535" prior="1">
+		</protocol>
+		<protocol name="SHelpers" type="2104" maxsize="65535" prior="1">
+			<variable name="helpers" type="list" value="chuhan.gsp.play.Helpers"/>
+		</protocol>
+		<!-- 保存选中的助战好友 -->
+		<protocol name="CSaveSelectHelpers" type="2105" maxsize="65535" prior="1">
+			<variable name="roleIds" type="list" value="long"/>
+		</protocol>
+		<!-- 返回选中的助战好友 -->
+		<protocol name="SSelectHelpers" type="2106" maxsize="65535" prior="1">
+			<variable name="helpers" type="list" value="chuhan.gsp.play.SelectHelpers"/>
+		</protocol>
+		<!-- 刷新助战好友 -->
+		<protocol name="CFlushHelpers" type="2107" maxsize="65535" prior="1">
+		</protocol>
+		
+		<!-- 查看排行榜 -->
+		<protocol name="CRankView" type="2109" maxsize="65535" prior="1" waiting="2110">
+		</protocol>
+		<protocol name="SRankView" type="2110" maxsize="65535" prior="1">
+			<variable name="rank" type="int"/>排名
+			<variable name="rongyao" type="int"/>荣耀
+			<variable name="rankers" type="list" value="chuhan.gsp.play.RankInfo"/>
+		</protocol>
+		<!-- 查看兑换奖励 -->
+		<protocol name="CExchangeView" type="2111" maxsize="65535" prior="1">
+		</protocol>
+		<protocol name="SExchangeView" type="2112" maxsize="65535" prior="1">
+			<variable name="rank" type="int"/>排名
+			<variable name="jifen" type="int"/>积分
+			<variable name="exchangeids" type="list" value="int"/> 还可兑换的奖励ID
+		</protocol>
+		<!-- 攻击BOSS -->
+		<protocol name="CAttack" type="2113" maxsize="65535" prior="1">
+		</protocol>
+
+	</namespace>
+
+	<!-- 阵营战 协议2201-2300 -->
+	<namespace name="camp">
+		<!-- 主视图，该协议会返回SMainView或SChangeCamp -->
+		<protocol name="CMainView" type="2201" maxsize="65535" prior="1">
+		</protocol>
+		<bean name="CampType">
+			<enum name="CAMP_CHU" value="1"/> 楚
+			<enum name="CAMP_HAN" value="2"/> 汉
+			<enum name="CAMP_QUN" value="3"/> 群
+		</bean>
+		<protocol name="SMainView" type="2202" maxsize="65535" prior="1">
+			<variable name="gongxun" type="int"/>
+			<variable name="jifen" type="int"/>
+			<variable name="rank" type="int"/>
+			<variable name="endTime" type="long"/> 活动结束时间
+			<variable name="myCamp" type="short"/> 我的阵营
+			<variable name="cjifen" type="int"/> 楚积分
+			<variable name="hjifen" type="int"/> 汉积分
+			<variable name="qjifen" type="int"/> 群积分
+			<variable name="isBuffTime" type="byte"/> 当前时间是否有加成 0-否 1-是
+		</protocol>
+		<protocol name="CChangeCampView" type="2203" maxsize="65535" prior="1">
+		</protocol>
+		<!--该协议是CMainView或CChangeCampView的返回协议-->
+		<protocol name="SCampView" type="2204" maxsize="65535" prior="1">
+			<variable name="myCamp" type="short"/> 我的阵营，没阵营=0
+			<variable name="isFreeTime" type="byte"/> 是否处于免费转阵营时间 0-否 1-是
+			<variable name="cjifen" type="int"/> 楚积分
+			<variable name="hjifen" type="int"/> 汉积分
+			<variable name="qjifen" type="int"/> 群积分
+		</protocol>
+		<protocol name="CChangeCamp" type="2205" maxsize="65535" prior="1">
+			<variable name="campId" type="short"/>选择的阵营ID
+		</protocol>
+		<!-- 查看排行榜 -->
+		<protocol name="CRankView" type="2206" maxsize="65535" prior="1" waiting="2207">
+		</protocol>
+		<protocol name="SRankView" type="2207" maxsize="65535" prior="1">
+			<variable name="myCamp" type="short"/> 我的阵营
+			<variable name="gongxun" type="int"/> 功勋
+			<variable name="jifen" type="int"/> 积分
+			<variable name="rank" type="int"/>
+			<variable name="rankers" type="list" value="chuhan.gsp.play.RankInfo"/>
+		</protocol>
+		<!-- 查看兑换奖励 -->
+		<protocol name="CExchangeView" type="2208" maxsize="65535" prior="1">
+		</protocol>
+		<protocol name="SExchangeView" type="2209" maxsize="65535" prior="1">
+			<variable name="myCamp" type="short"/>
+			<variable name="gongxun" type="int"/>
+			<variable name="jifen" type="int"/>积分
+			<variable name="rank" type="int"/>
+			<variable name="exchangeids" type="list" value="int"/> 还可兑换的奖励ID
+		</protocol>
+		<!-- 查看随机到的助战好友 -->
+		<protocol name="CHelpers" type="2211" maxsize="65535" prior="1">
+		</protocol>
+		<protocol name="SHelpers" type="2212" maxsize="65535" prior="1">
+			<variable name="helpers" type="list" value="chuhan.gsp.play.Helpers"/>
+		</protocol>
+		<!-- 保存选中的助战好友 -->
+		<protocol name="CSaveSelectHelpers" type="2213" maxsize="65535" prior="1">
+			<variable name="roleIds" type="list" value="long"/>
+		</protocol>
+		<!-- 返回选中的助战好友 -->
+		<protocol name="SSelectHelpers" type="2214" maxsize="65535" prior="1">
+			<variable name="helpers" type="list" value="chuhan.gsp.play.SelectHelpers"/>
+		</protocol>
+		<!-- 刷新助战好友 -->
+		<protocol name="CFlushHelpers" type="2215" maxsize="65535" prior="1">
+		</protocol>
+		<!-- 战斗主页 -->
+		<protocol name="CAttackView" type="2217" maxsize="65535" prior="1">
+			<variable name="enemyCampId" type="short"/> 要攻击的阵营
+		</protocol>
+		<bean name="Enemy">
+			<variable name="roleId" type="long"/>
+			<variable name="roleName" type="string"/>
+			<variable name="roleLv" type="short"/>
+			<variable name="ladderank" type="int"/>
+			<variable name="campId" type="short"/>
+			<variable name="heroIds" type="list" value="int"/>
+		</bean>
+		<protocol name="SAttackView" type="2218" maxsize="65535" prior="1">
+			<variable name="myCamp" type="short"/>
+			<variable name="gongxun" type="int"/>
+			<variable name="jifen" type="int"/>
+			<variable name="rank" type="int"/>
+			<variable name="continuWin" type="int"/>
+			<variable name="enemy" type="Enemy"/>
+		</protocol>
+		<!-- 攻击 -->
+		<protocol name="CAttack" type="2219" maxsize="65535" prior="1">
+		</protocol>
+		<protocol name="SChangeCamp" type="2220" maxsize="65535" prior="1">
+			<variable name="myCamp" type="short"/> 我的阵营，没阵营=0
+			<variable name="isFreeTime" type="byte"/> 是否处于免费转阵营时间 0-否 1-是
+			<variable name="cjifen" type="int"/> 楚积分
+			<variable name="hjifen" type="int"/> 汉积分
+			<variable name="qjifen" type="int"/> 群积分
+		</protocol>
+
+	</namespace>
+	
+	<!-- 抽奖 协议2301-2330 -->
+	<namespace name="lottery">
+		<protocol name="CLottery" type="2301" maxsize="64" prior="1">
+			<enum name="ONE" value="1"/> 
+			<enum name="TEN" value="2"/> 
+			<enum name="DREAM" value="3"/> 
+			<enum name="FREE" value="4"/>
+			
+			<enum name="NORMALONE" value="5"/>
+			<enum name="NORMALTEN" value="6"/>
+			<enum name="TOPONE" value="7"/>
+			<enum name="TOPTEN" value="8"/>
+			<variable name="lotterytype" type="int"/>
+		</protocol>
+		
+		<bean name="Items">
+			<variable name="itemId" type="int"/>
+			<variable name="num" type="int"/>
+		</bean>
+		<protocol name="SLottery" type="2302" maxsize="65535" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="lotterytype" type="int"/> 
+			<variable name="herolist" type="list" value="int"/>	英雄列表（已废弃）
+			<variable name="items" type="list" value="Items"/>	抽中物列表列表
+		</protocol>
+		
+		
+		<protocol name="SRefreshLotty" type="2303" maxsize="65535" prior="1">
+			<variable name="lotty" type="chuhan.gsp.Lotty"/>
+		</protocol>
+		
+		<protocol name="CChangeDream" type="2304" maxsize="64" prior="1">
+			<variable name="isfree" type="int"/> 0收费，1免费
+		</protocol>
+		
+		<protocol name="SChangeDream" type="2305" maxsize="64" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="dream" type="int"/> 梦想兑换展示
+		</protocol>
+		
+		<protocol name="CGetDream" type="2306" maxsize="64" prior="1">
+		</protocol>
+		
+		<protocol name="SGetDream" type="2307" maxsize="128" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="heroid" type="int"/> 
+		</protocol>
+		
+	</namespace>
+	
+	<!-- 遗迹宝藏信息 协议2331-2350 -->
+	<namespace name="lotteryitem">
+		<bean name="LotteryItemget">
+			<variable name="id" type="int"/> 遗迹宝藏ID
+			<variable name="superid" type="int"/> 特殊事件ID
+			<variable name="num" type="int"/> 数量
+		</bean>
+		<bean name="LotteryItem">
+			<variable name="id" type="int"/> 遗迹宝藏ID
+			<variable name="isget" type="int"/> 是否领取
+			<variable name="viewnum" type="int"/> 显示位置
+			<variable name="superid" type="int"/> 激活的特殊事件
+		</bean>
+		<bean name="LotteryItemlayer">
+			<variable name="LotteryItemlist" type="list" value="LotteryItem"/> 遗迹宝藏每层list
+		</bean>
+		<bean name="LotteryItemAll">
+			<variable name="mapkey" type="int"/> 第几层
+			<variable name="mapvalue" type="int"/> 第几个
+			<variable name="superlist" type="list" value="int"/> 遗迹宝藏特殊list
+			<variable name="ismonthfirsthave" type="int" /> 是否有月卡首刷，0没有，1有
+			<variable name="ishavefree" type="int" /> 是否有免费抽奖，0没有，1有
+			<variable name="LotteryItemMap" type="map" key="int" value="LotteryItemlayer"/>	遗迹宝藏总信息
+		</bean>
+		
+		<protocol name="CLotteryItem" type="2331" maxsize="64" prior="1">
+			<enum name="ONE" value="1"/> 
+			<enum name="TEN" value="2"/> 
+			<enum name="FREE" value="3"/>
+			<enum name="REFRESH" value="4"/>
+			<variable name="lotterytype" type="int"/>
+		</protocol>
+		
+		<protocol name="SLotteryItem" type="2332" maxsize="65535" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="lotterytype" type="int"/> 
+			<variable name="itemlist" type="list" value="LotteryItemget"/>	遗迹宝藏列表
+		</protocol>
+		
+		<protocol name="SRefreshLottyItem" type="2333" maxsize="65535" prior="1">
+			<variable name="lotteryItem" type="LotteryItemAll"/>
+		</protocol>
+	
+	</namespace>
+	
+	<!-- 活跃度 协议2351-2400 -->
+	<namespace name="huoyuedu">
+		<protocol name="CGetHuoYue" type="2351" maxsize="64" prior="1">
+		</protocol>
+				
+		<protocol name="SRefreshHuoYue" type="2352" maxsize="65535" prior="1">
+			<variable name="huoyuenum" type="int"/>	活跃度
+			<variable name="getnum" type="int"/>  领取记录，个位第一个，十位第二个~~
+			<variable name="huoyuelist" type="list" value="chuhan.gsp.Huoyue"/>	活跃任务列表
+		</protocol>
+		
+		<protocol name="CGetHuoYueBox" type="2353" maxsize="64" prior="1">
+			<variable name="boxnum" type="int"/> 第几个宝箱，从1开始
+		</protocol>
+		
+		<protocol name="SGetHuoYueBox" type="2354" maxsize="64" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="droplist" type="list" value="int"/>	掉落包id
+		</protocol>
+		
+	</namespace>
+	
+	
+	<!-- 商城，签到 协议2401-2450 -->
+	<namespace name="shop">
+		<protocol name="CShopBuy" type="2401" maxsize="128" prior="1">
+			<variable name="shopid" type="int"/>	商店物品id
+			<variable name="num" type="int"/>  购买数量
+			<variable name="isDiscount" type="byte"/>  是否打折期间（1是，0不是）
+		</protocol>
+		
+		<protocol name="SShopBuy" type="2402" maxsize="64" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="shopid" type="int"/>	商店物品id
+		</protocol>
+		
+		<protocol name="SRefreshShopBuy" type="2403" maxsize="65535" prior="1">
+			<variable name="shopbuy" type="chuhan.gsp.Shopbuy"/>
+		</protocol>
+		
+		<protocol name="SSignIn" type="2404" maxsize="1024" prior="1">
+			<enum name="END_OK" value="1"/>  成功		 
+			<enum name="END_ERROR" value="2"/>    失败     
+			<enum name="END_ERROR_DAY" value="3"/>    失败就是当天签过了
+			<enum name="END_ERROR_MONTH" value="4"/>    失败就是当月签满了
+    	<variable name="result" type="int"/>
+    	<variable name="daynum" type="int"/>
+    	<variable name="issign" type="int" /> 		本日是否签到，0为未签，1为已签
+    	<variable name="gift" type="chuhan.gsp.play.Gift"/>
+		</protocol>	
+		
+		<bean name="NewShop">
+			<variable name="itemid" type="int"/>  77表的道具ID
+			<variable name="costtype" type="int"/>  消耗资源
+			<variable name="price" type="int"/>  价格
+			<variable name="num" type="int"/>  数量
+			<variable name="isbuy" type="int"/>  0未购买，1为已购买
+		</bean>
+		<bean name="NewShopList">
+			<variable name="shopList" type="list" value="NewShop"/>  单个商城列表
+			<variable name="lasttime" type="long"/>  刷新时间
+			<variable name="refreshnum" type="int"/>  刷新次数
+		</bean>
+		
+		<protocol name="CGetNewShop" type="2405" maxsize="128" prior="1">
+		</protocol>
+		<protocol name="SRefreshNewShop" type="2406" maxsize="65535" prior="1">
+			<variable name="shopMap" type="map" key="int" value="NewShopList"/>  整个商城map，key为76表的序列号
+		</protocol>
+		
+		<protocol name="CBuyNewShop" type="2407" maxsize="1024" prior="1">
+			<variable name="shopid" type="int"/>  76表的ID
+			<variable name="itemid" type="int"/>  77表的道具ID
+			<variable name="costtype" type="int"/>  消耗资源
+			<variable name="price" type="int"/>  价格
+			<variable name="num" type="int"/>  数量
+		</protocol>
+		
+		<protocol name="SBuyNewShop" type="2408" maxsize="64" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="shopid" type="int"/>  76表的ID
+			<variable name="itemid" type="int"/>  77表的道具ID
+			<variable name="costtype" type="int"/>  消耗资源
+			<variable name="price" type="int"/>  价格
+			<variable name="num" type="int"/>  数量
+		</protocol>
+		
+		<protocol name="CGetNewShopItem" type="2409" maxsize="128" prior="1">
+			<variable name="shopid" type="int"/>  76表的ID
+		</protocol>
+		<protocol name="SGetNewShopItem" type="2410" maxsize="128" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="shopid" type="int"/>  76表的ID
+		</protocol>
+		
+		
+	</namespace>
+	
+	<!-- 世界boss 协议2451-2500 -->
+	<namespace name="wordboss">
+		<bean name="bossdata">
+			<variable name="bossId1" type="int"/> bossid(第一个守门人)
+			<variable name="bossId2" type="int"/> bossid(第一个boss)
+			<variable name="bossId3" type="int"/> bossid(第二个守门人)
+			<variable name="bossId4" type="int"/> bossid(第二个boss)
+			<variable name="bossiskill" type="int"/> 个位为第一个boss，十位为第二个boss,0为未击杀，1为击杀
+			<variable name="boss1killName" type="string"/> 击杀1者名称
+			<variable name="boss2killName" type="string"/> 击杀2者名称
+			<variable name="openboss" type="int"/> 值为1234，代表第几个boss,没有则为-1
+			<variable name="openendtime" type="int"/> 倒计时，秒
+			<variable name="shouwangzl" type="int"/> 守望之灵
+			<variable name="chuanshuozs" type="int"/> 传说之石
+		</bean>
+		<bean name="bossrole">
+			<variable name="bosshpall" type="long"/> boss总血量
+			<variable name="killhpall" type="long"/> 击杀总血量
+			<variable name="bossnowhp" type="long"/> 本次攻击前boss血量
+			<variable name="zhufunum" type="int"/> 祝福次数
+			<variable name="shouwangzl" type="int"/> 守望之灵
+			<variable name="chuanshuozs" type="int"/> 传说之石
+			<variable name="openboss" type="int"/> 值为1234，代表第几个boss,没有则为-1
+			<variable name="openendtime" type="int"/> 倒计时，秒
+			<variable name="nextintime" type="int"/> 下次进入倒计时，秒
+		</bean>
+		<bean name="bossBattleInfo">
+			<variable name="battleid" type="int"/>关卡id
+			<variable name="useherokeyList" type="map" key="int" value="int"/> 使用英雄id和位置（key为位置，value为herokey）
+			<variable name="monstergroup" type="list" value="int"/>	怪物组
+			<variable name="trooptype" type="int" />				战队类型
+			<variable name="monstertrooptype" type="int" />			怪物战队类型
+			<variable name="zhufunum" type="int"/> 祝福次数
+			<variable name="bossnowhp" type="long"/> 本次攻击前boss血量
+			<variable name="bossid" type="int"/> 值为1234，代表第几个boss,没有则为-1
+		</bean>
+		<protocol  name="CGetWordBoss" type="2451" maxsize="1024" prior="1" waiting="0"> 获取世界boss信息
+		</protocol>
+		
+		<protocol  name="SGetWordBoss" type="2452" maxsize="1024" prior="1" waiting="0"> 获取世界boss信息返回
+			<variable name="wordboss" type="bossdata"/> 
+		</protocol>
+		
+		<protocol  name="CGetMyWordBoss" type="2453" maxsize="1024" prior="1" waiting="0"> 获取我的世界boss信息
+			<variable name="bossid" type="int"/> 值为1234，代表第几个boss
+		</protocol>
+		
+		<protocol  name="SGetMyWordBoss" type="2454" maxsize="1024" prior="1" waiting="0"> 获取我的世界boss信息返回
+			<variable name="bossid" type="int"/> 值为1234，代表第几个boss
+			<variable name="mywordboss" type="bossrole"/> 
+		</protocol>
+		
+		<protocol  name="CBeginBoss" type="2455" maxsize="1024" prior="1" waiting="0"> 开始boss战斗
+			<variable name="troopid" type="short"/> 战队ID
+			<variable name="bossid" type="int"/> 值为1234，代表第几个boss
+			<variable name="iscost" type="int"/> 是否刷新进入，0否，1是
+		</protocol>
+		
+		<protocol  name="SBeginBoss" type="2456" maxsize="65535" prior="1"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="battleinfo" type="bossBattleInfo"/> 
+		</protocol>
+		
+		<protocol  name="CBossPass" type="2457" maxsize="655350" prior="1" waiting="0"> 战斗结束
+			<variable name="fightInfoList" type="list" value="chuhan.gsp.fightInfo"/>	战斗信息
+		</protocol>
+		
+		<protocol  name="SBossPass" type="2458" maxsize="1024" prior="1" waiting="0"> 战斗结束刷新
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<enum name="END_ISKILL" value="3"/>    BOSS被击杀 
+			<enum name="END_KILLBOSS" value="4"/>    击杀BOSS 
+			<variable name="result" type="int"/>
+			<variable name="bossid" type="int"/> 值为1234，代表第几个boss
+			<variable name="mywordboss" type="bossrole"/> 
+			<variable name="dropMap" type="map" key="int" value="int"/>  收益，key为物品或资源ID，value为数量
+			<variable name="bosskillName" type="string"/> 击杀者名称
+		</protocol>
+		
+		<protocol  name="CBossShop" type="2459" maxsize="64" prior="1" waiting="0"> 
+		</protocol>
+		
+		<protocol  name="SBossShop" type="2460" maxsize="65535" prior="1"> 
+			<variable name="shoplist" type="list" value="int"/> 今天可买的物品表
+			<variable name="hunternum" type="int"/> 今日猎人集市累计兑换次数
+			<variable name="chuanshuozs" type="int"/> 传说之石
+		</protocol>
+		
+		<protocol  name="CBuyBossShop" type="2461" maxsize="64" prior="1" waiting="0"> 
+			<variable name="bossshopid" type="int"/> 商品ID
+		</protocol>
+		
+		<protocol  name="SBuyBossShop" type="2462" maxsize="65535" prior="1"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="bossshopid" type="int"/> 商品ID
+			<variable name="hunternum" type="int"/> 今日猎人集市累计兑换次数
+			<variable name="chuanshuozs" type="int"/> 传说之石
+			<variable name="droplist" type="list" value="int"/> 掉落小包ID
+		</protocol>
+		
+		<protocol  name="CBossBuyZhufu" type="2463" maxsize="64" prior="1" waiting="0"> 
+			<variable name="bossid" type="int"/> 值为1234，代表第几个boss
+		</protocol>
+		
+		<protocol  name="SBossBuyZhufu" type="2464" maxsize="65535" prior="1"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="zhufunum" type="int"/> 祝福次数
+			<variable name="shouwangzl" type="int"/> 守望之灵
+			<variable name="bossid" type="int"/> 值为1234，代表第几个boss
+		</protocol>
+		
+		<protocol  name="CBuyShouwangzl" type="2465" maxsize="64" prior="1" waiting="0"> 
+			<variable name="num" type="int"/> 购买数量
+		</protocol>
+		<protocol  name="SBuyShouwangzl" type="2466" maxsize="64" prior="1" waiting="0"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="shouwangzl" type="int"/> 守望之灵总数
+		</protocol>
+		
+		<bean name="BossRankInfo">
+			<variable name="roleid" type="long"/>	玩家guid
+			<variable name="rolename" type="string"/>	玩家名称
+			<variable name="num" type="long"/>		伤害
+		</bean>
+		
+		<!-- 获取BOSS战排行榜 -->
+		<protocol  name="CGetBossRank" type="2467" maxsize="64" prior="1" waiting="0"> 
+		</protocol>
+		<!-- 获取BOSS战排行榜返回-->
+		<protocol  name="SGetBossRank" type="2468" maxsize="655350" prior="1" waiting="0"> 
+			<variable name="rank" type="list" value="BossRankInfo"/>
+			<variable name="ranknum" type="int"/>		排名
+			<variable name="num" type="long"/>		伤害
+		</protocol>
+		
+	</namespace>
+	
+	<!-- 极限试炼 协议2501-2550 -->
+	<namespace name="endlessbattle">
+	
+		<bean name="endlessBattleInfo">
+			<variable name="battleid" type="int"/>关卡id
+			<variable name="groupnum" type="int"/>第几轮
+			<variable name="useherokeyList" type="map" key="int" value="int"/> 使用英雄id和位置（key为位置，value为herokey）
+			<variable name="monstergroup" type="list" value="int"/>	怪物组
+			<variable name="trooptype" type="int" />				战队类型
+			<variable name="monstertrooptype" type="int" />			怪物战队类型
+			<variable name="pact" type="int" />						强者之约（没有则为-1）
+		</bean>
+		<bean name="endlessAttr">
+			<variable name="dropnum" type="int" />			剩余勇者证明数量
+			<variable name="alldropnum" type="int" />		勇者证明总数
+			<variable name="add1" type="int" />				属性1购买次数
+			<variable name="add2" type="int" />				属性2购买次数
+			<variable name="add3" type="int" />				属性3购买次数
+			<variable name="add4" type="int" />				属性4购买次数（仅计数）
+			<variable name="herobloodList" type="map" key="int" value="int"/> 使用英雄的血量（key为位置，value为血量）
+		</bean>
+		
+		<protocol  name="CBeginEndless" type="2501" maxsize="1024" prior="1" waiting="0"> 开始极限试炼
+			<variable name="troopid" type="short"/> 战队ID
+		</protocol>
+		
+		<protocol  name="SBeginEndless" type="2502" maxsize="65535" prior="1"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="battleinfo" type="endlessBattleInfo"/> 
+			<variable name="attrinfo" type="endlessAttr"/> 
+		</protocol>
+		
+		<protocol  name="CEndlessPass" type="2503" maxsize="655350" prior="1" waiting="0"> 小关卡结束返回
+			<variable name="fightInfoList" type="list" value="chuhan.gsp.fightInfo"/>	战斗信息
+		</protocol>
+		
+		<protocol  name="SEndlessPass" type="2504" maxsize="65535" prior="1"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="battleinfo" type="endlessBattleInfo"/> 
+			<variable name="attrinfo" type="endlessAttr"/> 
+		</protocol>
+		
+		<protocol  name="CBuyPact" type="2505" maxsize="1024" prior="1" waiting="0"> 购买强者之约
+			<variable name="pactid" type="int"/> 强者之约ID
+		</protocol>
+		
+		<protocol  name="SBuyPact" type="2506" maxsize="1024" prior="1"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="pactid" type="int"/> 强者之约ID			
+		</protocol>
+		
+		<protocol  name="SEndlessEnd" type="2507" maxsize="65535" prior="1"> 
+			<variable name="groupnum" type="int"/>第几轮
+			<variable name="alldropnum" type="int" />		勇者证明总数
+			<variable name="pact" type="int" />				强者之约（没有则为-1）
+			<variable name="pactispass" type="int" />		强者之约是否达成（0为未达成，1为达成）
+			<variable name="dropMap" type="map" key="int" value="int"/> 掉落收益（key为物品或资源ID，value为数量）
+		</protocol>
+		
+		<protocol  name="CTodayEndless" type="2508" maxsize="1024" prior="1" waiting="0"> 获取今日极限试炼数据
+		</protocol>
+		
+		<protocol  name="STodayEndless" type="2509" maxsize="65535" prior="1">获取今日极限试炼数据返回
+			<variable name="isend" type="int" />			0未开始，1进行中，2结束
+			<variable name="groupnum" type="int"/>			第几轮
+			<variable name="alldropnum" type="int" />		勇者证明总数
+			<variable name="pact" type="int" />				强者之约（没有则为-1）
+			<variable name="ishalfcostpact" type="int" />	本次购买是否半价（0是本次全价，1是半价）
+			<variable name="paiming" type="int" />			预测今日排名（-1未排名，1~20为具体排名，20以上为20名之外）
+			<variable name="isnotfirst" type="int" />		不是第一次战斗（0是第一次战斗，1不是第一次战斗）
+		</protocol>
+		
+		<!-- 购买属性增加 -->
+		<protocol  name="CEndlessBuyadd" type="2510" maxsize="1024" prior="1" waiting="0"> 
+			<variable name="addnum" type="int" />				购买的属性1~4
+		</protocol>
+		<!-- 购买属性增加返回-->
+		<protocol  name="SEndlessBuyadd" type="2511" maxsize="1024" prior="1" waiting="0"> 
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="add1" type="int" />				属性1购买次数
+			<variable name="add2" type="int" />				属性2购买次数
+			<variable name="add3" type="int" />				属性3购买次数
+			<variable name="add4" type="int" />				属性4购买次数（仅计数）	
+		</protocol>
+		
+		<!-- 他人查看英雄 by yanglk -->
+		<bean name="OtherHero">
+			<variable name="heroid" type="int"/> 英雄配表ID
+			<variable name="exp" type="int"/> 当前经验
+			<variable name="herolevel" type="int"/>         英雄等级
+			<variable name="hp" type="int"/>     		血量
+			<variable name="PhysicalAttack" type="int"/>   物理攻击
+			<variable name="PhysicalDefence" type="int"/>   物理防御
+			<variable name="MagicAttack" type="int"/>    魔法攻击
+			<variable name="MagicDefence" type="int"/>   魔法防御
+			<variable name="skill1" type="int"/>   技能1编号（未开通为0）
+			<variable name="skill2" type="int"/>   技能2编号（未开通为0）
+			<variable name="skill3" type="int"/>   技能3编号（未开通为0）
+			<variable name="heroviewid" type="int"/>   英雄外观
+		</bean>
+		
+		<bean name="EndlessRankInfo">
+			<variable name="roleid" type="long"/>	玩家guid
+			<variable name="rolename" type="string"/>	玩家名称
+			<variable name="level" type="int"/>		玩家等级
+			<variable name="groupnum" type="int"/>第几轮
+			<variable name="trooptype" type="int" />				战队类型
+			<variable name="alldropnum" type="int" />		勇者证明总数量
+			<variable name="heroAttribute" type="map" key="int" value="OtherHero"/> 使用英雄的位置和属性信息（key为位置，value为OtherHero属性信息）
+			<variable name="onranknum" type="int" />		连续在榜次数
+		</bean>
+		
+		<!-- 获取极限试炼排行榜 -->
+		<protocol  name="CGetEndlessRank" type="2512" maxsize="64" prior="1" waiting="0"> 
+		</protocol>
+		<!-- 获取极限试炼排行榜返回-->
+		<protocol  name="SGetEndlessRank" type="2513" maxsize="655350" prior="1" waiting="0"> 
+			<variable name="rank1_50" type="list" value="EndlessRankInfo"/>	
+			<variable name="rank51_100" type="list" value="EndlessRankInfo"/>	
+			<variable name="rank101_" type="list" value="EndlessRankInfo"/>		
+		</protocol>
+		
+		<protocol  name="CEndlessEnd" type="2514" maxsize="64" prior="1"> 
+		</protocol>
+	</namespace>
+	
+	<!-- 探险 协议2551-2600 -->
+	<namespace name="tanxian">
+		<bean name="tanxian">
+			<variable name="tanxianid" type="int"/> 探险id
+			<variable name="tanxiantype" type="int"/> 状态，0未开启，1进行中，2已完成
+			<variable name="endtime" type="long"/> 结束时间
+			<variable name="teamnum" type="int"/> 队伍号
+		</bean>
+		<bean name="stagetanxian">
+			<variable name="stagetanxian" type="list" value="tanxian"/> 每章节探险列表
+		</bean>
+		<bean name="teamtanxian">
+			<variable name="tanxianid" type="int"/> 探险id
+			<variable name="team" type="list" value="int"/> 小队英雄key列表
+		</bean>
+		<bean name="stagetxall">
+			<variable name="teamallmap" type="map" key="int" value="teamtanxian"/> 探险任务小队表，key小队id（从1开始），value小队英雄key列表
+			<variable name="stagetxallmap" type="map" key="int" value="stagetanxian"/> 探险任务总表，key是章节ID(从1开始)，value是章节探险列表
+		</bean>
+		
+		<protocol name="SRefreshTanXian" type="2551" maxsize="65535" prior="1">
+			<variable name="tanxianInfo" type="stagetxall" />
+		</protocol>
+		
+		<protocol name="CTanxianBegin" type="2552" maxsize="2048" prior="1">
+			<variable name="team" type="list" value="int"/> 小队英雄key列表
+			<variable name="tanxianid" type="int"/>	探险id
+		</protocol>
+		
+		<protocol name="STanxianBegin" type="2553" maxsize="512" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="team" type="list" value="int"/> 小队英雄key列表
+			<variable name="tanxianid" type="int"/>	探险id
+			<variable name="endtime" type="long"/> 结束时间
+		</protocol>
+		
+		<protocol name="CTanXianOther" type="2554" maxsize="128" prior="1">
+			<enum name="END_GET" value="1"/>  领取奖励
+			<enum name="END_SPEED" value="2"/>  快速完成
+			<enum name="END_NULL" value="3"/>  召回
+			<enum name="SREFRESH" value="4"/>  刷新
+			<variable name="endtype" type="int"/>
+			<variable name="tanxianid" type="int"/>	探险id
+		</protocol>
+		
+		<protocol name="STanXianOther" type="2555" maxsize="2048" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="endtype" type="int"/>
+			<variable name="tanxianid" type="int"/>	探险id
+			<variable name="dropidlist" type="list" value="int"/>	掉落小包ID
+		</protocol>
+	
+	</namespace>
+	
+	
+	<!-- 部分活动 协议2601-2700 -->
+	<namespace name="activity">
+		<protocol name="CHeroClone" type="2601" maxsize="64" prior="1">
+			<variable name="heroid" type="int"/>	英雄id
+		</protocol>
+		
+		<protocol name="SHeroClone" type="2602" maxsize="128" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="heroid" type="int"/>	英雄id
+		</protocol>
+		
+		<protocol name="SRefreshHeroClone" type="2603" maxsize="2048" prior="1">
+			<variable name="heroclonelist" type="list" value="int"/>
+		</protocol>
+		
+		<protocol name="CGetMSZQ" type="2604" maxsize="64" prior="1">
+		</protocol>
+		
+		<protocol name="SGetMSZQ" type="2605" maxsize="1024" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+		</protocol>
+		
+		<protocol name="CGetQiYuan" type="2606" maxsize="64" prior="1">
+		</protocol>
+		
+		<protocol name="SGetQiYuan" type="2607" maxsize="1024" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="innerdropIdList" type="list" value="int"/> 掉落小包ID
+		</protocol>
+		
+		<protocol name="CMonthCard" type="2608" maxsize="64" prior="1">
+			<variable name="cardId" type="int"/>
+		</protocol>
+		
+		<protocol name="SMonthCard" type="2609" maxsize="1024" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="cardId" type="int"/>
+			<variable name="innerdropIdList" type="list" value="int"/> 掉落小包ID
+		</protocol>
+		
+		<protocol name="SRefreshMonthCard" type="2610" maxsize="2048" prior="1">
+			<variable name="monthcardlist" type="list" value="chuhan.gsp.monthcard"/>
+		</protocol>
+		
+		<protocol name="SRefreshLogin" type="2611" maxsize="128" prior="1">
+			<variable name="signnum7" type="int"/>
+			<variable name="signnum28" type="int"/>
+		</protocol>
+		
+		<protocol name="CNewyindao" type="2612" maxsize="64" prior="1">
+			<variable name="num" type="int"/>
+		</protocol>
+		
+		<protocol name="SNewyindao" type="2613" maxsize="1024" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="num" type="int"/>
+		</protocol>
+		
+		<protocol name="CDuihuanlb" type="2614" maxsize="2048" prior="1">
+			<variable name="str" type="string"/>
+		</protocol>
+		
+		<protocol name="SDuihuanlb" type="2615" maxsize="4096" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="innerdropIdList" type="list" value="int"/> 掉落小包ID
+		</protocol>
+		
+		<bean name="gactivity">
+			<variable name="id" type="int"/> 活动id
+			<variable name="time" type="long"/> 最近一次时间
+			<variable name="todaynum" type="int"/> 今日次数
+			<variable name="allnum" type="int"/> 累计次数
+			<variable name="cangetnum" type="int"/> 可以领取次数（）
+			<variable name="activitynum" type="int"/>活动计数
+			<variable name="allactivitynum" type="int"/>累计计数
+			<variable name="issee" type="int"/> 是否看过（提示用，0未看，1已看）
+		</bean>
+		
+		<protocol name="SRefreshGameAct" type="2616" maxsize="655350" prior="1">
+			<variable name="gameactivitymap" type="map" key="int" value="gactivity"/>
+		</protocol>
+		
+		<protocol name="SAddHeroClone" type="2617" maxsize="64" prior="1">
+			<variable name="heroid" type="int"/>	英雄id
+		</protocol>
+		
+		<protocol name="CGetGameAct" type="2618" maxsize="64" prior="1">
+			<variable name="actId" type="int"/>			活动ID
+		</protocol>
+		
+		<protocol name="SGetGameAct" type="2619" maxsize="128" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="actId" type="int"/>
+		</protocol>
+		
+		<protocol name="SRefreshSingleGameAct" type="2620" maxsize="65535" prior="1">
+			<variable name="gameactivity" type="gactivity"/>
+		</protocol>
+		
+		<protocol name="CSeeGameAct" type="2621" maxsize="64" prior="1">
+			<variable name="teamId" type="int"/>			分组ID
+		</protocol>
+		
+		<protocol name="SSeeGameAct" type="2622" maxsize="1024" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="num" type="int"/>
+		</protocol>
+		
+		
+		
+	</namespace>
+	
+	
+	
+</namespace>

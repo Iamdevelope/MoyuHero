@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="battle">
+		
+	<protocol  name="BeanImport" type="1401" maxsize="32" prior="1">
+		<variable name="resultType" type="ResultType"/>1~10
+		<variable name="battleType" type="BattleType"/>
+	</protocol>
+	
+	<bean name="ResultType">
+		<enum name="RESULT_CRIT" value="1"/> 暴击
+		<enum name="RESULT_DEATH" value="2"/> 死亡
+		<enum name="RESULT_DODGE" value="4"/> 闪躲
+		<enum name="RESULT_CHANGE" value="8"/> 更换
+	</bean>
+	
+	<bean name="BattleType"> %2 == 0 为pve， == 1为pvp
+		<enum name="PVE" value="0"/>
+		<enum name="PVP" value="1"/>
+		<enum name="RAID_BOSS_PVE" value="2"/> 斩魔
+		<enum name="CAMP_PVP" value="3"/> 阵营战
+		<enum name="TRIGGER_BOSS_PVE" value="4"/> 触发斩魔的战斗，不出结果直接播动画
+	</bean>
+	
+	<bean name="FighterInfo">
+		<variable name="fighterId" type="byte"/>1~10
+		<variable name="hp" type="int"/> 初始血
+		<variable name="heroId" type="int"/> 武将id
+		<variable name="colorgrade" type="byte"/>
+		<variable name="weapon" type="byte"/>
+		<variable name="armor" type="byte"/>
+		<variable name="horse" type="byte"/>
+		<variable name="shape" type="short"/>
+	</bean>
+	
+	<bean name="FighterResult">
+		<variable name="fighterId" type="byte"/>1~10
+		<variable name="addexp" type="int"/>
+	</bean>
+	
+	<bean name="BattleResult">
+		<variable name="winround" type="byte"/> -3=3回合主方败，-1=1回合主方败，3=3回合主方胜。。。
+		<variable name="addmoney" type="int"/> 添加的钱，可能为负
+		<variable name="addexp" type="int"/> 添加的人物经验
+		<variable name="itemkey" type="int"/> 获得的物品key
+		<variable name="itemid" type="short"/> 获得的物品id
+		<variable name="num" type="int"/> 获得的数量
+		<variable name="extinfo" type="string"/> 额外信息
+		<!--<variable name="fighters" type="list" value="FighterResult"/> 武将结果-->
+	</bean>
+	
+	<bean name="TargetDemo">
+		<variable name="targetid" type="byte"/> 受击者id
+		<variable name="hpchange" type="int"/> 血变化
+		<variable name="targetresult" type="byte"/> 参考ResultType
+	</bean>
+	
+	<bean name="BattleDemo">
+		<variable name="attacker" type="byte"/> 攻击者id
+		<variable name="skillid" type="short"/> 技能id，0为普攻
+		<variable name="targets" type="list" value="TargetDemo"/>
+	</bean>
+	
+	<protocol  name="SSendBattleScript" type="1402" maxsize="65535" prior="1">
+		<variable name="enermyrank" type="short"/> 天梯排名 0不显示
+		<variable name="enermyname" type="string"/> 敌人名称
+		<variable name="directend" type="byte"/> -1不能结束，0可以结束，大于0时为中途结束，离结束的秒数（可以暂不处理，默认7s）
+		<variable name="fighters" type="map" key="int" value="FighterInfo" /> 所有的战斗者信息
+		<variable name="hostspeed" type="short" /> 主方速度 
+		<variable name="guestspeed" type="short" /> 客方速度
+		<variable name="battletype" type="byte"/> 参考BattleType
+		<variable name="preround" type="list" value="BattleDemo" /> 回合前加buff流程
+		<variable name="round1" type="list" value="BattleDemo" /> 第一回合
+		<variable name="round2" type="list" value="BattleDemo" /> 第二回合，为空则没有
+		<variable name="round3" type="list" value="BattleDemo" /> 第三回合，为空则没有
+		<variable name="result" type="BattleResult"/>
+	</protocol>
+	
+	<protocol  name="CEnterLadder" type="1403" maxsize="64" prior="1" waiting="1404">
+	</protocol>
+	
+	<bean name="LadderRoleInfo">
+		<variable name="ladderrank" type="short"/> 排名
+		<variable name="roleId" type="long"/>
+		<variable name="rolename" type="string"/>
+		<variable name="rolelevel" type="short"/>
+		<variable name="addsoul" type="short"/>
+		<variable name="fighttype" type="byte"/> 1:可挑战，2：仇敌，3：只读，4：自己
+		<variable name="troopheros" type="list" value="int"/>
+		<variable name="firstMinit" type="int"/> 本周在第一名的时间 单位：分
+	</bean>
+	<protocol  name="SEnterLadder" type="1404" maxsize="120000" prior="1">
+		<variable name="todayfightnum" type="byte"/>
+		<variable name="myrank" type="short"/>
+		<variable name="laddersoul" type="int"/> 天梯元魂值
+		<variable name="ladderroles" type="list" value="LadderRoleInfo"/>
+	</protocol>
+	
+	<protocol  name="CFightLadderRole" type="1405" maxsize="64" prior="1" waiting="0"> 挑战天梯上的一个排位，发给服务器的数据如果有变化都会失败
+		<variable name="selfrank" type="short"/> 自己排名
+		<variable name="challengerank" type="short"/> 挑战排名
+		<variable name="challengeroleId" type="long"/> 挑战的roleId
+	</protocol>
+	
+	<protocol  name="SRefreshLadderScore" type="1406" maxsize="64" prior="1"> 挑战天梯上的一个排位，发给服务器的数据如果有变化都会失败
+		<variable name="score" type="int"/>
+	</protocol>
+	
+	<bean name="BloodBaseInfo">
+		<variable name="maxlevel" type="short"/>最大关
+		<variable name="curlevel" type="short"/>当前关
+		<variable name="army" type="float"/>
+		<variable name="attack" type="float"/>
+		<variable name="defend" type="float"/>
+		<variable name="wisdom" type="float"/>
+	</bean>
+	<protocol  name="CEnterBloodBattle" type="1407" maxsize="64" prior="1">
+	</protocol>
+	
+	<protocol  name="CReliveBloodFight" type="1408" maxsize="64" prior="1">
+	</protocol>
+	
+	<protocol  name="SEnterBloodFight" type="1409" maxsize="4566" prior="1">
+		<variable name="bloodinfo" type="BloodBaseInfo"/> 
+		<variable name="battle1" type="byte"/> 战斗1
+		<variable name="battle2" type="byte"/> 战斗2
+		<variable name="battle3" type="byte"/> 战斗3
+		<variable name="relivetimes" type="byte"/> 复活次数，当大于等于0时进入战斗失败界面
+	</protocol>
+	
+	<protocol  name="SEnterBloodEffect" type="1410" maxsize="4566" prior="1">
+		<variable name="bloodinfo" type="BloodBaseInfo"/> 
+		<variable name="battlehard" type="short"/> 战斗难度1-3，当是第一关加属性时，是昨天的战绩
+		<variable name="addstar" type="short"/> 要加的星数，战斗结果用addstar除以battlehard
+	</protocol>
+	
+	<protocol  name="CBeginBloodFight" type="1411" maxsize="64" prior="1">
+		<variable name="id" type="byte"/> 1-3
+	</protocol>
+	
+	<protocol  name="CAddBloodEffect" type="1412" maxsize="64" prior="1">
+		<variable name="id" type="byte"/> 1-4 兵、攻、防、计
+	</protocol>
+	
+	<protocol  name="CEnterBloodAward" type="1413" maxsize="64" prior="1" waiting="1414">
+	</protocol>
+
+	<protocol  name="SEnterBloodAward" type="1414" maxsize="4000" prior="1">
+		<variable name="totalstar" type="int"/>
+		<variable name="repeatnum" type="map" key="byte" value="int"/>
+		<variable name="fixednum" type="list" value="byte"/>
+	</protocol>
+	
+	<protocol  name="CGetBloodAward" type="1415" maxsize="64" prior="1">
+		<variable name="repeat" type="byte"/>
+		<variable name="id" type="byte"/>
+	</protocol>
+	
+	<protocol  name="CGetBloodRankList" type="1416" maxsize="64" prior="1" waiting="1417">
+	</protocol>
+	<bean name="BloodRankRole">
+		<variable name="roleId" type="long"/>
+		<variable name="rolename" type="string"/>
+		<variable name="rolelevel" type="short"/>
+		<variable name="maxlevel" type="short"/>
+		<variable name="troopheros" type="list" value="int"/>
+	</bean>
+	<protocol  name="SSendBloodRankList" type="1417" maxsize="120000" prior="1">
+		<variable name="ranklist" type="vector" value="BloodRankRole"/>
+	</protocol>
+
+	<protocol  name="CGetLadderRankList" type="1418" maxsize="64" prior="1" waiting="1404"> 获取天梯前50名
+	</protocol>
+	
+	
+	<!-- 关卡相关信息 by yanglk -->
+	<bean name="BattleInfo">
+		<variable name="battleid" type="int"/>关卡id
+	</bean>
+	
+	<!-- 开始关卡 by yanglk -->
+	<protocol  name="CBeginBattle" type="1421" maxsize="64" prior="1"> 
+		<variable name="battleid" type="int"/> 关卡ID
+		<variable name="troopid" type="int"/> 战队ID
+	</protocol>
+	<!-- 开始关卡返回 by yanglk -->
+	<protocol  name="SBeginBattle" type="1422" maxsize="65535" prior="1"> 
+		<variable name="battleinfo" type="BattleInfo"/> 
+	</protocol>
+	<!-- 通关返回C by yanglk -->
+	<protocol  name="CEndBattle" type="1423" maxsize="64" prior="1"> 
+		<variable name="pass" type="int"/> 0未通过，1通过1，2通过2，3全通
+	</protocol>
+	<!-- 通关返回S by yanglk -->
+	<protocol  name="SEndBattle" type="1424" maxsize="64" prior="1"> 
+		<enum name="END_OK" value="1"/>  成功		     
+		<enum name="END_ERROR" value="2"/>    失败 
+		
+		<variable name="endtype" type="int"/>
+	</protocol>
+	
+	
+	<!-- 实时战斗 协议1451-1470 -->
+	<namespace name="realtime">
+		
+		<bean name="Battleroleinfo">
+			<variable name="roleid" type="long"/>		人物roleid
+			<variable name="ranking" type="int"/>		排名
+			<variable name="name" type="string"/>名称
+			<variable name="useherokeyList" type="map" key="int" value="int"/> 使用英雄id和位置（key为位置，value为herokey）
+			<variable name="heroes" type="list" value="chuhan.gsp.Hero"/>
+		</bean>
+		
+		<bean name="BDamageInfo">
+			<variable name="DamagePt" type="int"/>		伤害
+			<variable name="IsWTF" type="int"/>
+			<variable name="IsMiss" type="int"/>
+			<variable name="IsHeal" type="int"/>
+		</bean>
+		
+		<bean name="Place">
+			<variable name="x" type="float"/>		
+			<variable name="y" type="float"/>
+			<variable name="z" type="float"/>
+		</bean>
+		
+		<bean name="FacePlace">
+			<variable name="x" type="float"/>		
+			<variable name="y" type="float"/>
+			<variable name="z" type="float"/>
+			<variable name="w" type="float"/>
+		</bean>
+		
+		<bean name="BHeroMove">
+			<variable name="herokey" type="int"/>		英雄key（包括召唤物）
+			<variable name="place" type="Place"/>
+			<variable name="faceplace" type="FacePlace"/>
+		</bean>
+		
+		<bean name="BHeroAttack">
+			<variable name="herokey" type="int"/>		英雄key（包括召唤物）
+			<variable name="skillid" type="int"/>
+			<variable name="skillherolist" type="list" value="int"/>
+			<variable name="hurt" type="map" key="int" value="BDamageInfo"/>
+			<variable name="killlist" type="list" value="int"/>
+		</bean>
+		
+		<protocol name="CAddRealTime" type="1451" maxsize="64" prior="1">
+		</protocol>
+		
+		<protocol name="SAddRealTime" type="1452" maxsize="1024" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+    	<variable name="result" type="int"/>
+    	<variable name="time" type="int"/>	等待时间秒
+		</protocol>
+		
+		<protocol name="SCreateRoom" type="1453" maxsize="65535" prior="1">
+			<variable name="roomkey" type="int"/>
+			<variable name="maininfo" type="Battleroleinfo"/>
+			<variable name="otherinfo" type="Battleroleinfo"/>
+		</protocol>
+		
+		<protocol name="CCreateOk" type="1454" maxsize="64" prior="1">
+			<variable name="roomkey" type="int"/>
+		</protocol>
+		
+		<protocol name="SRealTimeBegin" type="1455" maxsize="64" prior="1">
+		</protocol>
+		
+		<protocol name="CAttack" type="1456" maxsize="65535" prior="1">
+			<variable name="Attackkey" type="int"/>
+			<variable name="BHeroTypeList" type="list" value="BHeroAttack"/>
+			<variable name="romekey" type="int"/>
+			<variable name="iswin" type="int"/> 是否赢了 0未赢，1赢了
+		</protocol>
+		
+		<protocol name="SAttack" type="1457" maxsize="64" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+    	<variable name="result" type="int"/>
+			<variable name="Attackkey" type="int"/>
+		</protocol>
+		
+		<protocol name="SAttackOther" type="1458" maxsize="65535" prior="1">
+			<variable name="Attackkey" type="int"/>
+			<variable name="BHeroTypeList" type="list" value="BHeroAttack"/>
+			<variable name="iswin" type="int"/> 是否赢了 0未赢，1赢了
+		</protocol>
+		
+		<protocol name="CMove" type="1459" maxsize="4096" prior="1">
+			<variable name="roomkey" type="int"/>
+			<variable name="MoveList" type="list" value="BHeroMove"/>
+		</protocol>
+		
+		<protocol name="SMove" type="1460" maxsize="4096" prior="1">
+			<variable name="roomkey" type="int"/>
+			<variable name="MoveList" type="list" value="BHeroMove"/>
+		</protocol>
+		
+		<protocol name="CGetNextKey" type="1461" maxsize="128" prior="1">
+			<variable name="roomkey" type="int"/>
+		</protocol>
+		
+		<protocol name="SGetNextKey" type="1462" maxsize="256" prior="1">
+			<variable name="newkey" type="int"/>
+		</protocol>
+		
+		<protocol name="SRealTimeEnd" type="1463" maxsize="64" prior="1">
+			<enum name="WIN" value="1"/>  胜利		     
+			<enum name="FAIL" value="0"/> 失败 
+			<variable name="endtype" type="int"/>
+		</protocol>
+	</namespace>
+</namespace>

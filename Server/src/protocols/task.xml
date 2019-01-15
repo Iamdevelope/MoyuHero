@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<namespace name="task">
+	<protocol  name="BeanImport" type="1601" maxsize="32" prior="1">
+		<variable name="LiangCaoActivity" type="LiangCaoActivity"/>
+		<variable name="QiandaoActivity" type="QiandaoActivity"/>
+		<variable name="ShengjiActivity" type="ShengjiActivity"/>
+		<variable name="ChargeActivityView" type="ChargeActivityView"/>
+	</protocol>
+	
+	<bean name="ChargeActivityView">
+		<variable name="totalCharge" type="int"/> 充值的元宝总数
+		<variable name="endTime" type="long"/> 活动结束时间
+		<variable name="isGain" type="vector" value="int"/> 已经领取过的奖励
+	</bean>
+
+	<bean name="LiangCaoActivity">
+		<variable name="firstuse" type="byte"/>
+		<variable name="senconduse" type="byte"/>
+	</bean>
+    
+    <bean name="QiandaoActivity">
+		<variable name="qiandaodays" type="byte"/>已连续签到天数
+        <variable name="getreward" type="byte"/>是否领取奖励
+	</bean>
+    
+    <bean name="ShengjiActivity">
+		<variable name="lastgetrewardlevel" type="int"/>已经领取奖励等级
+	</bean>
+	
+	
+	<bean name="ActivityInfo">
+		<variable name="id" type="byte"/>
+		<variable name="data" type="octets"/>
+	</bean>
+    
+	<bean name="HeroTimeTask">
+		<variable name="pos" type="byte"/>
+		<variable name="taskid" type="byte"/>
+		<variable name="endtime" type="long"/>
+	</bean>
+	
+	<protocol  name="SSendActivities" type="1602" maxsize="65536" prior="1">
+		<variable name="activities"  type="vector" value="ActivityInfo"/>
+        <variable name="showactivityid" type="byte"/>
+	</protocol>
+    <protocol  name="CRequestActivities" type="1603" maxsize="65536" prior="1">
+	</protocol>
+    
+    <protocol  name="CGetLiangCao" type="1604" maxsize="65536" prior="1">
+	</protocol>
+    
+    <protocol  name="SRefreshActivities" type="1605" maxsize="65536" prior="1">
+		<variable name="activity"  type="ActivityInfo"/>
+	</protocol>
+    
+    <protocol  name="CGetQiandaoReward" type="1606" maxsize="65536" prior="1">
+	</protocol>
+    
+    <protocol  name="CGetLevelReward" type="1607" maxsize="65536" prior="1">
+	</protocol>
+    
+  <protocol  name="SSendHeroTimeTasks" type="1608" maxsize="65536" prior="1">
+      <variable name="proceedtasks"  type="vector" value="HeroTimeTask"/>
+      <variable name="endtasks"  type="vector" value="byte"/>
+  </protocol>
+    
+  <protocol  name="CBeginHeroTimeTask" type="1609" maxsize="65536" prior="1">
+   		<variable name="pos"  type="byte"/>
+      <variable name="taskid"  type="byte"/>
+      <variable name="herokey"  type="int"/>
+	</protocol>
+    
+  <protocol  name="SRefreshHeroTimeTask" type="1610" maxsize="65536" prior="1">
+       <variable name="taskinfo"  type="HeroTimeTask"/>
+       <variable name="herokey"  type="int"/>
+  </protocol>
+
+	<!--领取充值奖励-->
+	<protocol  name="CGainChargeReward" type="1611" maxsize="65536" prior="1">
+		<variable name="yuanbao"  type="int"/> 要领取的奖励
+	</protocol>
+    
+</namespace>

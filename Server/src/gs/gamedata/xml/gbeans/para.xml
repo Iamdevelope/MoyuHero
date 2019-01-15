@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="para"> 
+		<bean name="cparaconfig" from="效果参数配置表.xlsx" genxml="client" priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="para" type="string" fromCol="para" />
+		</bean>
+	</namespace>

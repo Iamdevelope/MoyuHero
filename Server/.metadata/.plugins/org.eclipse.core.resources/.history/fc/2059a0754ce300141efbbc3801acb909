@@ -1,0 +1,46 @@
+package chuhan.gsp.award;
+
+import java.util.List;
+
+import chuhan.gsp.Dictionary;
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.MsgType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.PropRole;
+import chuhan.gsp.mail.PAddMail;
+import chuhan.gsp.msg.Message;
+import chuhan.gsp.util.ParserString;
+
+
+
+
+public class PDrop extends xdb.Procedure{
+	private final long roleid;
+	private final String dropStr;
+	private final String reason;
+	
+	
+	public PDrop(long roleid, String dropStr, String reason) {
+		this.roleid = roleid;
+		this.dropStr = dropStr;
+		this.reason = reason;
+	}
+	
+	
+	@Override
+	protected boolean process() throws Exception {
+		
+		xbean.Properties xprop = xtable.Properties.get(roleid);
+		if(xprop == null)
+		{
+//			ErrorManager.getInstance().SendError(roleid, ErrorType.ERR_NOT_ONLINE);
+			return false;
+		}
+		
+		List<Integer> nmDropIdList = ParserString.parseString2Int(dropStr);
+		
+				
+		return true;
+	}
+	
+}

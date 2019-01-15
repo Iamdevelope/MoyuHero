@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Dragon_Lava
+  m_Shader: {fileID: 4800000, guid: 33197e2de50539842a046ce2eb3f0fcc, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 348fa4d278c53ad4dacd07df1e63a248, type: 3}
+          m_Scale: {x: 3.20000005, y: 1.20000005}
+          m_Offset: {x: -.25999999, y: 0}
+      data:
+        first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: bef54341b6d21864c82d47f3bed4c7db, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: .289630175, y: 0}
+      data:
+        first:
+          name: _LavaTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 29c10ee54d8e22a419ae779b506808e1, type: 3}
+          m_Scale: {x: 3.79999995, y: 1.29999995}
+          m_Offset: {x: .0334316455, y: 0}
+      data:
+        first:
+          name: _Distort
+        second:
+          m_Texture: {fileID: 2800000, guid: 0ebfaeff4eb7328498165095f9cfc32f, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex_Add
+        second:
+          m_Texture: {fileID: 2800000, guid: 1a5d8cd24a805cd44b00c7f1e1e4d287, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 1.56916785, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _DistortX
+        second: 1
+      data:
+        first:
+          name: _DistortY
+        second: 0
+      data:
+        first:
+          name: _RefractTexTiling
+        second: 1
+      data:
+        first:
+          name: _Displacement
+        second: .0375000015
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: .0705882385}
+      data:
+        first:
+          name: _SpeedStrength
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _ChannelFactor
+        second: {r: -.3281326, g: .592094123, b: .736038387, a: 0}

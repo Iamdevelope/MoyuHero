@@ -1,0 +1,48 @@
+package chuhan.gsp.util;
+
+
+import org.apache.log4j.Logger;
+
+
+public class ParserString
+{
+	
+	public static final Logger logger = Logger.getLogger(ParserString.class);
+	
+	private static final String FIRST_SPLIT = "#";
+	
+	/**
+	 * 将ID@odds的格式解析为ID2Odds，形如 1001@40;1002@60 (@前为ID，后为出现的几率)
+	 * @param str
+	 * @return 返回null时表示该str不合法,解析失败
+	 */
+	public static ID2Odds parseIdAndOdds(String str)
+	{
+		try
+		{
+			if(str == null || str.equals(""))
+				return null;
+			String[] strs = str.split(";");
+			ID2Odds id2odds = new ID2Odds(strs.length);
+			for (int i = 0 ; i < strs.length;i++)
+			{
+				String[] rands = strs[i].split("@");
+				id2odds.ids[i] = Integer.valueOf(rands[0]);
+				id2odds.odds[i] = Integer.valueOf(rands[1]);
+			}
+			return id2odds;
+		}
+		catch(Exception e)
+		{
+			logger.error("Parse IdAndOdds error. String = " + str , e);
+			e.printStackTrace();
+		}
+		return null;
+		 
+	}
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="battle"> 
+		
+		
+		
+		<bean name="SBattleNPCConfig" from="战斗NPC.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="chuhan" type="int" fromCol="楚汉"/>
+			  <variable name="name" type="string" fromCol="名称" />
+			  <variable name="color" type="int" fromCol="颜色" />
+			  <variable name="icon" type="int" fromCol="头像" />
+			  <variable name="pic" type="int" fromCol="半身像" />
+			  <variable name="levtype" type="int" fromCol="等级模式" />
+			  <variable name="lev" type="int" fromCol="等级" />
+			  <variable name="army" type="string" fromCol="兵" />
+			  <variable name="attack" type="string" fromCol="攻" />
+			  <variable name="defend" type="string" fromCol="防" />
+			  <variable name="wise" type="string" fromCol="计" />
+			  <variable name="speed" type="string" fromCol="势" />
+			  <variable name="skill1" type="int" fromCol="计策1" />
+			  <variable name="prob1" type="int" fromCol="释放概率1" />
+			  <variable name="skill2" type="int" fromCol="计策2" />
+			  <variable name="prob2" type="int" fromCol="释放概率2" />
+			  <variable name="skill3" type="int" fromCol="计策3" />
+			  <variable name="prob3" type="int" fromCol="释放概率3" />
+			  <variable name="battletype" type="int" fromCol="战斗类型" />
+			  </bean>
+		
+		<bean name="cbattlenpcconfig" from="战斗NPC.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="chuhan" type="int" fromCol="楚汉"/>
+			  <variable name="name" type="string" fromCol="名称" />
+			  <variable name="color" type="int" fromCol="颜色" />
+			  <variable name="icon" type="int" fromCol="头像" />
+			  <variable name="pic" type="int" fromCol="半身像" />
+			  <variable name="battletype" type="int" fromCol="战斗类型" />
+			  </bean>
+		
+		<bean name="SBattleConfig" from="战斗信息表.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="type" type="int" fromCol="type" />
+			  <variable name="spot" fromCol="点位6,点位7,点位8,点位9,点位10"  type="vector"  value="int"    />
+		</bean>
+		
+		<bean name="SBattleXuezhan" from="血战战斗表.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="pic" type="int" fromCol="pic" />
+			  <variable name="battle" fromCol="battle"  type="int"    />
+		</bean>
+		
+		<bean name="cbattlexuezhan" from="血战战斗表.xlsx" genxml="client"  priority="1">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="pic" type="int" fromCol="pic" />
+			  <variable name="battle" fromCol="battle"  type="int"    />
+			  <variable name="color" type="int" fromCol="color" />
+		</bean>
+		<bean name="SZhenYingZhanGuanKa" from="阵营战关卡配置.xlsx" genxml="server">
+			  <variable name="id" type="int" fromCol="ID" />
+			  <variable name="bingli" type="double" fromCol="兵力" />
+			  <variable name="gongji" type="double" fromCol="攻击" />
+			  <variable name="fangyu" type="double" fromCol="防御" />
+			  <variable name="jilue" type="double" fromCol="计略" />
+			  <variable name="award_id" type="int" fromCol="掉落奖励" />
+		</bean>
+	
+	</namespace>

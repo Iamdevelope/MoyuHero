@@ -1,0 +1,57 @@
+package chuhan.gsp.hero;
+
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.MsgType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.PropRole;
+import chuhan.gsp.msg.Message;
+
+
+
+public class PPeiYangHero extends xdb.Procedure{
+	private final long roleid;
+	public int herokey; // 英雄key
+	public byte slotnum; // 培养位置
+	
+	public PPeiYangHero(long roleid, int herokey, int slotnum) {
+		this.roleid = roleid;
+		this.herokey = herokey;
+		this.slotnum = slotnum;
+
+
+	}
+	
+	@Override
+	protected boolean process() throws Exception {
+		
+		xbean.Properties xprop = xtable.Properties.get(roleid);
+		if(xprop == null)
+		{
+			return false;
+		}
+		HeroColumn herocol = HeroColumn.getHeroColumn(roleid, false);
+		
+		int[] result = herocol.qianghuaEntry(this.heroupkey,  this.herousekey,this.ishigh);
+		boolean bresult = false;
+		SQianghuaHero snd = new SQianghuaHero();
+		snd.ishigh = this.ishigh;
+		snd.isone = this.isone;
+		if(result == null)
+			snd.result = SQianghuaHero.END_ERROR;
+		else
+		{
+			snd.result = result[0];
+			snd.notok_add = result[1];
+			snd.notok_all = result[2];
+			bresult = true;
+			Hero hero = herocol.getHByHKey(heroupkey);
+			PropRole propRole = PropRole.getPropRole(roleid, true);
+			Message.broadcastMsgNotifyWithDelay(5000, MsgType.MSG_HERO_QIANGHUA,propRole.getProperties().getRolename(),hero.getiHeroInfo().getNameID(),String.valueOf(hero.getxHeroInfo().getQianghualevel()));
+
+		}
+		xdb.Procedure.psend(roleid, snd);
+		
+		return bresult;
+	}
+	
+}

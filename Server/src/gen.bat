@@ -1,0 +1,1 @@
+call ant genfiles > my.log

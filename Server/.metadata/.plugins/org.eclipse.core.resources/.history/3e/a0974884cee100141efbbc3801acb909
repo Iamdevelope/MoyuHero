@@ -1,0 +1,905 @@
+package chuhan.gsp.hero;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import chuhan.gsp.DataInit;
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.HeroChange;
+import chuhan.gsp.attr.attributetrain32;
+import chuhan.gsp.item.hero01;
+import chuhan.gsp.item.skillupcost17;
+import chuhan.gsp.log.Logger;
+import chuhan.gsp.main.ConfigManager;
+
+
+public class HeroColumn {
+	
+	public final static int MAX_TROOP_NUM = 5;
+	
+	public static Logger logger = Logger.getLogger(HeroColumn.class);
+	public static final int PERCENT_ALL = 1000;
+	public static final int QIANGHUA_MAXLEVEL = 5;
+	public static final int QIANGHUA_MAXLEVEL_HIGH = 8;
+	public static final int STARUP_RESULT_NUM = 3;	//装备升星返回装备数量
+	
+	public static final int PLACE1 = 1;	//位置
+	public static final int PLACE2 = 2;
+	public static final int PLACE3 = 3;
+	public static final int PLACE4 = 4;
+	
+	
+	final public long roleId;
+	final xbean.HeroColumn xcolumn;
+	final boolean readonly;
+	
+	public static HeroColumn getHeroColumn(long roleId, boolean readonly)
+	{
+		if(xtable.Properties.select(roleId) == null)
+			throw new IllegalArgumentException("构造HeroColumn时，角色 "+roleId+" 不存在。");
+		
+		xbean.HeroColumn herocol = null;
+		if(readonly)
+			herocol = xtable.Herocolumns.select(roleId);
+		else
+			herocol = xtable.Herocolumns.get(roleId);
+		if(herocol == null)
+		{
+			if(readonly)
+				herocol = xbean.Pod.newHeroColumnData();
+			else
+			{
+				herocol = xbean.Pod.newHeroColumn();
+				xtable.Herocolumns.insert(roleId, herocol);
+			}
+		}
+		return new HeroColumn(roleId, herocol, readonly);
+	}
+	
+	
+	private HeroColumn(long roleId, xbean.HeroColumn xcolumn, boolean readonly) {
+		this.roleId = roleId;
+		this.xcolumn = xcolumn;
+		this.readonly = readonly;
+	}
+	
+	public List<chuhan.gsp.Hero> getProtocolHeros()
+	{
+		List<chuhan.gsp.Hero> datas = new LinkedList<chuhan.gsp.Hero>();
+		for(xbean.Hero xhero : xcolumn.getHeroes())
+		{
+			Hero hero = new Hero(xhero,false);
+//			hero.getProtocolHero();
+			datas.add(hero.getProtocolHero());
+		}
+		return datas;
+	}
+	
+	public xbean.HeroColumn getxcolumn()
+	{
+		return xcolumn;
+	}
+		
+	//增加一个hero
+	public Hero addHero(xbean.Hero xhero)
+	{
+		xhero.setKey(getNextKey());
+		xcolumn.getHeroes().add(xhero);
+		Hero.logger.debug("Role："+roleId+"添加武将："+xhero.getHeroid());
+//		BeautyRole.activeBeauty(roleId, xhero.getHeroid());			//美人阁逻辑by yanglk
+		//设置图鉴数据
+		List<xbean.Hero> heros = new ArrayList<xbean.Hero>();
+		heros.add(xhero);
+		new PAddTuJianHero(roleId, heros, STuJianHeros.IS_NEW).call();
+		
+		return getHByHKey(xhero.getKey());
+	}
+	
+	//通过英雄KEY获得hero
+	public Hero getHByHKey(int herokey)
+	{
+		for(xbean.Hero xhero : xcolumn.getHeroes())
+		{
+			if(xhero.getKey() == herokey)
+				return Hero.getHero(xhero, readonly);
+		}
+		return null;
+	}
+	
+	//获得下一个key
+	public int getNextKey()
+	{
+		xcolumn.setNextkey(xcolumn.getNextkey()+1);
+		return xcolumn.getNextkey();
+	}
+	
+	//是否有英雄装备此物品
+	public boolean isWearByHero(int equipkey)
+	{
+		for(xbean.Hero xhero : xcolumn.getHeroes())
+		{
+			if(xhero.getWeapon() == equipkey || 
+					xhero.getBarde() == equipkey ||
+					xhero.getOrnament() == equipkey )
+				return true;
+		}
+		return false;
+	}
+	
+	//删除一个英雄
+	public boolean removeByKey(int heroKey)
+	{
+		java.util.LinkedList<Integer> removeList = new java.util.LinkedList<Integer>();
+		removeList.add(heroKey);
+		return removeByKeyList(removeList);
+	}
+	
+	//删除多个英雄
+	public boolean removeByKeyList(java.util.LinkedList<Integer> itemkeys)
+	{
+		SRemoveHero send = new SRemoveHero();
+		for(int key : itemkeys)
+		{
+			for(xbean.Hero xhero : xcolumn.getHeroes())
+			{
+				if(key == xhero.getKey())
+				{
+					send.herokey.add(xhero.getKey());
+					xcolumn.getHeroes().remove(xhero);	
+					break;
+				}
+			}
+		}
+		if(send.herokey.size() > 0)
+		{
+			xdb.Procedure.psendWhileCommit(roleId, send);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	//刷新单个英雄
+	public void refreshHero(int herokey)
+	{		
+		for(xbean.Hero xhero : xcolumn.getHeroes())
+		{
+			if(xhero.getKey() == herokey)
+			{
+				Hero hero = new Hero(xhero,false);
+				hero.refreshHero(roleId);
+				return;
+			}
+		}
+	}
+	
+	// 获取强化、打造等相关配表数据
+	public HeroChange getHeroChange(int starnum) {
+		HeroChange herochange = ConfigManager.getInstance()
+				.getConf(HeroChange.class).get(starnum);
+		return herochange;
+	}
+	
+	/**
+	 * 根据培养位置获取具体培养库和最大次数
+	 * @param hero
+	 * @param slotNum
+	 * @return
+	 */
+	public int[] getPeiyangSlot(Hero hero,int slotNum){
+		int[] result = new int[2];
+		switch(slotNum){
+		case PLACE1:
+			result[0] = hero.getiHeroInfo().getTrainSlot1();
+			result[1] = hero.getiHeroInfo().getTrainMaximum1();
+			return result;
+		case PLACE2:
+			result[0] = hero.getiHeroInfo().getTrainSlot2();
+			result[1] = hero.getiHeroInfo().getTrainMaximum2();
+			return result;
+		case PLACE3:
+			result[0] = hero.getiHeroInfo().getTrainSlot3();
+			result[1] = hero.getiHeroInfo().getTrainMaximum3();
+			return result;
+		case PLACE4:
+			result[0] = hero.getiHeroInfo().getTrainSlot4();
+			result[1] = hero.getiHeroInfo().getTrainMaximum4();
+			return result;
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * 获取现在的培养ID
+	 * @param hero
+	 * @param slotNum
+	 * @return
+	 */
+	public int getNowPeiyangId(Hero hero,int slotNum){
+		switch(slotNum){
+		case PLACE1:
+			return hero.getxHeroInfo().getPeiyang1();
+		case PLACE2:
+			return hero.getxHeroInfo().getPeiyang2();
+		case PLACE3:
+			return hero.getxHeroInfo().getPeiyang3();
+		case PLACE4:
+			return hero.getxHeroInfo().getPeiyang4();
+		}
+		return -1;
+	}
+	
+	/**
+	 * 根据培养ID获取配表培养内容
+	 * @param peiyangId
+	 * @return
+	 */
+	public attributetrain32 getPeiyangInit(int peiyangId){
+		attributetrain32 attr32 = ConfigManager.getInstance().getConf(attributetrain32.class).get(peiyangId);
+		return attr32;
+	}
+	
+	/**
+	 * 获取下一等级培养数据
+	 * @param attrNow
+	 * @param bagId
+	 * @return
+	 */
+	public attributetrain32 getNextPeiyang(attributetrain32 attrNow,int bagId){
+		int nextTime = 1;
+		if(attrNow != null){
+			nextTime = attrNow.getTimes() + 1;
+		}
+		TreeMap<Integer, attributetrain32> map = ConfigManager.getInstance().getConf(attributetrain32.class);
+		for(Map.Entry<Integer, attributetrain32> entry : map.entrySet()){
+			if(entry.getValue().getBagId() == bagId){
+				if(entry.getValue().getTimes() == nextTime){
+					return entry.getValue();
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 保存培养信息
+	 * @param hero
+	 * @param slotNum
+	 * @param peiyangId
+	 */
+	public void setPeiyang(Hero hero,int slotNum,int peiyangId){
+		switch(slotNum){
+		case PLACE1:
+			hero.getxHeroInfo().setPeiyang1(peiyangId);
+			return;
+		case PLACE2:
+			hero.getxHeroInfo().setPeiyang2(peiyangId);
+			return;
+		case PLACE3:
+			hero.getxHeroInfo().setPeiyang3(peiyangId);
+			return;
+		case PLACE4:
+			hero.getxHeroInfo().setPeiyang4(peiyangId);
+			return;
+		}
+	}
+
+	/**
+	 * 培养英雄入口
+	 * @param herokey
+	 * @param slotnum
+	 * @return
+	 */
+	public boolean peiyangEntry(int herokey, int slotnum) {
+		
+		Hero hup = this.getHByHKey(herokey);
+		if (hup == null ){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleId, false);
+		
+		int[] peiyang = getPeiyangSlot(hup,slotnum);
+		if(peiyang == null){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_SLOTNUM));
+			return false;
+		}
+		int nowPeiyangId = getNowPeiyangId(hup,slotnum);
+		attributetrain32 nowPeiyang = null;
+		if( nowPeiyangId != 0){
+			nowPeiyang = getPeiyangInit(nowPeiyangId);
+			if(nowPeiyang == null){
+				xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_SLOT));
+				return false;
+			}
+		}
+		
+		attributetrain32 nextPeiyang = getNextPeiyang(nowPeiyang,peiyang[0]);
+		if(nextPeiyang == null || nextPeiyang.getTimes() < peiyang[1] ){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_SLOT_IS_MAX));
+			return false;
+		}
+		
+		int cost = nextPeiyang.getCost();
+		if((cost*-1) == proprole.delShengLingzq(cost, 0)){
+			setPeiyang(hup,slotnum,nextPeiyang.getId());
+		}
+		
+		this.refreshHero(hup.getxHeroInfo().getKey());
+		
+		return true;
+	}
+	
+	
+	/**
+	 * 获取英雄基础技能数据
+	 * @param hero
+	 * @param skillNum
+	 * @return
+	 */
+	public int getSkillInitId(Hero hero,int skillNum){
+		switch(skillNum){
+		case PLACE1:
+			return hero.getiHeroInfo().getSkill1ID();
+		case PLACE2:
+			return hero.getiHeroInfo().getSkill2ID();
+		case PLACE3:
+			return hero.getiHeroInfo().getSkill3ID();
+		}
+		return -1;
+	}
+	
+	/**
+	 * 获取英雄现在技能数据
+	 * @param hero
+	 * @param skillNum
+	 * @return
+	 */
+	public int getSkillNowId(Hero hero,int skillNum){
+		switch(skillNum){
+		case PLACE1:
+			return hero.getxHeroInfo().getSkill1();
+		case PLACE2:
+			return hero.getxHeroInfo().getSkill2();
+		case PLACE3:
+			return hero.getxHeroInfo().getSkill3();
+		}
+		return -1;
+	}
+	
+	/**
+	 * 获取技能升级数据
+	 * @param skillId
+	 * @return
+	 */
+	public skillupcost17 getSkillUpCostInit(int skillId){
+		skillupcost17 result = ConfigManager.getInstance().getConf(skillupcost17.class).get(skillId);
+		return result;
+	}
+		
+	/**
+	 * 保存技能信息
+	 * @param hero
+	 * @param skillNum
+	 * @param skillId
+	 */
+	public void setSkillId(Hero hero,int skillNum,int skillId){
+		switch(skillNum){
+		case PLACE1:
+			hero.getxHeroInfo().setSkill1(skillId);
+			return;
+		case PLACE2:
+			hero.getxHeroInfo().setSkill2(skillId);
+			return;
+		case PLACE3:
+			hero.getxHeroInfo().setSkill3(skillId);
+			return;
+		}
+	}
+	
+	/**
+	 * 技能升级入口
+	 * @param herokey
+	 * @param skillnum
+	 * @return
+	 */
+	public boolean skillUpEntry(int herokey,int skillnum){
+		Hero hup = this.getHByHKey(herokey);
+		if (hup == null ){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleId, false);
+		
+		int skillId = getSkillNowId(hup,skillnum);
+		if(skillId == 0){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_SKILL_NOT_OPEN));
+			return false;
+		}
+		skillupcost17 skillNow = getSkillUpCostInit(skillId);
+		if(skillNow == null){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_SKILLID));
+			return false;
+		}
+		if(skillNow.getUpgradeSkillID() == -1){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_SKILL_LEVEL_MAX));
+			return false;
+		}
+		if(skillNow.getUpgradeStarCondition() > hup.getiHeroInfo().getQuality()){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_SKILL_NOT_ENOUGH_QUALITY));
+			return false;
+		}
+		
+		
+		if(peiyang == null){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_SLOTNUM));
+			return false;
+		}
+		int nowPeiyangId = getNowPeiyangId(hup,slotnum);
+		attributetrain32 nowPeiyang = null;
+		if( nowPeiyangId != 0){
+			nowPeiyang = getPeiyangInit(nowPeiyangId);
+			if(nowPeiyang == null){
+				xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_SLOT));
+				return false;
+			}
+		}
+		
+		attributetrain32 nextPeiyang = getNextPeiyang(nowPeiyang,peiyang[0]);
+		if(nextPeiyang == null || nextPeiyang.getTimes() < peiyang[1] ){
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_SLOT_IS_MAX));
+			return false;
+		}
+		
+		int cost = nextPeiyang.getCost();
+		if((cost*-1) == proprole.delShengLingzq(cost, 0)){
+			setPeiyang(hup,slotnum,nextPeiyang.getId());
+		}
+		
+		this.refreshHero(hup.getxHeroInfo().getKey());
+		return true;
+	}
+
+	// 强化几率
+	public int getQianghuaPencent(HeroChange herochange, int starnum) {
+		switch ((Integer) starnum) {
+		case DataInit.STAR1:
+			return herochange.usestar1;
+		case DataInit.STAR2:
+			return herochange.usestar2;
+		case DataInit.STAR3:
+			return herochange.usestar3;
+		case DataInit.STAR4:
+			return herochange.usestar4;
+		case DataInit.STAR5:
+			return herochange.usestar5;
+		default:
+			return DataInit.ERROR_RESULT;
+		}
+	}
+
+	// 强化失败后增加的几率
+	public int getQianghuaAdd(HeroChange herochange, int starnum) {
+		switch ((Integer) starnum) {
+		case DataInit.STAR1:
+			return herochange.qhadd1;
+		case DataInit.STAR2:
+			return herochange.qhadd2;
+		case DataInit.STAR3:
+			return herochange.qhadd3;
+		case DataInit.STAR4:
+			return herochange.qhadd4;
+		case DataInit.STAR5:
+			return herochange.qhadd5;
+		default:
+			return DataInit.ERROR_RESULT;
+		}
+	}
+
+	// 强化消耗的金币
+	public int getQianghuaGold(HeroChange herochange, int level) {
+		switch ((Integer) level) {
+		case 1:
+			return herochange.usegold1;
+		case 2:
+			return herochange.usegold2;
+		case 3:
+			return herochange.usegold3;
+		case 4:
+			return herochange.usegold4;
+		case 5:
+			return herochange.usegold5;
+		default:
+			return DataInit.ERROR_RESULT;
+		}
+	}
+
+	// 是否相同星级
+	public boolean isSameStar(Hero h1, Hero h2) {
+		if (h1.getiHeroInfo().getQuality() == h2.getiHeroInfo().getQuality())
+			return true;
+		return false;
+	}
+
+	// 计算是否成功
+	public boolean isQianghuaOK(int percent, int allnum) {
+		int[] percentlist = new int[2];
+		percentlist[0] = percent;
+		percentlist[1] = allnum - percent>0?allnum - percent:0;
+
+		int dropnum = chuhan.gsp.util.Misc.getProbability(percentlist);
+		if (dropnum == 0)
+			return true;
+		return false;
+	}
+	
+	//高级强化入口
+	public int[] qianghuaHigh(Hero hup, Hero hdel)
+	{
+		int[] result = new int[3];
+		if(hup.getxHeroInfo().getQianghualevel() < QIANGHUA_MAXLEVEL ||
+				hup.getxHeroInfo().getQianghualevel() >= QIANGHUA_MAXLEVEL_HIGH	)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		if(hup.getiHeroInfo().getQuality() != DataInit.STAR5)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO_STAR));
+			return null;
+		}
+		if(hup.getxHeroInfo().getHerolevel() != DataInit.HERO_LEVEL_MAX)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO_LEVEL));
+			return null;
+		}
+		if(hup.getiHeroInfo().getId() != hdel.getiHeroInfo().getId())
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		
+		hup.getxHeroInfo().setQianghualevel(hup.getxHeroInfo().getQianghualevel() + 1);
+		hup.getxHeroInfo().setQhadd(0);
+		
+		
+		if(this.removeByKey(hdel.getxHeroInfo().getKey()))
+		{
+			result[0] = SQianghuaHero.END_OK;
+			this.refreshHero(hup.getxHeroInfo().getKey());
+			return result;
+		}
+		xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+		return null;	
+	}
+
+	// 强化英雄入口
+	public int[] qianghuaEntry(int herokey, int useherokey, int isHigh) {
+		if(herokey == useherokey)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		int[] result = new int[3];
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleId, false);
+
+		Hero hup = this.getHByHKey(herokey);
+		Hero hdel = this.getHByHKey(useherokey);
+
+		if (hup == null || hdel == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		if( isClownHero(hup.getiHeroInfo().getId()) )
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_IS_CLOWN_HERO));
+			return null;
+		}
+		if (isHigh == 1)
+			return qianghuaHigh(hup,hdel);		//高级强化
+		if(hup.getxHeroInfo().getQianghualevel() >= QIANGHUA_MAXLEVEL)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+
+		HeroChange herochange = getHeroChange(hup.getiHeroInfo().getQuality());
+		if(herochange == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		int usegold = getQianghuaGold(herochange, hup.getxHeroInfo().getQianghualevel() + 1);
+		if (DataInit.ERROR_RESULT == proprole.delGold(usegold * (-1), 0))
+			return null;		
+
+		int percent = getQianghuaPencent(herochange, hdel.getiHeroInfo().getQuality());
+		percent = percent*10 + hup.getxHeroInfo().getQhadd();
+
+		if (isQianghuaOK(percent, PERCENT_ALL)) 
+		{
+			hup.getxHeroInfo().setQianghualevel(hup.getxHeroInfo().getQianghualevel() + 1);
+			hup.getxHeroInfo().setQhadd(0);
+			result[0] = SQianghuaHero.END_OK;
+		} 
+		else 
+		{
+			int qianghuaadd = getQianghuaAdd(herochange, hdel.getiHeroInfo().getQuality());
+			hup.getxHeroInfo().setQhadd(hup.getxHeroInfo().getQhadd() + qianghuaadd);
+			result[0] = SQianghuaHero.END_NOT_OK;
+			result[1] = qianghuaadd;
+			result[2] = hup.getxHeroInfo().getQhadd();	
+		}
+
+		this.removeByKey(hdel.getxHeroInfo().getKey());
+
+		this.refreshHero(hup.getxHeroInfo().getKey());
+
+		return result;
+	}
+	
+	//获取高一星级的所有卡片id
+	public java.util.LinkedList<int[]> getUpStarList(int starlevel)
+	{
+		java.util.LinkedList<int[]> reList = new java.util.LinkedList<int[]>();
+		java.util.TreeMap<Integer,hero01> iheroMap = ConfigManager.getInstance().getConf(hero01.class);
+		for(java.util.Map.Entry<Integer, hero01> e : iheroMap.entrySet())
+		{
+			hero01 inithero = e.getValue();
+			if(inithero.getQuality() == starlevel)
+			{
+				if( isClownHero(inithero.getId()) )
+					continue;
+				int[] heroidtype = new int[2];
+				heroidtype[0] = inithero.getId();
+				heroidtype[1] = inithero.getQuality();
+				reList.addFirst(heroidtype);
+			}
+		}	
+		return reList;
+	}	
+	
+	//是否同类型英雄
+	public boolean isSameTypeForStarUp(java.util.LinkedList<int[]> resultArray) {
+		if (resultArray == null || resultArray.size() == 0)
+			return true;
+		int i = 0;
+		int temp = 0;
+		for (int[] r : resultArray) {
+			if (i == 0)
+				temp = r[1];
+			else {
+				if (temp != r[1])
+					return false;
+			}
+			i++;
+		}
+		return true;
+	}
+	
+	//计算升星后的英雄
+	public java.util.LinkedList<Integer> getResultStarup(int starlevel)
+	{
+		java.util.LinkedList<Integer> resultList = new java.util.LinkedList<Integer>();
+		java.util.LinkedList<int[]> starupList = this.getUpStarList(starlevel);
+		int[] heroin = new int[starupList.size()];	
+		int i = 0;
+		for(int[] v : starupList)
+		{
+			heroin[i] = i;
+			i++;
+		}
+		
+		java.util.LinkedList<int[]> resultArray = new java.util.LinkedList<int[]>();
+		
+		while(isSameTypeForStarUp(resultArray) )
+		{
+			resultArray.clear();
+			resultList.clear();
+			int[] heroget = chuhan.gsp.util.Misc.getRandomArray(heroin,STARUP_RESULT_NUM);
+			for(int r : heroget)
+			{
+				int[] resultTemp = starupList.get(r);
+				resultArray.addFirst(resultTemp);
+				resultList.addFirst(resultTemp[0]);
+			}
+		}	
+		return resultList;
+	}
+	
+	//升星级入口
+	public java.util.LinkedList<Integer> starupEntry(int upkey, int usekey, TroopColumn troopcol)
+	{
+		if(upkey == usekey)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleId, false);
+		
+		Hero hup = this.getHByHKey(upkey);
+		Hero hdel = this.getHByHKey(usekey);
+
+		if (hup == null || hdel == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		if( isClownHero(hup.getiHeroInfo().getId()) )
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_IS_CLOWN_HERO));
+			return null;
+		}
+		if(troopcol.heroInTroops(upkey) || troopcol.heroInTroops(usekey))
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_HERO_IN_TROOP));
+			return null;
+		}
+		if (hup.getiHeroInfo().getQuality() >= DataInit.STAR5 ||
+				hup.getiHeroInfo().getQuality() != hdel.getiHeroInfo().getQuality() ||
+				hup.getxHeroInfo().getQianghualevel() < QIANGHUA_MAXLEVEL ||
+				hdel.getxHeroInfo().getQianghualevel() < QIANGHUA_MAXLEVEL ||
+				hup.getxHeroInfo().getHerolevel() < DataInit.HERO_LEVEL_MAX ||
+				hdel.getxHeroInfo().getHerolevel() < DataInit.HERO_LEVEL_MAX)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return null;
+		}
+		
+		java.util.LinkedList<Integer> resultList = getResultStarup(hup.getiHeroInfo().getQuality() + 1);
+		
+		HeroStarUpList.getInstance().addStarUpInfo(roleId, resultList,upkey,usekey, 0);
+		
+		return resultList;
+	}
+	
+	//升星级确认入口
+	public boolean saveStarUp(int heroid)
+	{
+		HeroStarUpList.StarUpInfo starupInfo = HeroStarUpList.getInstance().getStarUpInfo(roleId);
+		if(starupInfo == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		java.util.LinkedList<Integer> herolist = starupInfo.resultList;
+		if(heroid == herolist.get(2) && starupInfo.isSee == 0)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		if(!herolist.contains(heroid))
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		if(this.removeByKey(starupInfo.usekey1) && this.removeByKey(starupInfo.usekey2))
+		{
+			PAddHero snd = new PAddHero(roleId,heroid,1);
+			if( snd.call() )
+				HeroStarUpList.getInstance().removeStarUpInfo(roleId);
+			
+			return true;
+		}
+		else
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}	
+	}
+	
+	//英雄是否是小丑英雄
+	public boolean isClownHero(int heroid)
+	{
+		if(heroid == DataInit.HERO_CLOWN_1 ||
+				heroid == DataInit.HERO_CLOWN_2 ||
+				heroid == DataInit.HERO_CLOWN_3 ||
+				heroid == DataInit.HERO_CLOWN_4 )
+			return true;
+		return false;
+	}
+	
+	//获取小丑英雄ID根据星级
+	public int getClownByStarL(int starlevel)
+	{
+		switch ((Integer) starlevel) {
+		case 1:
+			return DataInit.HERO_CLOWN_1;
+		case 2:
+			return DataInit.HERO_CLOWN_2;
+		case 3:
+			return DataInit.HERO_CLOWN_3;
+		case 4:
+			return DataInit.HERO_CLOWN_4;
+		default:
+			return DataInit.ERROR_RESULT;
+		}
+	}
+		
+	//分解
+	public boolean splitEntry(int key)
+	{
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole.getPropRole(roleId, false);		
+		Hero hero = this.getHByHKey(key);
+		if (hero == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		if (hero.getiHeroInfo().getQuality() <= DataInit.STAR1 )
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO_STAR));
+			return false;
+		}
+		if( isClownHero(hero.getiHeroInfo().getId()) )
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_IS_CLOWN_HERO));
+			return false;
+		}
+		int clownid = this.getClownByStarL(hero.getiHeroInfo().getQuality() - 1);
+		if(clownid == DataInit.ERROR_RESULT)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+		
+		PAddHero snd1 = new PAddHero(roleId,clownid,1);
+		PAddHero snd2 = new PAddHero(roleId,clownid,1);
+		PAddHero snd3 = new PAddHero(roleId,clownid,1);
+		
+		boolean result = false;
+		if( snd1.call() && snd2.call() && snd3.call() )
+			result = this.removeByKey(key);
+		
+		return result;
+	}
+	
+	//卖金币公式
+	public int getGoldNum(int num, int qianghualevel)
+	{
+		int result = num + num * qianghualevel;
+		return result;
+	}
+	
+	//卖金币入口
+	public int sellGold(int key) {
+		chuhan.gsp.attr.PropRole proprole = chuhan.gsp.attr.PropRole
+				.getPropRole(roleId, false);
+
+		int result = 0;
+		Hero hero = this.getHByHKey(key);
+
+		if (hero == null)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return DataInit.ERROR_RESULT;
+		}
+		TroopColumn troopcol = TroopColumn.getTroopColumn(roleId, false);
+		if(troopcol.heroInTroops(key))
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_HERO_IN_TROOP));
+			return DataInit.ERROR_RESULT;
+		}
+		int gold = ConfigManager.getInstance().getConf(HeroChange.class)
+				.get(hero.getiHeroInfo().getQuality()).getSell();
+		result = getGoldNum(gold, hero.getxHeroInfo().getQianghualevel());
+		if (result == 0)
+		{
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return DataInit.ERROR_RESULT;
+		}
+		proprole.addGold(result, 0);
+		this.removeByKey(key);
+		
+		return result;
+	}
+	
+}

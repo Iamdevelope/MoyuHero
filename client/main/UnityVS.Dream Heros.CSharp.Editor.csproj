@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{26D939C9-1025-9E7A-88C1-5B4815C3A619}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace></RootNamespace>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_6_2;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_4_6_2;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_IL2CPP;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;UNITY5_SCRIPTING_IN_UNITY4;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>Assets\Plugins\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="LogManager">
+      <HintPath>Assets\Plugins\LogManager.dll</HintPath>
+    </Reference>
+    <Reference Include="EasySearch">
+      <HintPath>Assets\Program\Editor\EasySearch.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Program\Scripts\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Program\Scripts\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Program\Scripts\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets\Program\Scripts\DOTween\Editor\DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Assets\Program\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Messaging">
+      <HintPath>Assets\Program\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityVS.VersionSpecific">
+      <HintPath>Assets\Program\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.2\Editor\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.2\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="UnityVS.Dream Heros.CSharp.csproj">
+      <Project>{9A73D2F1-D493-82A9-1940-9BA548A45AB9}</Project>
+      <Name>UnityVS.Dream Heros.CSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Program\Editor\AddParticleHelp.cs" />
+    <Compile Include="Assets\Program\Editor\AssetBundle\AssetBundleController.cs" />
+    <Compile Include="Assets\Program\Editor\AssetBundle\CampareMD5ToGenerateVersionNum.cs" />
+    <Compile Include="Assets\Program\Editor\AssetBundle\CreateAssetBundle.cs" />
+    <Compile Include="Assets\Program\Editor\AssetBundle\CreateAssetBundleForXmlVersion.cs" />
+    <Compile Include="Assets\Program\Editor\AssetBundle\CreateMD5List.cs" />
+    <Compile Include="Assets\Program\Editor\CharacterEffectRes.cs" />
+    <Compile Include="Assets\Program\Editor\CheckCharacterShader.cs" />
+    <Compile Include="Assets\Program\Editor\CheckPos.cs" />
+    <Compile Include="Assets\Program\Editor\ClearNullScript.cs" />
+    <Compile Include="Assets\Program\Editor\ClearParticleShadow.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\AutoBatchCode.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\DHButtonEditor.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\DHGridLayoutEditor.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\DHListViewEditor.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\DHMenuOptions.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\DHTableViewEditor.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\DHTextEditor.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\IOHelper.cs" />
+    <Compile Include="Assets\Program\Editor\DHUI\RichTextEditor.cs" />
+    <Compile Include="Assets\Program\Editor\DeleteRepeatRes.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\AnimationEditorContrlerEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\Arteditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\CamAnimContrlerEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\CamTriggerContrlerEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\CameraDataEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\FightSenceEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\FormationEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\HeroPathDataEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\MonsterGroupDataManagerEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\MonsterGroupEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\MonsterPointEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\StoryAnimDataEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\StoryAnimEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FightSenceEditor\StoryAnimTempContrlerEditor.cs" />
+    <Compile Include="Assets\Program\Editor\FindMulTextureMaterial.cs" />
+    <Compile Include="Assets\Program\Editor\FindResDepend.cs" />
+    <Compile Include="Assets\Program\Editor\FindSameShader.cs" />
+    <Compile Include="Assets\Program\Editor\HandleImage.cs" />
+    <Compile Include="Assets\Program\Editor\HomeControlerEditor.cs" />
+    <Compile Include="Assets\Program\Editor\ReadOnlyDrawer.cs" />
+    <Compile Include="Assets\Program\Editor\RenameFolderAndFiles.cs" />
+    <Compile Include="Assets\Program\Editor\ShaderChange.cs" />
+    <Compile Include="Assets\Program\Editor\SingoMoveMatAndTx.cs" />
+    <Compile Include="Assets\Program\Editor\TextToDHText.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Scripts\Editor\PlaygroundBrushPresetInspectorC.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Scripts\Editor\PlaygroundCreateBrushWindowC.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Scripts\Editor\PlaygroundCreatePresetWindowC.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Scripts\Editor\PlaygroundInspectorC.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Scripts\Editor\PlaygroundParticleSystemInspectorC.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Scripts\Editor\PlaygroundParticleWindowC.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Editor\CameraPathAnimatorEditor.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Editor\CameraPathDualControl.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Editor\CameraPathEditor.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Editor\CameraPathEditorInspectorGUI.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Editor\CameraPathEditorSceneGUI.cs" />
+    <Compile Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\Editor\CameraPathMenu.cs" />
+    <None Include="Assets\Art\Characters\Common\Effects\Materials\Add_Layer.shader" />
+    <None Include="Assets\Art\Characters\Common\Effects\Materials\Equake01.shader" />
+    <None Include="Assets\Art\Characters\Common\Effects\Materials\UVoffsetAddtive01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Effects\Materials\Add_Layer.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Effects\Materials\Equake01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\Characters.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\Dissolve_Mat.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Materials\FresnelGlow01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Add_Layer.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Characters.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Equake01.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\Toon.shader" />
+    <None Include="Assets\Art\Characters\Common\Models\Models\Materials\ToonBuff.shader" />
+    <None Include="Assets\Art\Characters\ElementBody\Models\Materials\ElementBody01.shader" />
+    <None Include="Assets\Art\Characters\Falaowang\Effects\Materials\UVoffsetAddtive01.shader" />
+    <None Include="Assets\Art\Characters\Fenrisulfr\Effects\Materials\MagicSpace01.shader" />
+    <None Include="Assets\Art\Characters\Fenrisulfr\Effects\Materials\PurpleFireAfter01.shader" />
+    <None Include="Assets\Art\Characters\Huanchaohaiwu\Effects\Materials\Surf01.shader" />
+    <None Include="Assets\Art\Environments\Materials\Battle01_River01.shader" />
+    <None Include="Assets\Art\Environments\Materials\Battle02_Lava01.shader" />
+    <None Include="Assets\Art\Environments\Materials\Characters.shader" />
+    <None Include="Assets\Art\Environments\Materials\ColorAddCubemap.shader" />
+    <None Include="Assets\Art\Environments\Materials\Dissolve_Mat.shader" />
+    <None Include="Assets\Art\Environments\Materials\The_Cimelia_Diamond.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\DefeatBackGround01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\DigitalizeFlow01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\DynamicFlagPlane01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\DynamicPlaneLeaf01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\FlowLight01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\LightToDark01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\LongFlag01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\MeltSpirit01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\RainBow01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\SP.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\SP_Flare.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\StartFight01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\SubtractAlpha01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\UI-Additive.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\UI-AdditiveFlicker.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\VictoryBackGround01.shader" />
+    <None Include="Assets\Art\UI\Effects\Materials\WindPlane01.shader" />
+    <None Include="Assets\Program\Editor\AssetBundle\CreateBundle---ReadMe.txt" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween.XML" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween43.xml" />
+    <None Include="Assets\Program\Scripts\DOTween\DOTween46.xml" />
+    <None Include="Assets\Program\Scripts\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Program\Scripts\DOTween\readme.txt" />
+    <None Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Graphics\Shaders\Vertex Color.shader" />
+    <None Include="Assets\Program\Scripts\Utils\ArtPlugin\Particle Playground\Graphics\Shaders\VertexLit Color.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\DLAA.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\FXAA2.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\FXAA3Console.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\FXAAPreset2.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\FXAAPreset3.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\NFAA.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_Antialiasing\SSAA.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\Blend.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendForBloom.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BrightPassFilter.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\MobileBloom.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\MobileBlur.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\VignetteShader.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\Bokeh34.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\DepthOfField34.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\SeparableBlur.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\TiltShiftHdrLensBlur.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\BlendModesOverlay.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\BlurEffectConeTaps.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\CameraMotionBlur.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\CameraMotionBlurDX11.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ChromaticAberrationShader.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ColorCorrection3DLut.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ColorCorrectionCurves.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ColorCorrectionCurvesSimple.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ColorCorrectionEffect.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ColorCorrectionSelective.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\Contrast Stretch\Adaptation.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\Contrast Stretch\Apply.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\Contrast Stretch\Luminance.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\Contrast Stretch\MinMaxReduction.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ContrastComposite.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ConvertDepth.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\CreaseApply.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\Dragon_Lava.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\EdgeDetectNormals.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\FisheyeShader.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\frag_ao.cginc" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\GlobalFog.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\GlowCompose.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\GlowConeTap.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\GlowEffectDownsample.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\GrayscaleEffect.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\MotionBlur.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\MotionBlurClear.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\NoiseAndGrain.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\NoiseAndGrainDX11.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\NoiseEffectShaderRGB.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\NoiseEffectShaderYUV.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\PrepareSunShaftsBlur.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\RadialBlur.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ScreenSpaceAmbientObscurance.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\SepiaToneEffect.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\ShowAlphaChannel.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\SimpleClear.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\SSAOShader.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\SunShaftsComposite.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\Tonemapper.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\TwirlEffect.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\VignettingShader.shader" />
+    <None Include="Assets\Program\Scripts\Utils\Image Effects (Pro Only)\_Sources\Shaders\VortexEffect.shader" />
+    <None Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\3.1x Upgrade readme.txt" />
+    <None Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\HerosPath.xml" />
+    <None Include="Assets\Program\Scripts\Utils\ScenePlugin\CameraPath3\readme.txt" />
+    <None Include="Assets\Resources\UI\Shaders\ColorfulToGray01.shader" />
+    <None Include="Assets\Resources\UI\Shaders\WaterBlur.shader" />
+    <None Include="Assets\StreamingAssets\AssetBundle\Android\VersionMD5.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\IOS\Config.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\IOS\VersionMD5.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\IOS\VersionMD5-old.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\PC\Config.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\PC\ServerVersion.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\PC\VersionMD5.xml" />
+    <None Include="Assets\StreamingAssets\AssetBundle\PC\VersionMD5-old.xml" />
+    <None Include="Assets\StreamingAssets\Data\Config.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_boss01_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_dragon_nest01_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_dragon_nest01_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_dragon_nest01_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_limit01_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_Treasure01_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_Treasure01_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle_Treasure01_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle00_00Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_01_00Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_04_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_05_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_06_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle01_61_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_01Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_04_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_05_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_06_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_07_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_61_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle02_81_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_04_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_05_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_06_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_07_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_08_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_09_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_61_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle03_81_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_04_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_05_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_06_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_07_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_08_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_61_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle04_81_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_04_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_05_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_06_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_07_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_08_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_09_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_61_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle05_81_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_01_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_02_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_03_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_04_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_05_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_06_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_07_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_08_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_09_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_10_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_61_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\HeroPathXml\Battle06_81_0Path.xml" />
+    <None Include="Assets\StreamingAssets\Data\ServerList.xml" />
+    <None Include="Assets\StreamingAssets\ScenceEditor\PC\Battle01_00\Path\Battle01_00Path.xml" />
+    <None Include="Assets\Program\Editor\EasySearch.dll" />
+    <None Include="Assets\Program\Scripts\DOTween\Editor\DOTweenEditor.dll" />
+    <None Include="Assets\Program\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll" />
+    <None Include="Assets\Program\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll" />
+    <None Include="Assets\Program\UnityVS\Editor\UnityVS.VersionSpecific.dll" />
+    <None Include="D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.2\Editor\UnityEditor.UI.dll" />
+    <None Include="D:\Program Files (x86)\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\4.6.2\UnityEngine.UI.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
+</Project>

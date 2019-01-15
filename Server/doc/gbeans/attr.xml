@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="attr"> 
+	
+		<bean name="heroexp02" from="02_heroexp.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="等级"/>
+			<variable name="exp" type="string" fromCol="经验列"/>
+		</bean>
+			
+		<bean name="player03" from="03_player.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="等级"/>	
+            <variable name="exp" type="int" fromCol="经验列"/>	
+            <variable name="entranceFury" type="int" fromCol="入场奖励怒气"/>	
+            <variable name="waveFury" type="int" fromCol="每波奖励怒气"/>	
+            <variable name="MaxFury" type="int" fromCol="怒气上限"/>	
+            <variable name="extraAp" type="int" fromCol="体力上限等级成长"/>	
+            <variable name="extraHeroPackset" type="int" fromCol="英雄上限等级成长"/>	
+            <variable name="extraCommonItemPackset" type="int" fromCol="背包上限等级成长"/>	
+            <variable name="apRecover" type="int" fromCol="等级恢复体力数"/>	
+		</bean>
+		
+		<bean name="config10" from="10_config.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="字段编号"/>	
+            <variable name="configname" type="string" fromCol="字段名称"/>	
+            <variable name="configtype" type="string" fromCol="字段类型"/>	
+            <variable name="configvalue" type="string" fromCol="字段数值"/>	
+		</bean>
+		
+		<bean name="attributetrain32" from="32_attributetrain.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="唯一标识"/>	
+            <variable name="bagId" type="int" fromCol="属性库标记"/>	
+            <variable name="times" type="int" fromCol="次数"/>	
+            <variable name="attriType" type="int" fromCol="属性类型"/>	
+            <variable name="attriValue" type="int" fromCol="属性值"/>	
+            <variable name="costType" type="int" fromCol="资源ID"/>	
+            <variable name="cost" type="int" fromCol="资源消耗"/>	
+		</bean>
+		
+
+		
+	</namespace>

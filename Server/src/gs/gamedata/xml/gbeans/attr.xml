@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<namespace name="attr"> 
+		<bean name="heroexp02" from="02_heroexp.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="等级"/>
+			<variable name="exp" type="string" fromCol="经验列"/>
+		</bean>
+			
+			
+		<bean name="player03" from="03_player.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="等级"/>	
+            <variable name="exp" type="int" fromCol="经验列"/>	
+            <variable name="entranceFury" type="int" fromCol="入场奖励怒气"/>	
+            <variable name="waveFury" type="int" fromCol="每波奖励怒气"/>	
+            <variable name="MaxFury" type="int" fromCol="怒气上限"/>	
+            <variable name="extraAp" type="int" fromCol="体力上限等级成长"/>	
+            <variable name="extraHeroPackset" type="int" fromCol="英雄上限等级成长"/>	
+            <variable name="extraCommonItemPackset" type="int" fromCol="背包上限等级成长"/>	
+            <variable name="apRecover" type="int" fromCol="等级恢复体力数"/>	
+		</bean>
+		
+		<bean name="config10" from="10_config.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="字段编号"/>	
+            <variable name="configname" type="string" fromCol="字段名称"/>	
+            <variable name="configtype" type="string" fromCol="字段类型"/>	
+            <variable name="configvalue" type="string" fromCol="字段数值"/>	
+		</bean>
+		
+		<bean name="attributetrain32" from="32_attributetrain.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="唯一标识"/>	
+            <variable name="bagId" type="int" fromCol="属性库标记"/>	
+            <variable name="times" type="int" fromCol="次数"/>	
+            <variable name="attriType" type="int" fromCol="属性类型"/>	
+            <variable name="attriValue" type="int" fromCol="属性值"/>	
+            <variable name="costType" type="int" fromCol="资源ID"/>	
+            <variable name="cost" type="int" fromCol="资源消耗"/>	
+		</bean>
+		
+
+			
+			
+			
+		
+		
+		<bean name="SAttributeDesConfig" from="属性表.xlsx" genxml="server" >		
+			<variable name="id" type="int" fromCol="属性id" /> id
+			<variable name="name" type="string" fromCol="属性名" /> 
+			<variable name="init" type="int" fromCol="初值" /> 
+			<variable name="numid" type="int" fromCol="数值型效果id" />
+			<variable name="numName" type="string" fromCol="数值型变量名" />
+			<variable name="percentid" type="int" fromCol="百分比型效果id" />
+			<variable name="pctName" type="string" fromCol="百分比型变量名" />
+		</bean>
+		
+		<bean name="SCBuffConfig" from="c持续性buff表.xlsx" genxml="server">
+			  <variable name="id"  fromCol="Buff编号" type="int" />
+			  <variable name="name" fromCol="Buff名称" type="string"  />
+			  <variable name="classname" fromCol="classname"  type="string"  /> 
+			  <variable name="clearType" fromCol="清除方式"  type="int"  /> 
+			  <variable name="buffclass" fromCol="Buff类型"  type="int"  /> 
+			  <variable name="Anticlass" fromCol="针对类型"  type="string"  />
+			  <variable name="sendtoclient" fromCol="是否发给客户端"  type="int"  />			  
+		</bean>
+		
+		<bean name="SBuffConflicts" from="z状态互斥表.xlsx" genxml="server">
+			  <variable name="id"  fromCol="ID" type="int" />
+			  <variable name="name"  fromCol="名称" type="string" />
+			  <variable name="conflictbuffs" fromCol="互斥" type="string"  />
+			  <variable name="invalidbuffs" fromCol="无效" type="string"  /> 
+			  <variable name="overridebuffs" fromCol="顶掉" type="string"  />
+		</bean>
+		
+		<bean name="SActivityAward" from="奖励表.xlsx" genxml="server">
+			<variable name="id" type="int" fromCol="id"/>
+			<variable name="yuanbao" type="string" fromCol="元宝奖励"/>
+			<variable name="money" type="string" fromCol="游戏币奖励"/>
+			<variable name="exp" type="string" fromCol="角色经验"/>
+			<variable name="HeroExp" type="string" fromCol="英雄经验"/>
+			<variable name="firstClassAward" type="vector" value="int" fromCol="必给物品1类ID,必给物品1类数量,必给物品2类ID,必给物品2类数量,必给物品3类ID,必给物品3类数量,必给物品4类ID,必给物品4类数量"/>
+			<!-- 第二类奖励是几种物品根据概率给其中一种-->
+			<variable name="secondClassAward" type="vector" value="int" fromCol="物品1类,物品1类数量,物品2类,物品2类数量,物品3类,物品3类数量,物品4类,物品4类数量,物品5类,物品5类数量,物品6类,物品6类数量,物品7类,物品7类数量,物品8类,物品8类数量"/>
+			<variable name="secondClassAwardProb" type="vector" value="string" fromCol="物品1类掉率,物品2类掉率,物品3类掉率,物品4类掉率,物品5类掉率,物品6类掉率,物品7类掉率,物品8类掉率"/>
+			<variable name="secondClassDenominator" type="int" fromCol="总概率"/>
+			<variable name="randomType" type="int" fromCol="随机方式"/>
+			<variable name="totalProb" type="string" fromCol="获得概率"/>
+		</bean>
+		
+
+		
+		<bean name="clevelconfig" from="等级表.xlsx" genxml="client" priority="1">
+			  <variable name="id"  fromCol="id" type="int" />
+			  <variable name="levelexp"  fromCol="角色升级经验" type="int" />
+			  <variable name="herolevelexp" fromCol="武将升级经验" type="int"  />
+			  <variable name="strengthencost" fromCol="装备强化消耗" type="int"  /> 
+			  <variable name="canzhan" fromCol="参战人数" type="int"  /> 
+			  <variable name="tili" fromCol="体力上限" type="int"  /> 
+			  <variable name="huoli" fromCol="活力上限" type="int"  /> 
+			  <variable name="invitetimes" fromCol="邀请战次数" type="int"  />
+			  <variable name="skillexp1" fromCol="计策升级经验白" type="int"  /> 
+			  <variable name="skillexp2" fromCol="计策升级经验绿" type="int"  /> 
+			  <variable name="skillexp3" fromCol="计策升级经验蓝" type="int"  /> 
+			  <variable name="skillexp4" fromCol="计策升级经验紫" type="int"  /> 
+			  <variable name="skillexp5" fromCol="计策升级经验橙" type="int"  /> 
+			  <variable name="bonusworth" fromCol="售卖装备额外金钱" type="int"  /> 
+			  <variable name="offergrow" fromCol="祭天进度" type="int"  />
+			  <variable name="equipexp" fromCol="装备重铸经验" type="int"  />
+			  <variable name="lvtext" fromCol="lvtext" type="string"  />
+			  <variable name="buttontext" fromCol="buttontext" type="string"  />
+			  <variable name="layout" fromCol="layout" type="string"  />
+			  <variable name="fujiang" fromCol="副将位" type="int"  />
+		</bean>
+		
+	</namespace>

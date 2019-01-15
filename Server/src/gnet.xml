@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<application name="gnet" shareHome="../../../share" pvids="0-10">
+
+	<!-- 该文件中的协议都是共用的，至少被client，glinkd，gdeliverd，gamedbd四者中的两者使用 -->
+	
+	<bean name="ServerAttr">
+		<enum name="FLAG_DOUBLE_DROP" value="4"/>
+		<enum name="FLAG_DOUBLE_SP" value="8"/>
+		<variable name="flags" type="int"/> 当前服务器状态，即上面列出的状态
+		<variable name="load" type="byte"/><!-- 1-green(0-0.8) 2-yellow(0.8-0.95) 3-red(0.95-1) -->
+		<variable name="extra" type="map" key="int" value="int"/> 
+	</bean>
+
+	<bean name="RoleForbid">
+		<variable name="ltype" type="byte" default="0"/> default 0
+		<variable name="time" type="int" default="0"/> 剩余封禁时间
+		<variable name="createtime" type="int" default="0"/> 封禁开始时间
+		<variable name="reason" type="octets" attr="ref" default="octets(0)"/>
+	</bean>
+
+	<bean name="GPair">
+		<variable name="key" type="int" default="0"/>
+		<variable name="value" type="int" default="0"/>
+	</bean>
+
+	<bean name="RoleSimpleInfo">
+		<variable name="roleid" type="long"/>
+		<variable name="rolename" type="octets"/>
+		<variable name="level" type="int"/>
+	</bean>
+
+	<bean name="MatrixPasswdArg">     
+		<variable name="account" type="octets"/>
+		<variable name="challenge" type="octets"/>
+		<variable name="loginip" type="int" default="0"/>
+	</bean>
+
+	<bean name="MatrixPasswdRes">
+		<variable name="retcode" type="int" default="-1"/>
+		<variable name="userid" type="int" default="-1"/>
+		<variable name="algorithm" type="int" default="0"/>
+		<variable name="response" type="octets"/>
+		<variable name="matrix" type="octets"/>
+	</bean>
+
+	<bean name="UserLoginArg">
+		<variable name="userid"   type="int" default="-1"/>
+		<variable name="localsid" type="int" default="0"/>
+		<variable name="blkickuser"   type="byte" default="0"/>
+		<variable name="freecreatime" type="int" default="0"/>
+	</bean>
+
+	<bean name="UserLoginRes">
+		<variable name="retcode" type="byte" default="-1"/>
+		<variable name="remain_playtime" type="int" default="0"/>
+		<variable name="func" type="int" default="0"/>
+		<variable name="funcparm" type="int" default="0"/>
+		<variable name="blIsGM" type="byte" default="0"/>
+		<variable name="free_time_left" type="int" default="0"/>
+		<variable name="free_time_end" type="int" default="0"/>
+		<variable name="creatime" type="int" default="0"/>
+	</bean>
+
+	<bean name="SSOUser">
+		<variable name="isagent" type="byte" default="0"/>
+		<variable name="userid" type="long"/>
+		<variable name="account" type="octets"/>
+		<variable name="agentname" type="octets"/>
+		<variable name="agentaccount" type="octets"/>
+	</bean>
+
+	<!-- 奖品信息 -->
+	<bean name="GRoleInventory">
+		<variable name="id" type="int" default="0"/>
+		<variable name="pos" type="int" default="-1"/>
+		<variable name="count" type="int" default="0"/>
+		<variable name="max_count" type="int" default="0"/>
+		<variable name="container_id" type="byte" default="0"/>
+		<variable name="data" type="octets" attr="ref"/>
+		<variable name="guid1" type="int" default="0"/>
+		<variable name="guid2" type="int" default="0"/>
+		<variable name="mask" type="int" default="0"/>
+		<variable name="proctype" type="int" default="0"/>
+		<variable name="reserved" type="int" default="0"/>
+	</bean>
+
+	<bean name="MerchantDiscount">
+		<variable name="id" type="int"/> 
+		<variable name="name" type="octets"/> 
+		<variable name="discount" type="int"/> 
+		<variable name="reserved" type="octets"/>
+	</bean>
+
+	<!-- client和glinkd之间的协议 协议号范围[101,112],历史原因，有些协议号不在该范围-->
+	
+	<protocol name="KeepAlive" type="100" maxsize="16" prior="1">
+		<variable name="code" type="int"/>
+	</protocol>
+
+	<protocol name="Challenge" type="101" maxsize="65535" prior="1">
+		<variable name="nonce" type="octets"/>
+		<variable name="version" type="int"/>
+		<variable name="serverattr" type="ServerAttr"/>
+	</protocol>
+
+	<protocol  name="ErrorInfo" type="102" maxsize="256" prior="1">
+		<variable name="errcode" type="int" />
+		<variable name="info" type="octets" attr="ref" />
+	</protocol>
+
+	<protocol name="Response" type="103" maxsize="512" prior="1">
+		<variable name="identity" type="octets"/>
+		<variable name="response" type="octets"/>
+	</protocol>
+
+	<protocol name="KeyExchange" type="106" maxsize="32" prior="1">
+		<variable name="nonce" type="octets" attr="ref" />
+		<variable name="blkickuser" type="int" default="0"/>
+	</protocol>
+
+	<protocol name="MatrixChallenge" type="551" maxsize="64" prior="1">
+		<variable name="algorithm" type="int"/>
+		<variable name="nonce" type="int" default="0" />
+	</protocol>
+
+	<protocol name="MatrixResponse" type="552" maxsize="64" prior="1">
+		<variable name="response" type="int"/>
+	</protocol>
+
+	<protocol name="PortForward" type="109" maxsize="65536" prior="1">
+		<variable name="command" type="int" /> 命令码。
+		<variable name="portsid" type="int" /> 映射编号，由发起方(eConnect)分配。
+		<variable name="code" type="int" />    命令参数，具体含义由相应命令决定。
+		<variable name="data" type="octets" /> 命令参数，具体含义由相应命令决定。
+	</protocol>
+
+	<protocol name="OnlineAnnounce" type="110" maxsize="64" prior="1">
+		<variable name="userid" type="int" />
+		<variable name="localsid" type="int" />
+		<variable name="remain_time" type="int" default="0"/>
+		<variable name="zoneid" type="int" default="0"/>
+		<variable name="aid" type="int" default="0"/> 
+		<variable name="algorithm" type="int" default="0"/> 赋值为algorithm，用于在client显示帐号安全等级
+	</protocol>
+
+	<!-- 防沉迷 -->
+	<protocol name="AddictionControl" type="556" maxsize="512" prior="1">
+		<variable name="zoneid" type="int"/>
+		<variable name="userid" type="int" default="0"/>
+		<variable name="rate" type="int" default="0"/>
+		<variable name="msg" type="int" default="0"/>
+		<variable name="data" type="vector" value="GPair" attr="ref"/>
+	</protocol>
+
+	<!-- END client和glinkd之间的协议 -->
+	
+	<!-- glinkd和gdeliverd之间的协议,协议号范围[113,130] -->
+	
+	<protocol name="MatrixPasswdReq" type="113" maxsize="512" prior="1">
+		<variable name="info" type="MatrixPasswdArg"/>
+		<variable name="localsid" type="int"/>
+		<variable name="response" type="octets"/>
+	</protocol>
+
+	<protocol name="MatrixPasswdRep" type="114" maxsize="512" prior="1">
+		<variable name="localsid" type="int"/>
+		<variable name="retcode" type="int"/>
+		<variable name="userid" type="int"/>
+		<variable name="response" type="octets"/>
+		<variable name="blMatrixChallenge" type="byte"/>
+		<variable name="algorithm" type="int"/>
+		<variable name="nonce" type="int"/>
+	</protocol>
+
+	<protocol name="UserLoginReq" type="115" maxsize="512" prior="1">
+		<variable name="argument" type="UserLoginArg"/>
+	</protocol>
+
+	<protocol name="UserLoginRep" type="116" maxsize="512" prior="1">
+		<variable name="result" type="UserLoginRes"/>
+	</protocol>
+	
+	<protocol name="StatusAnnounce" type="117" maxsize="32" prior="1">
+		<variable name="userid" type="int" />
+		<variable name="localsid" type="int" />
+		<variable name="status" type="int" />
+	</protocol>
+	
+	<protocol name="AnnounceForbidInfo" type="119" maxsize="384" prior="1">
+		<variable name="userid" type="int"/>
+		<variable name="localsid" type="int"/>
+		<variable name="forbid" type="RoleForbid" />
+	</protocol>
+	
+	<protocol name="MatrixResponseReq" type="120" maxsize="64" prior="1">
+		<variable name="response" type="int"/>
+		<variable name="localsid" type="int"/>
+	</protocol>
+
+	<protocol name="MatrixResponseRep" type="121" maxsize="32" prior="1">
+		<variable name="blKeyExchange" type="byte"/>
+		<variable name="localsid" type="int"/>
+	</protocol>
+
+	<protocol  name="ErrorInfoRep" type="122" maxsize="256" prior="1">
+		<variable name="errcode" type="int" />
+		<variable name="info" type="octets" attr="ref" />
+		<variable name="localsid" type="int"/>
+	</protocol>
+
+	<protocol name="AddictionControlRep" type="123" maxsize="512" prior="1">
+		<variable name="localsid" type="int"/>
+		<variable name="zoneid" type="int"/>
+		<variable name="userid" type="int" default="0"/>
+		<variable name="rate" type="int" default="0"/>
+		<variable name="msg" type="int" default="0"/>
+		<variable name="data" type="vector" value="GPair" attr="ref"/>
+	</protocol>
+	
+	<protocol name="CertVerify" type="124" maxsize="8192" prior="1">
+		<variable name="localsid" type="int"/>
+		<variable name="authd_cert" type="octets"/>
+	</protocol>
+
+	<!--  deliver向link广播服务器状态 -->
+	<protocol name="AnnounceServerAttribute" type="125" maxsize="1024" prior="1">
+		<variable name="serverattr" type="ServerAttr"/>
+	</protocol>
+	
+	<protocol name="DeliverAnnounceToLink" type="126" maxsize="64" prior="1">
+		<variable name="forbid_ip" type="int"/>
+	</protocol>
+	
+	<!-- 获取账号的新手卡信息，是否为GM，GM权限列表，登录ip，账号安全等级-->
+	<protocol name="UserInfoReq" type="210" maxsize="32" prior="1">
+		<variable name="userid" type="int"/>
+	</protocol>
+
+	<protocol name="UserInfoRep" type="211" maxsize="1024" prior="1">
+		<variable name="userid" type="int"/>
+		<variable name="retcode" type="int"/>
+		<variable name="loginip" type="int"/>客户端登录ip
+		<variable name="blisgm" type="byte"/>是否为GM
+		<variable name="gender" type="byte"/> 0-female,1-male,2-unknown
+		<variable name="nickname" type="octets" attr="ref"/>昵称
+	</protocol>
+	
+
+	<protocol name="InstantAddCashReq" type="208" maxsize="128" prior="1">
+		<variable name="userid" type="int"/>
+		<variable name="localsid" type="int"/>
+		<variable name="cardnum" type="octets"/> 充值卡卡号
+		<variable name="cardpasswd" type="octets"/> 充值卡密码
+		<variable name="reserved" type="int"/>
+	</protocol>
+
+	<protocol name="InstantAddCashRep" type="209" maxsize="64" prior="1">
+		<variable name="retcode" type="int"/>
+		<variable name="userid" type="int"/>
+		<variable name="localsid" type="int"/>
+		<variable name="reserved" type="int"/>
+	</protocol>
+
+	<protocol name="GetUserCouponReq" type="216" maxsize="32" prior="1">
+		<variable name="userid" type="int"/>
+	</protocol>
+
+	<protocol name="GetUserCouponRep" type="217" maxsize="128" prior="1">
+		<variable name="retcode" type="int"/>
+		<variable name="userid" type="int"/>
+		<variable name="remain_coupon" type="int"/> 点券余额
+		<variable name="today_exchange_coupon" type="int"/> 今天已使用的点券
+		<variable name="today_remain_exchange_coupon" type="int"/> 今天还可使用的点券
+		<variable name="reserved1" type="int"/>
+		<variable name="reserved2" type="int"/>
+	</protocol>
+
+	<protocol name="CouponExchangeReq" type="218" maxsize="64" prior="1">
+		<variable name="userid" type="int"/>
+		<variable name="coupon_number" type="int"/> 要兑换的点券数量
+		<variable name="cash_number" type="int"/> 兑换成元宝的数量
+		<variable name="reserved1" type="int"/>
+		<variable name="reserved2" type="int"/>
+	</protocol>
+
+	<protocol name="CouponExchangeRep" type="219" maxsize="128" prior="1">
+		<variable name="retcode" type="int"/>
+		<variable name="userid" type="int"/>
+		<variable name="remain_coupon" type="int"/> 点券余额
+		<variable name="today_exchange_coupon" type="int"/> 今天已使用的点券
+		<variable name="today_remain_exchange_coupon" type="int"/> 今天还可使用的点券
+		<variable name="reserved1" type="int"/>
+		<variable name="reserved2" type="int"/>
+	</protocol>
+
+	<protocol name="KickoutUser" type="10" maxsize="32" prior="1">
+		<variable name="userid" type="int"/>
+		<variable name="localsid" type="int"/>
+		<variable name="cause" type="byte" default="GNET::ERR_KICKOUT"/>
+	</protocol>
+
+	<protocol name="SSOGetTicketReq" type="8016" maxsize="2048" prior="1">
+		<variable name="user" type="SSOUser"/>
+		<variable name="loginip" type="int"/>
+		<variable name="toaid" type="int"/>
+		<variable name="tozoneid" type="int"/>
+		<variable name="info" type="octets"/>
+		<variable name="local_context" type="octets"/>
+		<variable name="server_context" type="octets" />
+		<variable name="reserved" type="octets" />
+	</protocol>
+
+	<protocol name="SSOGetTicketRep" type="8017" maxsize="2048" prior="1">
+		<variable name="retcode" type="int"/>
+		<variable name="user" type="SSOUser"/>
+		<variable name="ticket" type="octets"/>
+		<variable name="local_context" type="octets"/>
+		<variable name="reserved" type="octets" />
+	</protocol>
+
+	<!-- END glinkd和gdeliverd之间的协议 -->
+
+	
+	<!-- 网吧奖励 -->
+	<protocol name="NetBarAnnounce" type="529" maxsize="1024" prior="1">
+		<variable name="userid" type="int" />
+		<variable name="aid" type="int" />
+		<variable name="zoneid" type="int" />
+		<variable name="title" type="int" />
+		<variable name="rolename" type="octets" />
+		<variable name="netbarid" type="int" />
+		<variable name="netbarzone" type="int" />
+		<variable name="netbarname" type="octets" />
+		<variable name="netbarlevel" type="int" />
+		<variable name="netbartitle" type="octets" />
+		<variable name="awardtype" type="octets" />
+		<variable name="reserved1" type="int" />
+		<variable name="reserved2" type="int" />
+	</protocol>
+
+	<protocol debug="1" name="VIPAnnounce" type="8045" maxsize="1024" prior="1">
+		<variable name="userid" type="int" />
+		<variable name="aid" type="int" />
+		<variable name="zoneid" type="int" />
+		<variable name="currenttime" type="int" />vip服务器的时间
+		<variable name="starttime" type="int" />vip的起始时间
+		<variable name="endtime" type="int" />vip的结束时间
+		<variable name="status" type="int" />vip状态
+		<variable name="viplevel" type="int" />vip等级
+		<variable name="totalcash" type="int" />充值总额,单位元
+		<variable name="recenttotalcash" type="int" />近期充值总额,单位元
+		<variable name="infolack" type="int" />账号的vip信息是否不全
+		<variable name="reserved" type="int" />
+	</protocol>
+
+	<!-- 获取及设置服务器全局信息 设置服务器最大在线人数，获取服务器当前在线人数 -->
+
+	<bean name="ErrorCodes">     
+		<enum name="error_succeed" value="0"/>成功
+		<enum name="error_invalid" value="1"/>失败，token/sessionid无效，定单无效
+		<enum name="error_plat_args" value="2"/>与平台的访问的参数异常
+		<enum name="error_plat_trans" value="3"/>与平台的访问异常
+		<enum name="error_xdb_store" value="4"/>xdb存储异常
+	</bean>
+	
+	<!-- gs连上link上，发给gs；用户登录完成后，发给客户端 -->
+	<protocol name="ServerIDResponse" type="8902" maxsize="512" prior="1">
+		<variable name="plattype" type="int"/> 当前服务器组，登录的是那个平台
+		<variable name="serverid" type="octets"/> 当前服务器组的标识
+	</protocol>
+	
+	<!-- 根据订单号查询支付状态 gs 经 link 给 auany -->
+	<protocol name="QueryOrderRequest" type="8904" maxsize="1048576" prior="1">
+		<variable name="platid" type="string"/> 平台唯一标识
+		<variable name="orderserialplat" type="string"/> 平台用的订单号
+		<variable name="orderserialgame" type="string"/> 游戏内自己用的订单号
+	</protocol>
+	
+	<!-- 返回订单状态，auany 经 link 给 gs，当 errorcode == no_error，vars有意义
+	91.com:
+		ConsumeStreamId  	消费流水号，平台流水号
+		CooOrderSerial  	商户订单号，购买时应用传入，原样返回给应用
+		MerchantId  			商户 ID
+		GoodsId  					商品 ID，购买时应用传入，原样返回给应用
+		GoodsInfo  				商品名称，购买时应用传入，原样返回给应用
+		GoodsCount  			商品数量，购买时应用传入，原样返回给应用
+		OriginalMoney  		原价(格式：0.00)，购买时应用传入的单价*总数，总原价
+		OrderMoney  			实际价格(格式：0.00)，购买时应用传入的单价*总数，总实际价格
+		PayStatus  				支付状态：0=失败，1=成功，2=正在处理中(仅当 ErrorCode=1，表示接口调用成功时，才需要检查此字段状态，开发商需要根据此参数状态发放物品)
+		CreateTime  			创建时间(yyyy-MM-dd HH:mm:ss)
+		ErrorCode  				错误码(0=失败，1=成功，2=  AppId 无效，3=  Act 无效，4=参数无效，5= Sign 无效, 11=没有该订单)
+		ErrorDesc  				错误描述
+		
+	25pp.com:
+		account	varchar(150)	通行证账号
+		amount	double(8,2)	兑换PP币数量
+		status	tinyint(1)	状态:
+				0正常状态
+				1已兑换过并成功返回
+		roleid	varchar(50)	厂商应用角色id
+		
+	-->
+	<protocol name="QueryOrderResponse" type="8905" maxsize="1048576" prior="1">
+		<enum name="restype_query" value="0"/>查询返回结果
+		<enum name="restype_notify" value="0"/>主动通告返回结果
+
+		<variable name="errorcode" type="int" default="ErrorCodes.error_succeed"/>
+		<variable name="restype" type="int" default="restype_query"/>
+		<variable name="platid" type="string"/> 平台唯一标识
+		<variable name="orderserialplat" type="string"/> 平台用的订单号
+		<variable name="orderserialgame" type="string"/> 游戏内自己用的订单号
+		<variable name="userid" type="int" default="-1"/> 如果返回的结果中，并没有userid的信息，该值为-1
+		<variable name="vars" type="octets"/>
+	</protocol>
+
+	<!-- 设置或获取账号昵称，昵称同账号一样，是全局唯一的 -->
+	<protocol name="GetUserNickNameReq" type="220" maxsize="32" prior="1">
+		<variable name="userid" type="int"/>
+	</protocol>
+
+	<protocol name="GetUserNickNameRep" type="221" maxsize="256" prior="1">
+		<variable name="retcode" type="int"/>
+		<variable name="userid" type="int"/>
+		<variable name="nickname" type="octets"/>
+		<variable name="reserved" type="int"/>
+	</protocol>
+
+	<protocol name="SetUserNickNameReq" type="222" maxsize="256" prior="1">
+		<variable name="userid" type="int"/>
+		<variable name="nickname" type="octets"/>
+		<variable name="reserved" type="int"/>
+	</protocol>
+	<protocol name="SetUserNickNameRep" type="223" maxsize="256" prior="1">
+		<variable name="retcode" type="int"/>
+		<variable name="userid" type="int"/>
+		<variable name="nickname" type="octets"/>
+		<variable name="reserved" type="int"/>
+	</protocol>
+	<!-- END gamedbd和gdeliverd之间的协议 -->
+		
+	<!-- glinkd和gs之间的协议，这里的provider是一个协议组 -->
+	<provider name="link" pvid="1">
+		<!-- gs to link -->
+		<protocol name="Bind" type="1" maxsize="1024" prior="1">
+			<variable name="pvid" type="int"/> provider id
+			<variable name="linksids" type="set" value="int"/> bind default if empty
+		</protocol>
+
+		<protocol name="UnBind" type="2" maxsize="1024" prior="1">
+			<variable name="pvid" type="int"/> provider id
+			<variable name="linksids" type="set" value="int"/>
+		</protocol>
+
+		<protocol name="Kick" type="3" maxsize="32" prior="1">
+			<enum name="E_PROTOCOL_UNKOWN"    value="1"/>
+			<enum name="E_MARSHAL_EXCEPTION"  value="2"/>
+			<enum name="E_PROTOCOL_EXCEPTION" value="3"/>
+
+			<enum name="A_QUICK_CLOSE" value="1"/>
+			<enum name="A_DELAY_CLOSE" value="2"/>
+			<enum name="A_ACKICKOUT" value="3"/>
+
+			<variable name="linksid"  type="int"/>
+			<variable name="action"   type="int"/>
+			<variable name="error"    type="int"/>
+		</protocol>
+
+		<protocol name="Send" type="4" maxsize="1048576" prior="1">
+			<variable name="linksids" type="set" value="int"/>
+			<variable name="ptype"    type="int"/>
+			<variable name="pdata"    type="octets"/>
+		</protocol>
+		
+		<protocol name="Broadcast" type="6" maxsize="65536" prior="1">
+			<variable name="ptype"    type="int"/>
+			<variable name="pdata"    type="octets"/>
+			<variable name="time"     type="int"/>
+		</protocol>
+
+		<protocol name="SetLogin" type="7" maxsize="128" prior="1">
+			<enum name="eLogout" value="0"/>
+			<enum name="eLogin"  value="1"/>
+			<variable name="linksid" type="int"/>
+			<variable name="login"   type="int"/>
+			<variable name="roleid"  type="long"/> for debug
+		</protocol>
+	
+		<!-- 正式服link启动时默认对client的端口未监听，由gs通知其开始监听，gs关闭时通知link关闭端口监听 -->	
+		<protocol name="LinkServerControl" type="8" maxsize="32" prior="1">
+			<enum name="E_START_LISTEN" value="0"/>
+			<enum name="E_STOP_LISTEN" value="1"/>
+			<variable name="ptype" type="int"/>
+		</protocol>
+
+		<!-- link to gs -->
+		<protocol name="Dispatch" type="5" maxsize="65536" prior="1">
+			<variable name="linksid" type="int"/>
+			<variable name="userid"  type="int"/>
+			<variable name="ptype"   type="int"/>
+			<variable name="pdata"   type="octets"/>
+		</protocol>
+
+		<protocol name="LinkBroken" type="10" maxsize="32" prior="1">
+			<enum name="REASON_PEERCLOSE" value="0"/>
+			<variable name="userid"  type="int"/>
+			<variable name="linksid" type="int"/>
+			<variable name="reason"  type="int"/>
+		</protocol>
+
+		<protocol name="AnnounceLinkId" type="11" maxsize="32" prior="1">
+			<variable name="linkid" type="int"/>
+		</protocol>
+	</provider>
+	<!-- END glinkd和gs直接的协议 -->
+
+</application>
+

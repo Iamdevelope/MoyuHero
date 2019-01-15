@@ -1,0 +1,111 @@
+<project name="server">
+
+	
+	<!--
+	
+	genfiles	生成所有文件，包括genrpc,genxdb,gengbeans
+	
+	genrpc 		只生成所有协议相关的文件
+	genxdb 		只生成xdb相关的xtable、xbean等Java文件
+	gengbeans 	只生成策划配置相关的Java文件
+	
+	dist			编译打包服务器时使用
+	-->
+
+  <!--检查conf.m4是否存在-->
+  <target name="checkconf">
+  		<fail message="请先填写conf.m4">
+     		<condition>
+	 				<not>
+						<resourceexists>
+							<file file="conf.m4"/>
+						</resourceexists>
+	 				</not>		
+     		</condition>
+			</fail>
+  </target>
+  
+
+  <!--生成所有协议相关的文件-->
+  <target name="genrpc" depends="checkconf">    
+    	<!-- 生sizepolicyconf -->
+    	<java jar="rpcgen.jar" fork="true">
+    	  <arg line="-aio -sizepolicyconf linksize.xml"/>
+    	</java>
+    	<delete dir="gclient" />
+    	
+    	<!-- 生服务器所需要的java文件，同时生成第一阶段的gs/gs.xio.xml -->
+   	 	<delete dir="gs/beans" />
+    	<delete file="gs/gs.xio.xml" />
+    	<java jar="rpcgen.jar" fork="true">
+     		<arg line="-outputEncoding utf-8 -inputEncoding utf-8  -validateMarshal -validateUnmarshal -java protocol.main.xml"/>
+    	</java>
+    	
+    	<!-- 根据第一阶段的gs/gs.xio.xml生成gs/gs.xio.xml.m4 -->
+    	<delete file="xml.tmp" />
+    	<xslt in="gs/gs.xio.xml" out="xml.tmp" style="xsl/gs.xio.xml.xsl" />
+		
+    	<concat destfile="gs/gs.xio.xml.m4" outputencoding="utf-8" encoding="utf-8" >
+      	<filelist files="xsl/gsxio.header.m4,xml.tmp"/>
+    	</concat>
+    	
+    	<!-- 生成最终版的的gs/gs.xio.xml -->
+    	<condition property="m4bin" value="bin/m4.exe" else="m4">
+		 		<os family="windows"/>
+		</condition>
+    	<exec executable="${m4bin}" output="gs/gs.xio.xml">
+				<arg line="-I. gs/gs.xio.xml.m4"/>		
+		</exec>
+  </target>
+  
+  <target name="confm4">
+  		<copy overwrite="true" tofile="conf.m4" file="conf.m4.sample" /> 
+  </target>
+  <!--编译打包服务器时使用-->
+  <target name="dist" depends="confm4,genfiles">         
+    	<ant dir="gs" target="dist"/>
+    	
+		<copy overwrite="true" todir="../bin/gs" file="gs/gs.xio.xml.m4" /> 
+		<copy overwrite="true" todir="../bin/gs" file="gs/gsx.xdb.xml.m4" /> 
+    	<copy overwrite="true" tofile="../bin/gs/gsxdb.jar" file="gs/dist/gs.jar" /> 
+		<copy overwrite="true" todir="../bin" file="conf.m4.sample" />
+		<copy overwrite="true" todir="../bin/gs/lib" >    
+			<fileset dir="gs/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+	
+		<!-- properties文件从gamedata移到gs下面 -->
+		<copy overwrite="true" todir="../bin/gs/properties" >    
+			<fileset dir="gs/properties">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	
+    	<copy overwrite="true" todir="../bin/link/" file="sizepolicy.conf" />    
+			<delete file="xml.tmp" />
+  
+  </target>
+  
+  <!--生成xdb相关的xtable、xbean等Java文件-->
+  <target name="genxdb" depends="checkconf">
+  		<condition property="m4bin" value="bin/m4.exe" else="m4">
+		 		<os family="windows"/>
+			</condition>
+			<exec executable="${m4bin}" output="gs/gsx.xdb.xml">
+				<arg line="-I. gs/gsx.xdb.xml.m4"/>		
+			</exec>
+    	<ant dir="gs" target="genxdb"/>
+  </target>
+
+  <!--生成配置相关的Java文件-->
+  <target name="gengbeans">
+  		<ant dir="gs" target="genbean"/>
+  </target>
+  
+  <!--生成所有相关文件-->
+  <target name="genfiles" depends="genrpc,genxdb,gengbeans">
+  	<delete file="xml.tmp" />	
+  </target>
+	
+</project>  

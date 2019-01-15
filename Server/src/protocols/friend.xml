@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="friends">
+	<protocol  name="BeanImport" type="1801" maxsize="32" prior="1">
+	</protocol>
+	
+	<!--发送一个好友请求-->
+	<protocol  name="CSendFriendReq" type="1802" maxsize="65535" prior="1"> 
+		<variable name="byReqRoleId" type="long"/>
+	</protocol>
+
+	<!--获取邀请我的所有信息-->
+	<protocol  name="CImBy" type="1803" maxsize="65535" prior="1" waiting="1804"> 
+	</protocol>
+
+	<bean name="ImBy">
+		<variable name="roleId" type="long"/>
+		<variable name="name" type="string"/>
+	</bean>
+	<protocol name="SImBy" type="1804" maxsize="65535" prior="1"> 
+		<variable name="roles" type="list" value="ImBy"/>
+	</protocol>
+	<!--同意-->
+	<protocol name="CAgree" type="1805" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+	</protocol>
+	<protocol name="SAgree" type="1806" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+	</protocol>
+
+	<!--拒绝-->
+	<protocol name="CRefuse" type="1807" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+	</protocol>
+	<protocol name="SRefuse" type="1808" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+	</protocol>
+
+	<protocol name="CFriendList" type="1809" maxsize="65535" prior="1" waiting="1810"> 
+	</protocol>
+
+	<bean name="FriendInfo">
+		<variable name="roleId" type="long"/>
+		<variable name="name" type="string"/>
+		<variable name="level" type="int"/> 等级
+		<variable name="lastLoginTime" type="long"/> 上次登录时间
+		<variable name="ladderRankId" type="int"/> 天梯排名
+		<variable name="bloodLv" type="int"/> 血战关卡等级
+		<variable name="isTili" type="byte"/> 是否赠送过体力
+	</bean>
+	<protocol name="SFriendList" type="1810" maxsize="65535" prior="1"> 
+		<variable name="friends" type="list" value="FriendInfo"/>
+	</protocol>
+
+	<!--送体力-->
+	<protocol name="CToTi" type="1811" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+	</protocol>
+
+	<!--领取体力-->
+	<protocol name="CGainTi" type="1812" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+	</protocol>
+	
+	<!--发送消息-->
+	<protocol name="CSendMsg" type="1813" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+		<variable name="msg" type="string"/>
+	</protocol>
+	
+	<!--删除好友-->
+	<protocol name="CDelFriend" type="1814" maxsize="65535" prior="1"> 
+		<variable name="friendRoleId" type="long"/>
+	</protocol>
+	<!--删除好友成功-->
+	<protocol name="SDelFriend" type="1815" maxsize="65535" prior="1"> 
+		<variable name="friendRoleId" type="long"/>
+	</protocol>
+
+	<!--领取体力成功返回-->
+	<protocol name="SGainTi" type="1816" maxsize="65535" prior="1"> 
+		<variable name="byRoleId" type="long"/>
+	</protocol>
+</namespace>

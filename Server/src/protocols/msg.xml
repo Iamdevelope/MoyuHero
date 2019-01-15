@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="msg">
+	
+	<bean name="ChatMsg">
+		<variable name="rolename" type="string"/>	消息提示ID
+		<variable name="chatmsg" type="string" /> 聊天信息
+	</bean>
+	<bean name="SysMsg">
+		<variable name="msgid" type="int"/>	消息内容Id，当为0时直接显示text
+		<variable name="params" type="vector" value="octets"/>	消息内容参数，msgId不为0时有效
+		<variable name="text" type="string" /> 直接文本，msgid为0时有效：title@content
+		<variable name="sendRoleId" type="long"/> 发送者的id
+		<variable name="msgType" type="byte" /> msg类型 0-系统 1-好友
+		<variable name="sendName" type="string"/>发送者姓名
+		<variable name="sendTime" type="long"/> 发送时间
+	</bean>
+	
+	
+	<protocol name="SSendMsgNotify" type="1201" maxsize="65535" prior="1"> 服务器向客户端推送消息提示
+		<variable name="msgId" type="int"/>	 	消息提示ID
+		<variable name="parameters" type="vector" value="octets"/>	参数
+	</protocol>
+
+	
+	<protocol name="CEnterChat" type="1202" maxsize="535" prior="1"> 进入聊天
+		<variable name="requestnum" type="byte"/>	请求数量
+	</protocol>
+
+	<protocol name="SSendChatMsg" type="1203" maxsize="65535" prior="1"> 发送聊天信息
+		<variable name="msgs" type="list" value="ChatMsg"/>	聊天信息，旧的在前，新的在后，只发没发过的，客户端要保留之前的
+	</protocol>
+	
+	<protocol name="CLeaveChat" type="1204" maxsize="535" prior="1"> 离开聊天，只是暂离，可能还会回来
+	</protocol>
+	
+	<protocol name="SNotifyNewSysMsg" type="1205" maxsize="535" prior="1"> 通知有新消息
+		<variable name="newmsgnum" type="byte" /> 新消息个数
+	</protocol>
+	
+	<protocol name="CRequestSysMsg" type="1206" maxsize="535" prior="1"> 请求系统消息记录
+	</protocol>
+	
+	<protocol name="SReplySysMsg" type="1207" maxsize="65535" prior="1"> 请求系统消息记录
+		<variable name="msgs" type="list" value="SysMsg" /> 只发这次上线后没发过的，旧的在前，新的在后
+	</protocol>
+	
+	<protocol name="CDeleteSysMsg" type="1208" maxsize="535" prior="1"> 删除某条系统消息记录
+		<variable name="verseindex" type="short"/> 列表内的倒数index，防止删的时候正好新加了
+	</protocol>
+	
+	<protocol name="CSendChatMsg" type="1209" maxsize="535" prior="1">发送聊天
+		<variable name="msg" type="string"/>
+	</protocol>
+
+	<protocol name="CClearSysMsg" type="1210" maxsize="535" prior="1"> 一键清除全部消息
+	</protocol>
+
+	<protocol name="SClearSysMsgResult" type="1211" maxsize="535" prior="1"> 一键清除全部消息服务器返回
+	</protocol>
+
+</namespace>

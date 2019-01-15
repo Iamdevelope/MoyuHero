@@ -1,0 +1,25 @@
+package chuhan.gsp.stage;
+
+
+
+
+public class PEndFightStageBattle extends xdb.Procedure{
+	private final long roleid;
+	public final int pass; // 0未通过，1通过1，2通过2，3全通
+	
+//	public int herokey;
+	
+	public PEndFightStageBattle(long roleid, int pass) {
+		this.roleid = roleid;
+		this.pass = pass;
+	}
+	
+	@Override
+	protected boolean process() throws Exception {
+		
+		StageRole stagerole = StageRole.getStageRole(roleid);
+		return stagerole.fightStageBattle(stagebattleid,troopid, useyuanbao);
+
+	}
+	
+}

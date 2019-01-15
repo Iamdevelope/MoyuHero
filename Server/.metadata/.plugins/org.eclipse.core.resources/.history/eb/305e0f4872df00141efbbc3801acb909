@@ -1,0 +1,280 @@
+package chuhan.gsp.hero;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+
+
+
+
+
+import chuhan.gsp.DataInit;
+import chuhan.gsp.ErrorType;
+import chuhan.gsp.SErrorType;
+import chuhan.gsp.attr.SRefreshLevel;
+import chuhan.gsp.attr.heroexp02;
+import chuhan.gsp.item.Equip;
+import chuhan.gsp.item.EquipColumn;
+import chuhan.gsp.item.SRefreshItem;
+import chuhan.gsp.item.hero01;
+import chuhan.gsp.log.LogManager;
+import chuhan.gsp.log.Logger;
+import chuhan.gsp.main.ConfigManager;
+import chuhan.gsp.util.Conv;
+
+import com.goldhuman.Common.Marshal.OctetsStream;
+
+
+public class Hero {
+	
+	public static final Logger logger = Logger.getLogger(Hero.class);
+//	private final static double addnum = 1.0029;
+	private final static int SAME_HERO_MODE = 1000;
+		
+	private final xbean.Hero xhero;
+	public final boolean readonly;
+	private final hero01 ihero;
+	
+	
+	public static Hero getHero(xbean.Hero xhero, boolean readonly)
+	{
+		return new Hero(xhero, readonly);
+	}
+	
+	public xbean.Hero getxHeroInfo()
+	{
+		return xhero;
+	}
+	
+	public hero01 getiHeroInfo()
+	{
+		return ihero;
+	}
+	
+	
+	
+	public Hero(xbean.Hero heroinfo, boolean readonly) {
+		ihero = ConfigManager.getInstance().getConf(hero01.class).get(heroinfo.getHeroid());
+		this.xhero = heroinfo;
+		this.readonly = readonly;
+	}
+	
+	
+
+	public chuhan.gsp.Hero getProtocolHero()
+	{
+		chuhan.gsp.Hero phero = new chuhan.gsp.Hero();
+		phero.key = xhero.getKey();
+		phero.heroid = xhero.getHeroid();
+		phero.heroviewid = ihero.getArtresources();
+		phero.heroexp = xhero.getHeroexp();
+		phero.herolevel = xhero.getHerolevel();
+		phero.heroallexp = this.getExpMax(xhero.getHerolevel(),ihero.getExpNum());
+		phero.qianghualevel = xhero.getQianghualevel();
+		phero.weapon = xhero.getWeapon();
+		phero.barde = xhero.getBarde();
+		phero.ornament = xhero.getOrnament();
+
+		return phero;
+	}
+	
+	public boolean isSameModeHero(Hero targetHero) {
+		if(null == targetHero) {
+			return false;
+		}
+		
+		if (targetHero.xhero.getHeroid() == this.xhero.getHeroid())
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isSameHero(Hero targetHero) {
+		if(null == targetHero) {
+			return false;
+		}
+		
+		if (targetHero.xhero.getKey() == this.xhero.getKey())
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static xbean.Hero createHero(int heroId, int level)
+	{
+		if(level > DataInit.HERO_LEVEL_MAX)
+			level = 1;
+		
+		hero01 cfg = ConfigManager.getInstance().getConf(hero01.class).get(heroId);
+		heroexp02 iherolevel = ConfigManager.getInstance().getConf(heroexp02.class).get(level);
+		if(cfg == null)
+			return null;
+		xbean.Hero xhero = xbean.Pod.newHero();
+		
+		xhero.setHeroid(heroId);
+		xhero.setHerolevel(level);
+		xhero.setHeroallexp(getExpMax(level,cfg.getExpNum()));
+		
+		//测试专用~~~~~~~~
+		if(heroId == 150028)
+			xhero.setQianghualevel(5);
+		
+		return xhero;
+	}
+	
+	public int getLevel()
+	{
+		return this.xhero.getHerolevel();
+	}
+	public void setExp(int num)
+	{
+		this.xhero.setHeroexp(num);
+	}
+	public int getExp()
+	{
+		return this.xhero.getHeroexp();
+	}
+	public static int getExpMax(int level,int explie)
+	{
+		heroexp02 iHeroLevel = ConfigManager.getInstance().getConf(heroexp02.class).get(level);
+		switch(explie){
+		case 1:
+			return iHeroLevel.getExp1();
+		case 2:
+			return iHeroLevel.getExp2();
+		case 3:
+			return iHeroLevel.getExp3();
+		case 4:
+			return iHeroLevel.getExp4();
+		case 5:
+			return iHeroLevel.getExp5();
+		case 6:
+			return iHeroLevel.getExp6();
+		}
+		return 0;
+	}
+	public boolean levelUp()
+	{
+		final int nexp = this.getExpMax(this.xhero.getHerolevel(),this.ihero.getExpNum());
+		if (getExp() < nexp)
+			return false;
+		if (getLevel() >= DataInit.HERO_LEVEL_MAX){
+			return false;
+		}
+		
+		setExp(getExp()-nexp);
+		xhero.setHerolevel(getLevel() + 1);
+
+		return true;
+	}
+	
+	/* 
+	//根据等级计算数值（攻击，防御，血量）
+	private int calculateBylevel(int level,int num)
+	{
+//		int rnum = 0;
+		for(;level > 1; level--)
+		{
+			num = calculate(num);
+		}
+		return num;
+	}
+	
+	//计算数值
+	private int calculate(int num)
+	{
+		double returnnum = (double)(num)*addnum;
+		return (int)returnnum;
+	}
+	
+	//获取攻击值
+	public int getHeroAttack()
+	{
+		return calculateBylevel(xhero.getHerolevel(),ihero.getAttack());
+	}
+	
+	//获取防御值
+	public int getHeroDefense()
+	{
+		return calculateBylevel(xhero.getHerolevel(),ihero.getDefense());
+	}
+	
+	//获取血量值
+	public int getHeroFullhp()
+	{
+		return calculateBylevel(xhero.getHerolevel(),ihero.getFullhp());
+	}
+	*/
+	//给英雄装备
+	public boolean addEquip(long roleId, int equipType, int equipKey, int usetype)
+	{
+		int i = 0;
+		switch((Integer)equipType)
+		{
+		case DataInit.EQUIP_WEAPON:
+			if(usetype == 2)
+			{
+				this.xhero.setWeapon(0);
+			}
+			else
+			{
+				i = this.xhero.getWeapon();	
+				this.xhero.setWeapon(equipKey);
+				ChangeEquipState(roleId,i);
+			}	
+			ChangeEquipState(roleId,equipKey);
+			return true;
+		case DataInit.EQUIP_BARDE:
+			if(usetype == 2)
+			{
+				this.xhero.setBarde(0);
+			}
+			else
+			{
+				i = this.xhero.getBarde();	
+				this.xhero.setBarde(equipKey);
+				ChangeEquipState(roleId,i);
+			}
+			ChangeEquipState(roleId,equipKey);
+			return true;
+		case DataInit.EQUIP_ORNAMENT:
+			if(usetype == 2)
+			{
+				this.xhero.setOrnament(0);
+			}
+			else
+			{
+				i = this.xhero.getOrnament();	
+				this.xhero.setOrnament(equipKey);
+				ChangeEquipState(roleId,i);
+			}
+			ChangeEquipState(roleId,equipKey);
+			return true;
+		default:
+			xdb.Procedure.psend(roleId, new SErrorType(ErrorType.ERR_NOT_RIGHT_HERO));
+			return false;
+		}
+	}
+	
+	//更改装备状态
+	public void ChangeEquipState(long roleId, int equipKey)
+	{
+		if(equipKey == 0)
+			return;
+		
+		EquipColumn equipcol = EquipColumn.getEquipColumn(roleId, false);
+		equipcol.refreshEquip(equipKey);
+	}
+	
+	//刷新单个英雄
+	public void refreshHero(long roleId)
+	{
+		SRefreshHero snd = new SRefreshHero();
+		snd.heroinfo = this.getProtocolHero();
+		xdb.Procedure.psendWhileCommit(roleId, snd);			
+	}
+}

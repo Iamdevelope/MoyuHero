@@ -1,0 +1,686 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<provider name="gsp" pvid="12" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+	<protocol  name="BeanImport" type="0" maxsize="32" prior="1">  
+		<variable name="b1" type="chuhan.gsp.KickErrConst"/>
+		<variable name="b2" type="chuhan.gsp.DataInit" />
+		<variable name="b3" type="chuhan.gsp.LogPriority"/>
+		<variable name="b4" type="chuhan.gsp.SysSetType"/>
+		<variable name="b5" type="chuhan.gsp.ColorType"/>
+		<variable name="b6" type="chuhan.gsp.PlatformType"/>
+		<variable name="b7" type="chuhan.gsp.MsgType"/>
+		<variable name="b8" type="chuhan.gsp.Huoyue"/>
+		<variable name="b9" type="chuhan.gsp.GAMEACTIVITY"/>
+		
+	</protocol>
+	
+	<bean name="GAMEACTIVITY">
+			<enum name="CZ_FIRST_HISTORY" value="1"/>
+			<enum name="CZ_FIRST_HISTORY2" value="2"/>
+			<enum name="CZ_FIRST_INTIME" value="3"/>
+			<enum name="CZ_FIRST_INTIME2" value="4"/>
+			<enum name="CZ_ALL" value="5"/>
+			<enum name="CZ_EVERYDAY" value="6"/>
+			<enum name="CZ_GUDING" value="7"/>
+
+			<enum name="XFYB_ALL" value="8"/>
+			<enum name="XFTI_ALL" value="9"/>
+			<enum name="XFYB_EVERYDAY" value="10"/>
+			<enum name="XFTI_EVERYDAY" value="11"/>
+			<enum name="XFYB_GUDING" value="12"/>
+			<enum name="XFTI_GUDING" value="13"/>
+			
+			<enum name="DL_EVERYDAY" value="14"/>
+			<enum name="DL_INDAY" value="15"/>
+			<enum name="DL_INTIME" value="16"/>
+			
+			<enum name="KILL_MONSTER" value="17"/>
+			<enum name="PASS_BATTLE" value="18"/>
+			
+			<enum name="ALL_EXPBUFF" value="19"/>
+			<enum name="ALL_GOLDBUFF" value="20"/>
+			<enum name="ALL_HERODROP" value="21"/>
+			<enum name="ALL_ITEMDROP" value="22"/>
+			<enum name="ALL_TESHUBATTLE" value="23"/>
+			<enum name="ALL_BOSSBATTLE" value="24"/>
+			<enum name="ALL_INBATTLE" value="25"/>
+			
+			<enum name="LEVEL_BEGIN" value="26"/>
+			<enum name="LEVEL_UP" value="27"/>
+			
+			<enum name="RONGLIAN_STAR" value="28"/>
+			<enum name="RONGLIAN_ALL" value="29"/>
+			<enum name="RONGLIAN_ID" value="30"/>
+			<enum name="RONGLIAN_NUM" value="31"/>
+			
+			<enum name="GET_ITEM_STAR" value="32"/>
+			<enum name="GET_ITEM_ALL" value="33"/>
+			<enum name="GET_ITEM_ID" value="34"/>
+			
+			<enum name="JD_ITEM_STAR" value="35"/>
+			<enum name="JD_ITEM_ALL" value="36"/>
+			<enum name="JD_ITEM_ID" value="37"/>
+			
+			<enum name="QH_ITEM_STAR" value="38"/>
+			<enum name="QH_ITEM_ALL" value="39"/>
+			<enum name="QH_ITEM_ID" value="40"/>
+			
+			<enum name="ZM_HERO_ALL" value="41"/>
+			<enum name="ZM_HERO_STAR" value="42"/>
+			<enum name="ZM_HERO_ZHENYING" value="43"/>
+			<enum name="ZM_HERO_ID" value="44"/>
+			
+			<enum name="GET_HERO_ALL" value="45"/>
+			<enum name="GET_HERO_STAR" value="46"/>
+			<enum name="GET_HERO_ZHENYING" value="47"/>
+			<enum name="GET_HERO_ID" value="48"/>
+			
+			<enum name="HERO_LEVEL" value="49"/>
+			<enum name="HERO_LEVEL_STAR" value="50"/>
+			<enum name="HERO_LEVEL_ZHENYING" value="51"/>
+			<enum name="HERO_LEVEL_ID" value="52"/>
+			
+			<enum name="ZM_ITEM_ALL" value="53"/>
+			<enum name="SKIN_OFF" value="54"/>
+			<enum name="ZM_HERO_OFF" value="55"/>
+		</bean>
+	
+	<bean name="ErrorType">
+		<enum name="ERR_NOT_ONLINE" value="1"/>			用户已掉线
+		
+		<enum name="ERR_NOT_ENOUGH_TI" value="2"/>	没有足够体力
+		<enum name="ERR_NOT_ENOUGH_GOLD" value="3"/>	没有足够金币
+		<enum name="ERR_NOT_ENOUGH_YUANBAO" value="4"/>	没有足够水晶
+		<enum name="ERR_NOT_ENOUGH_SHENGLINGZQ" value="5"/>	没有足够圣灵之泉
+		<enum name="ERR_NOT_ENOUGH_HERONUM" value="5"/>	没有足够英雄空间
+		<enum name="ERR_NOT_ENOUGH_EQUIPNUM" value="5"/>	没有足够物品空间
+		
+		<enum name="ERR_NOT_RIGHT_MAIL" value="6"/>	信件ID错误
+		
+		<enum name="ERR_NOT_RIGHT_GIFT" value="6"/>	礼物ID错误
+		
+		<enum name="ERR_NOT_HAVE_EQUIP" value="6"/>	物品key错误
+		<enum name="ERR_NOT_RIGHT_EQUIP_STAR" value="7"/>	物品星级错误
+		<enum name="ERR_NOT_RIGHT_EQUIP" value="7"/>	物品数据错误
+		<enum name="ERR_IS_WEAR_BY_HERO" value="7"/>	物品被英雄穿着
+		
+		<enum name="ERR_NOT_HAVE_HERO" value="8"/>	英雄key错误
+		<enum name="ERR_NOT_RIGHT_HERO_STAR" value="9"/>	英雄星级错误
+		<enum name="ERR_NOT_RIGHT_HERO_LEVEL" value="9"/>	英雄等级错误
+		<enum name="ERR_NOT_RIGHT_HERO" value="9"/>	英雄数据错误
+		
+		<enum name="ERR_NOT_RIGHT_SLOT" value="9"/>	培养数据错误	
+		<enum name="ERR_NOT_RIGHT_SLOTNUM" value="9"/>	培养位置错误
+		<enum name="ERR_SLOT_IS_MAX" value="9"/>	培养已经最高等级
+		
+		<enum name="ERR_IS_CLOWN_HERO" value="9"/> 小丑英雄不允许操作
+		<enum name="ERR_HERO_IN_TROOP" value="9"/> 英雄在战队中
+		<enum name="ERR_CHANGE_TROOPTYPE" value="9"/> 战队无法改变类型
+		<enum name="ERR_CLOSE_HERO_LOCATION" value="9"/> 近战位置错误
+		
+		<enum name="ERR_NOT_HAVE_TROOP" value="10"/>	战队编号错误
+		<enum name="ERR_HAVE_SAMEMODE_HERO" value="11"/>	战队里有同种英雄
+		
+		<enum name="ERR_NOT_RIGHT_SKILLID" value="11"/>	技能ID错误
+		<enum name="ERR_SKILL_NOT_OPEN" value="11"/>	技能未开启
+		<enum name="ERR_SKILL_LEVEL_MAX" value="11"/>	技能达到最高等级
+		<enum name="ERR_SKILL_NOT_ENOUGH_QUALITY" value="11"/>	卡牌品质无法再升级技能
+		
+		<enum name="ERR_NOT_IN_BATTLE" value="12"/>	没有在战斗中
+		<enum name="ERR_MAXTIME_BATTLE" value="12"/>	关卡挑战次数已满
+		<enum name="ERR_LOCK_BATTLEID" value="12"/>	关卡还未解锁
+		<enum name="ERR_NOT_RIGHT_BATTLEID" value="12"/>	关卡ID错误	
+		
+		<enum name="ERR_ADD_TROOP" value="13"/>			队伍变更失败
+		<enum name="ERR_ADD_BAG_EXPANSION" value="14"/>			背包扩充失败
+	</bean>
+	
+	<bean name="MsgType">		
+		<enum name="MSG_HERO_GET" value="210001"/>	获得英雄
+		<enum name="MSG_HERO_QIANGHUA" value="210002"/>	英雄强化
+		
+		<enum name="MSG_EQUIP_GET" value="210003"/>	获得物品
+		<enum name="MSG_EQUIP_QIANGHUA" value="210004"/>	物品强化
+		
+		<enum name="MSG_ROLE_LEVEL" value="110005"/>	人物升级
+		
+		<enum name="MSG_ACTIVITY_TILI" value="110001"/>	体力活动
+		
+	</bean>
+	
+	
+	
+	<bean name="PlatformType">
+		<enum name="Normal" value="0"/> 完美通行证
+		<enum name="Wanglong91" value="1" /> 91
+		<enum name="Tieren25pp" value="2" /> PP
+		<enum name="Appstore" value="3" /> APPStore
+		<enum name="Tongbutui" value="4" /> 同步推
+	</bean>
+	
+	<bean name="Item">
+		<enum name="BIND" value="0x00000001"/> 不可交易给玩家，不可卖店 		     
+		<enum name="YUANBAO" value="0x0000002"/> 用元宝购买而来  
+		<enum name="ONSTALL" value="0x0000004"/> 摆摊出售中  
+		<enum name="ONEQUIP" value="0x0000008"/> 装备
+		<enum name="CANNOTONSTALL" value="0x10"/> 不能卖店
+		<enum name="LOCK" value="0x0000020"/> 锁定
+		<variable name="id" type="int" validator="value=[1,)"/> 物品id 
+		<variable name="key" type="int" validator="value=[1,)"/>key
+		<variable name="timer" type="short"/>每天使用次数
+		<variable name="number" type="short" validator="value=[1,)"/>数量
+		<variable name="extdata" type="octets"/> 额外数据
+	</bean>
+	<bean name="Bag">
+		<variable name="items" type="vector" value="Item"/>	
+	</bean>
+	
+	<!-- 英雄信息 by yanglk -->
+	<bean name="Hero">
+		<variable name="key" type="int"/> 英雄唯一ID
+		<variable name="heroid" type="int"/> 英雄ID
+		<variable name="heroviewid" type="int"/> 英雄显示ID（不同星级的同种英雄ID相同）
+		<variable name="heroexp" type="int"/> 英雄本级经验
+		<variable name="herolevel" type="int"/>         英雄等级
+		<variable name="heroallexp" type="int"/>     英雄总经验
+		<variable name="qianghualevel" type="int"/>   强化等级
+		<variable name="weapon" type="int"/>   武器
+		<variable name="barde" type="int"/>   铠甲
+		<variable name="ornament" type="int"/>   饰品
+		<variable name="qhadd" type="int"/>   强化加成
+		<variable name="peiyang1" type="int"/>   培养1编号（默认为0）
+		<variable name="peiyang2" type="int"/>   培养2编号（默认为0）
+		<variable name="peiyang3" type="int"/>   培养3编号（默认为0）
+		<variable name="peiyang4" type="int"/>   培养4编号（默认为0）
+		<variable name="skill1" type="int"/>   技能1编号（未开通为0）
+		<variable name="skill2" type="int"/>   技能2编号（未开通为0）
+		<variable name="skill3" type="int"/>   技能3编号（未开通为0）
+		<variable name="items" type="map" key="int" value="int"/>	符文装配
+		
+		<variable name="herojinjiestar" type="int"/>     进阶星级
+		<variable name="herojinjiesmall" type="int"/>     进阶阶级
+		<variable name="heropinji" type="int"/>     品质（升品换英雄配表ID）
+		<variable name="heroskill" type="string"/>     技能（:分割，根据位置记录技能ID）
+		<variable name="heromishu" type="string"/>     秘术（:一级分割，|二级分割，根据位置记录秘术等级和秘术经验）
+		<variable name="heropeiyang" type="string"/>     培养（:分割，根据位置记录培养等级）
+		<variable name="heroequip" type="string"/>     装备（:一级分割，|二级分割，根据位置记录装备ID和强化等级）
+	</bean>
+	
+	<!-- -->
+	<bean name="HeroTuJian">
+		<variable name="heroid" type="int"/> 英雄ID
+		<variable name="flag" type="int"/> 是否满级，0未满，1满级
+	</bean>
+	
+	<!-- 战队信息 by yanglk -->
+	<bean name="Troop">
+		<variable name="troopNum" type="int"/>  战队编号
+		<variable name="trooptype" type="int"/> 战队类型，1为前2后3，2为前3后2
+		<variable name="location1" type="int"/> 0没装
+		<variable name="location2" type="int"/> 0没装
+		<variable name="location3" type="int"/> 0没装
+		<variable name="location4" type="int"/> 0没装
+		<variable name="location5" type="int"/> 0没装
+		
+		<variable name="sh1" type="int"/> 神魂1号，0没装
+		<variable name="sh2" type="int"/> 神魂2号，0没装
+		<variable name="sh3" type="int"/> 神魂3号，0没装
+		<variable name="sh4" type="int"/> 神魂4号，0没装
+	</bean>
+	
+	
+	
+	<!-- 战斗信息 by yanglk -->
+	<bean name="fightInfo">
+		<variable name="m_Attacker" type="byte"/>  发动攻击的GUID
+		<variable name="m_SpellID" type="int"/>  当前使用的技能id(有可能无效,如果无效需要继续判断子技能id)-->
+		<variable name="m_nCount" type="byte"/>  目标数量-->
+		<variable name="m_nImpactCount" type="byte"/>  最终impact数量-->
+		<variable name="m_Impact" type="list" value="int"/>	-->
+		<variable name="m_DefenceInfo" type="list" value="defenceInfo"/>  防御方信息
+	</bean>
+		
+	<bean name="defenceInfo">
+		<variable name="m_Defencer" type="byte"/>  所选目标
+		<variable name="m_Hit" type="byte"/>  命中-->
+		<variable name="m_nImpactCount" type="byte"/>  最终影响目标的数量-->
+		<variable name="m_Impact" type="list" value="int"/>	受影响数组，上限是16个目标！-->
+		<variable name="m_RemainHP" type="long"/> 剩余血量
+	</bean>
+	
+	<!-- 邮件物品掉落信息 by yanglk -->
+	<bean name="MailItem">
+		<variable name="objectid" type="int"/> 物品ID
+		<variable name="dropnum" type="int"/> 数量
+		<variable name="dropparameter1" type="int"/> 附加条件1
+		<variable name="dropparameter2" type="int"/> 附加条件2
+	</bean>
+	<!-- 邮件 by yanglk -->
+	<bean name="Mail">
+		<variable name="key" type="int"/> 邮件唯一ID
+		<variable name="sender" type="string"/> 发送者
+		<variable name="title" type="string"/> 邮件标题
+		<variable name="msg" type="string"/> 消息内容
+		<variable name="innerdropIdList" type="list" value="int"/> 掉落包ID
+		<variable name="items" type="list" value="MailItem"/> 掉落物品（非掉落包内容）
+		<variable name="begintime" type="long"/> 开始时间
+		<variable name="isopen" type="int"/> 个位为是否打开，十位为是否领取 0否，1是
+		<variable name="strlist" type="list" value="string"/> 参数列表
+	</bean>
+	
+	<!-- 抽奖 by yanglk -->
+	<bean name="Lotty">
+		<variable name="freetime" type="int"/> 免费抽奖的剩余时间（秒）
+		<variable name="firstget" type="int" default="0"/> 首抽是否已经完成
+		<variable name="dreamexp" type="int"/> 梦想值
+		<variable name="dreamfree" type="int"/> 梦想改变是否免费
+		<variable name="dream" type="int"/> 梦想兑换展示
+		<variable name="normalrecruitnum" type="int"/> 普通招募累计次数
+		<variable name="normalrecruittime" type="int"/> 最后普通招募剩余时间（秒）
+		<variable name="toprecruitnum" type="int"/> 顶级招募累计次数
+		<variable name="toprecruittime" type="int"/> 最后顶级招募剩余时间（秒）
+		<variable name="toprecruitheronum" type="int"/> 顶级招募累计次数，为招十次必得英雄准备
+		<variable name="toptentime" type="int"/> 顶级招募十连抽时间，为（用户第一次10连抽）10连抽首抽英雄（必掉一个A资质英雄）+1个魂石（临时填的改名卡）准备的
+	</bean>
+	
+	<!-- 活跃度信息 by yanglk -->
+	<bean name="Huoyue">
+		<variable name="huoyueid" type="int"/> 活跃id
+		<variable name="num" type="int"/> 发生次数
+		<variable name="numAll" type="int"/> 总次数
+		<variable name="huoyuetype" type="int"/> 任务类型
+		<variable name="isok" type="int"/> 是否完成
+	</bean>
+	
+	<!-- 月卡 by yanglk -->
+	<bean name="monthcard">
+		<variable name="monthcardId" type="int"/> 月卡id
+		<variable name="overtime" type="long"/> 到期时间
+		<variable name="istodayget" type="int"/> 今天是否领取：0未领取，1已领取
+	</bean>
+	
+	<!-- 神器记录 by yanglk -->
+	<bean name="Artifact">
+		<variable name="artifactType" type="int"/>  神器类型（key）
+		<variable name="artifactId" type="int"/>  神器ID
+		<variable name="heroNum1" type="int"/>  英雄数量1
+		<variable name="heroNum2" type="int"/>  英雄数量2
+		<variable name="heroNum3" type="int"/>  英雄数量3
+		<variable name="heroNum4" type="int"/>  英雄数量4
+		<variable name="heroNum5" type="int"/>  英雄数量5
+	</bean>
+	
+	<!-- 商城购买记录 by yanglk -->
+	<bean name="Shopbuy">
+		<variable name="shopid" type="int"/>  商城ID（key）
+		<variable name="todaynum" type="int"/>  今日已购买次数
+		<variable name="buyallnum" type="int"/>  总共购买次数
+	</bean>
+	
+	<!-- 一些个别的初始数值 -->
+	<bean name="DataInit">
+		<enum name="ERROR_RESULT" value="-65535" />			错误的返回值
+		
+		<enum name="ROLE_LEVEL_MAX" value="99" />   角色最大等级
+		<enum name="HERO_LEVEL_MAX" value="100" />   英雄最高等级
+		
+		<enum name="EQUIP_WEAPON" value="11" />   武器
+		<enum name="EQUIP_BARDE" value="12" />   防具
+		<enum name="EQUIP_ORNAMENT" value="13" />   饰品
+		
+		<enum name="BATTLE_1_BEGIN" value="10001" />   副本开局
+		
+		<enum name="HERO_CLOWN_1" value="200001" />   1星小丑
+		<enum name="HERO_CLOWN_2" value="200002" />   2星小丑
+		<enum name="HERO_CLOWN_3" value="200003" />   3星小丑
+		<enum name="HERO_CLOWN_4" value="200004" />   4星小丑
+		
+		<enum name="STAR1" value="1" />   1星
+		<enum name="STAR2" value="2" />   2星
+		<enum name="STAR3" value="3" />   3星
+		<enum name="STAR4" value="4" />   4星
+		<enum name="STAR5" value="5" />   5星
+		
+		
+		<enum name="ROLE_UP_POINT" value="5" />      角色升级获得潜能数
+		<enum name="PET_UP_POINT" value="5" /> 		 宠物升级获得潜能数
+		<enum name="ROLE_UP_PHY" value="5" /> 		 每升一级增加5点体力
+		<enum name="ROLE_UP_ENERGY" value="5" /> 	 每升一级增加5点活力
+		<enum name="PET_INIT_LOY" value="80" />      宠物初始忠诚度
+		<enum name="PET_MAX_LOY" value="100" />      宠物最大忠诚度。
+		<enum name="PET_MAX_LIFE" value="20000" />   宠物最大寿命
+		<enum name="FULL_PETLOY_LEVEL" value="30" />  满宠物忠诚度的宠物等级上限
+		<enum name="ROLE_PET_LEVEL_SPACE" value="5" /> 人物宠物的等级差最大为5级。
+		<enum name="BASENUM" value="1000" />         角色属性计算配置值的基数
+		
+		<enum name="PET_USELEVEL_SPACE" value="10" /> 宠物参战时与人的最大等级差
+		<enum name="AUTO_UPGRADE_LEVEL" value="10" />  人物自动升级的等级上限
+		<enum name="WILD_PET_MAXGENGU" value="40" />
+		<enum name="WILD_PET_MINGENGU" value="1" />
+		<enum name="HERO_UP_LEVEL_ADD_POINT" value="4" /> 宠物每升一级，给的潜能点数
+	</bean>
+	
+	<bean name="LogPriority">
+		<enum name="LOG_FORMAT" value="15" /> 玩家行为标准的日志，如：账号登陆，充值，任务相关。
+		<enum name="LOG_STAT" value="16" /> 每5分钟记录邮件次数，金钱修改量，物品修改量等。
+		<enum name="LOG_GM" value="17" /> 记录GM操作的log
+		<enum name="LOG_MONEY" value="18" /> 记录金钱的产生及消耗数量原因。
+		<enum name="LOG_CHAR2" value="19" /> 聊天记录，记录采用BASE64编码记录。
+		<enum name="LOG_COUNTER" value="20" /> 每5分钟记录邮件次数，金钱修改量，物品修改量等。
+		<enum name="LOG_XINGCHENG" value="21" /> 玩家详细行为日志，如：移动，打怪，组队，拾取等。
+		<enum name="LOG_TRADE" value="22" /> 每日商城消耗记录。
+		<enum name="LOG_YUANBAO" value="23" /> 累计记录玩家充值，买，卖，消耗元宝数量。
+	</bean>
+	
+	<bean name="ColorType">
+		<enum name="WHITE" value="1"/>	白
+		<enum name="GREEN" value="2"/>	绿
+		<enum name="BLUE" value="3"/>	  蓝
+		<enum name="PURPLE" value="4"/>	紫
+		<enum name="ORANGE" value="5"/> 橙
+		<enum name="GOLDEN" value="6"/> 金
+		<enum name="JEW" value="7"/> 钻石
+	</bean>
+	
+	<bean name="KickErrConst">
+		<enum name="ERR_OLD_ONLINE_KICKOUT" value="2048"/>	老用户在线
+		<enum name="ERR_GM_KICKOUT" value="2049"/>	被GM踢下线
+		<enum name="ERR_SERVER_SHUTDOWN" value="2050"/>	服务器关闭
+		<enum name="ERR_GACD_PUNISH" value="2051"/>	反外挂答题没有通过
+		<enum name="ERR_RUN_TOO_FAST" value="2052"/>	走路太快被踢
+		<enum name="ERR_GACD_WAIGUA" value="2053"/>	使用外挂
+		<enum name="ERR_XUNBAO_SELLROLE" value="2054"/> 寻宝网寄售角色
+		<enum name="ERR_FORBID_USER" value="2055"/> 账号被单服封禁
+		<enum name="ERR_GACD_KICKOUT" value="2056"/> gacd发-1踢玩家下线
+	</bean>
+	
+	<bean name="SysSetType">
+		<enum name="AcceptTrade"		value="1" />				接受交易
+		<enum name="AcceptTeam" 		value="2" />				接受组队
+		<enum name="CheckEquipOn"		value="3" />				允许查看装备
+		<enum name="AcceptGiven"		value="4" />				接受给予		
+		<enum name="AcceptSmallGame"	value="5" />				接受小游戏邀请
+		<enum name="EscapeConfirm" 		value="6" />				逃跑确认
+		<enum name="PurchaseConfirm"	value="7" />				购买确认
+		<enum name="FriendMessageNotify"	value="8" />		购买确认
+		<enum name="DaHongNotify"		value="9" />				大红大蓝获得提示
+		<enum name="Temp"		value="10" />								临时，无用
+		<enum name="MaxShowRoleNum"		value="11" />			最大显示数量
+	</bean>
+	
+	<!-- 客户端发给服务器，请求已有角色列表 -->
+	<protocol  name="CRoleList" type="1" maxsize="32" prior="1" waiting="2">
+		<variable name="mac" type="string"/>	mac地址
+	</protocol>
+	
+	<bean name="RoleInfo">
+		<variable name="roleid" type="long" />		ID
+		<variable name="rolename" type="string"/>	名称
+		<variable name="rolelevel" type="short"/>	等级
+	</bean>
+	
+	<!-- 服务器发给客户端，已有角色信息列表 -->
+	<protocol  name="SRoleList" type="2" maxsize="4096" prior="1">
+		<variable name="role" type="list" value="RoleInfo" />
+	</protocol>
+	
+		
+	<!-- 客户端请求创建 -->
+	<protocol  name="CCreateRole" type="3" maxsize="4096" prior="1"  waiting="4">
+		<variable name="name" type="string" />
+		<variable name="firsthero" type="int" />
+	</protocol>
+	
+	<protocol  name="SCreateRole" type="4" maxsize="65535" prior="1"> 
+		<enum name="CREATE_OK" value="1"/>  成功		     
+		<enum name="CREATE_ERROR" value="2"/>    失败 
+		<enum name="CREATE_INVALID" value="3"/> 名称不合法 		
+		<enum name="CREATE_DUPLICATED" value="4"/>重名 		
+		<enum name="CREATE_OVERCOUNT" value="5"/> 创建的新角色数量过多
+		<enum name="CREATE_OVERLEN" value="6"/> 角色名过长
+		<enum name="CREATE_SHORTLEN" value="7" /> 角色名过短
+		
+		<variable name="newInfo" type="RoleInfo"/>	创建后的角色信息
+		<variable name="error" type="int"/>	失败code
+	</protocol>
+	
+	<!-- 进入服务器 -->
+	<protocol  name="CEnterWorld" type="5" maxsize="32" prior="1">
+		<variable name="roleid" type="long" />		ID
+		<variable name="mac" type="string" />	mac地址
+	</protocol>
+	
+	<bean name="RoleDetail">
+		<variable name="roleid" type="long" validator="value=[1,)"/>	 ID	
+		<variable name="name" type="string"/>名称
+		<variable name="isgm" type="byte"/>	0:no,1:yes
+		<variable name="level" type="short" validator="value=[1,)"/>		等级
+		<variable name="exp" type="int" validator="value=[0,)"/>		经验
+		<variable name="viplv" type="byte" validator="value=[0,)"/>	 vip等级
+		<variable name="vipexp" type="int"/>	 vip经验
+		<variable name="ti" type="short" />  体力
+		<variable name="titime" type="int" />  体力更新时间剩余
+		<variable name="money" type="long" validator="value=[0,)"/> 游戏币
+		<variable name="yuanbao" type="int" validator="value=[0,)"/> 元宝
+		<variable name="battlenum" type="int" /> 		关卡记录
+		<variable name="servertime" type="long" /> 服务器时间
+		<variable name="timezone" type="byte" /> 服务器时区[-12,+12]
+		
+		<variable name="heroes" type="list" value="Hero"/>
+		<variable name="troops" type="list" value="Troop"/>
+		<variable name="bagInfo" type="map" key="int" value="Bag"/>key是bagid,value是包裹的详细信息		
+		
+		<variable name="hammer" type="int" /> 	锤子
+		<variable name="freegoldtime" type="int" /> 	免费金币剩余时间
+		<variable name="freeybtime" type="int" /> 		免费元宝剩余时间
+		
+		<variable name="goldbuynum" type="int" /> 	金币购买次数
+		<variable name="tibuynum" type="int" /> 		体力购买次数
+		<variable name="signnum7" type="int" default="0"/> 连续签到ID
+		<variable name="signnum28" type="int" default="0"/> 累计签到ID
+		
+		<variable name="mailsize" type="byte" /> 		邮件数量
+		<variable name="buybagnum" type="short" /> 		购买背包次数
+		<variable name="buyherobagnum" type="short" /> 扩充英雄背包次数
+		<variable name="smid" type="int" /> 		神秘关卡或商店ID	
+		<variable name="smtime" type="int" /> 		神秘剩余时间	
+		<variable name="smzhangjie" type="int" /> 	神秘所属章节	
+
+		<variable name="shenglingzq" type="int"/>			圣灵之泉
+		<variable name="ronglian" type="int"/>			熔炼点
+		<variable name="huangjinxz" type="int"/>			黄金勋章
+		<variable name="baijinxz" type="int"/>			白金勋章
+		<variable name="qingtongxz" type="int"/>			青铜勋章
+		<variable name="chitiexz" type="int"/>			赤铁勋章
+		<variable name="jyjiejing" type="int"/>			经验结晶		
+		<variable name="troopNum" type="byte"/> 		默认编队号
+		
+		<variable name="heroskins" type="list" value="int"/>	皮肤列表
+		<variable name="artifacts" type="map" key="int" value="Artifact"/> key是Artifacttype,value是神器的详细信息		
+		<variable name="shopbuys" type="map" key="int" value="Shopbuy"/> key是shopid,value是Shopbuy的详细信息
+		
+		<variable name="sweephavenum" type="int"/> 			今日扫荡剩余次数
+		<variable name="sweepbuyhavenum" type="int"/> 		今日扫荡剩余购买次数
+		<variable name="mszqGetNum" type="int"/> 		缪斯奏曲
+		<variable name="qiyuannum" type="int"/> 累计祈愿台次数
+		<variable name="qiyuanallNum" type="int"/> 祈愿回合次数，第一次为3，完成后均为5
+		<variable name="isqiyuantoday" type="int"/> 个位是今日是否祈愿，十位为是否断签，0是否，1为是
+		
+		<variable name="txti" type="short" />  探险体力
+		<variable name="txtitime" type="int" />  探险体力更新时间剩余
+		
+		<variable name="newyindao" type="list" value="int"/> 新手引导
+		<variable name="smshop" type="map" key="int" value="chuhan.gsp.stage.smshopdata"/> 神秘商店随机出的物品（key为随机商店物品id，value为smshopdata）
+
+	</bean>
+	
+	<protocol  name="SEnterWorld" type="6" maxsize="655350" prior="1">
+		<variable name="mydata" type="RoleDetail"/>
+	</protocol>
+		
+	<protocol  name="SGameTime" type="7" maxsize="64" prior="1">
+		<variable name="gametime" type="long" />
+	</protocol>
+	
+	<protocol name="CBeginnerTipShowed" type="8" maxsize="65535" prior="1">
+		<variable name="tipid" type="byte"/> id为BeginnerTipType
+    </protocol>
+	<protocol name="SShowedBeginnerTips" type="9" maxsize="65535" prior="1">
+		<variable name="tipid" type="set" value="byte"/> 已经显示过的tip id
+  </protocol>
+  
+  <protocol name="CWatchRole" type="10" maxsize="64" prior="1" waiting="0">
+		<variable name="roleid" type="long"/>
+  </protocol>
+  <bean name="WatchTroopInfo">
+  	<variable name="heroid" type="short" validator="value=[1,)"/>
+  	<variable name="colorgrade" type="byte"/>
+  	<variable name="weapon" type="byte"/>
+  	<variable name="armor" type="byte"/>
+  	<variable name="horse" type="byte"/>
+  	<variable name="vicehero1" type="short"/>
+  	<variable name="vhero1color" type="byte"/>
+  	<variable name="vicehero2" type="short"/>
+  	<variable name="vhero2color" type="byte"/>
+	<variable name="shape" type="short"/>
+  </bean>
+  <protocol name="SWatchRole" type="11" maxsize="65535" prior="1">
+		<variable name="roleid" type="long" validator="value=[1,)"/>	 ID	
+		<variable name="name" type="string"/>名称
+		<variable name="level" type="short" validator="value=[1,)"/>		等级
+		<variable name="viplv" type="byte" validator="value=[1,)"/>	 vip等级
+		<variable name="troops" type="list" value="WatchTroopInfo"/>
+		<variable name="isMyFriend" type="byte" />是否我的好友
+  </protocol>
+  
+  <protocol name="CGameTime" type="12" maxsize="64" prior="1">
+  </protocol>
+  
+  <protocol name="SQihoo360ExtraInfo" type="13" maxsize="65535" prior="1">
+  	<variable name="uin" type="string"/>
+		<variable name="token" type="string"/>
+		<variable name="url" type="string"/>
+  </protocol>
+
+    <protocol name="CSettingView" type="14" maxsize="512" prior="1">
+    </protocol>
+    
+    <protocol name="SSettingView" type="15" maxsize="65535" prior="1">
+        <variable name="inviteName" type="long"/> 邀请人 0-没有
+        <variable name="isReward" type="byte"/> 是否可以领奖
+        <variable name="inviteNum" type="short"/> 邀请人数量
+    </protocol>
+    
+    <protocol name="CInviteName" type="16" maxsize="512" prior="1">
+        <variable name="inviteName" type="long"/> 邀请人
+    </protocol>
+    
+    <protocol name="SInviteName" type="17" maxsize="65535" prior="1">
+        <variable name="inviteName" type="long"/> 邀请人
+ 
+    </protocol>
+    
+    <protocol name="CInviteReward" type="18" maxsize="32" prior="1">
+    </protocol>
+    
+    <protocol name="SInviteReward" type="19" maxsize="65535" prior="1">
+        <variable name="isReward" type="byte"/> 是否可以领奖
+        <variable name="inviteNum" type="short"/> 邀请人数量
+    </protocol>
+    
+    <protocol name="CChangeName" type="20" maxsize="65535" prior="1">
+    		<variable name="newname" type="string"/>
+			<variable name="itemkey" type="int"/>
+    </protocol>
+    
+    <protocol name="SChangeName" type="21" maxsize="65535" prior="1">
+    		<enum name="OK" value="1"/>成功		     
+				<enum name="ERROR" value="2"/>失败
+				<enum name="INVALID" value="3"/> 名称不合法 		
+				<enum name="DUPLICATED" value="4"/>重名
+				<enum name="NO_ITEM" value="5"/>没有道具
+				<enum name="OVERLEN" value="6"/> 角色名过长
+				<enum name="SHORTLEN" value="7" /> 角色名过短 
+				<enum name="ERRORCHAR" value="8" /> 特殊符号
+				<enum name="HAVESPACE" value="9" /> 有空格		
+        <variable name="error" type="byte"/>
+        <variable name="newname" type="string"/>
+    </protocol>
+	
+	<protocol  name="SRefreshSweep" type="24" maxsize="512" prior="1">
+		<variable name="sweephavenum" type="int"/> 			今日扫荡剩余次数
+		<variable name="sweepbuyhavenum" type="int"/> 		今日扫荡剩余购买次数
+		<variable name="mszqGetNum" type="int"/> 		缪斯奏曲
+		<variable name="qiyuannum" type="int"/> 累计祈愿台次数
+		<variable name="qiyuanallNum" type="int"/> 祈愿回合次数，第一次为3，完成后均为5
+		<variable name="isqiyuantoday" type="int"/> 个位是今日是否祈愿，十位为是否断签，0是否，1为是
+	</protocol>
+	
+	<namespace name="mail">
+		<protocol  name="CGetMailList" type="501" maxsize="64" prior="1">
+			<variable name="mailsize" type="int" />		从第几个开始往后取20个
+		</protocol>
+		
+		<protocol  name="SGetMailList" type="502" maxsize="65536" prior="1">
+			<variable name="maillist" type="list" value="chuhan.gsp.Mail"/>  邮件列表
+			<variable name="mailsize" type="int" />		从第几个开始往后取20个
+			<variable name="mailallsize" type="int" />		邮件总数
+		</protocol>
+		
+		<protocol  name="SIsHaveNotOpen" type="503" maxsize="64" prior="1">
+			<variable name="ishave" type="int" />  是否有未读邮件
+		</protocol>
+		
+		<protocol  name="CRemoveMailList" type="504" maxsize="65536" prior="1">
+			<variable name="maillist" type="list" value="int"/>  邮件列表
+			<variable name="mailsize" type="int" />		从第几个开始往后取20个
+		</protocol>
+		
+		<protocol  name="SRemoveMailList" type="505" maxsize="65536" prior="1">
+			<variable name="maillist" type="list" value="int"/>  邮件列表
+		</protocol>
+		
+		<protocol  name="CReceiveMail" type="506" maxsize="64" prior="1">
+			<variable name="mailkey" type="int" />  邮件key
+			<variable name="isget" type="int" />  是否领取附件
+		</protocol>
+		
+		<protocol  name="SReceiveMail" type="507" maxsize="64" prior="1">
+			<enum name="END_OK" value="1"/>  成功		     
+			<enum name="END_ERROR" value="2"/>    失败 
+			<variable name="result" type="int"/>
+			<variable name="isget" type="int" />  是否领取附件
+		</protocol>
+		
+		<protocol  name="SRefreshMail" type="508" maxsize="65536" prior="1">
+			<variable name="mail" type="chuhan.gsp.Mail"/>  邮件详细信息
+		</protocol>
+		
+		<protocol  name="CIsHaveNotOpen" type="509" maxsize="64" prior="1">
+		</protocol>
+		
+
+		
+	</namespace>
+	
+	
+	<namespace name="gm">
+		<protocol  name="CSendCommand" type="999" maxsize="65536" prior="1">
+			<variable name="cmd" type="string" />
+		</protocol>
+	</namespace>
+	
+	
+	
+	<xi:include href="attr.xml" /> <!-- 协议号从 1001-1100 -->
+	<xi:include href="item.xml" /> <!-- 协议号从 1101-1200 -->
+	<xi:include href="msg.xml" /> <!-- 协议号从 1201-1300 -->
+	<xi:include href="hero.xml" /> <!-- 协议号从 1301-1400 -->
+	<xi:include href="battle.xml" /> <!-- 协议号从 1401-1500 -->
+	<xi:include href="stage.xml" /> <!-- 协议号从 1501-1600 -->
+	<xi:include href="task.xml" /> <!-- 协议号从 1601-1700 -->
+	<xi:include href="exchange.xml" /> <!-- 协议号从 1701-1800 -->
+	<xi:include href="friend.xml" /> <!-- 协议号从 1801-1900 -->
+	<xi:include href="play.xml" /> <!-- 协议号从 1901-3900 -->
+	
+</provider>	
